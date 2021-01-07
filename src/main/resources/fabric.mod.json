@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "openpixelmon",
+  "id": "open_pixelmon",
   "version": "${version}",
   "name": "Open Pixelmon",
   "description": "An rewrite of the origin pixelmon mod for fabric",
@@ -12,14 +12,14 @@
     "repo": "https://github.com/MartyAlana/OpenPixelmon"
   },
   "license": "MIT",
-  "icon": "assets/openpixelmon/icon.png",
+  "icon": "assets/open_pixelmon/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
       "me.martyalana.openpixelmon.client.OpenpixelmonClient"
     ],
     "main": [
-      "me.martyalana.openpixelmon.Openpixelmon"
+      "me.martyalana.openpixelmon.OpenPixelmon"
     ]
   },
   "mixins": [
