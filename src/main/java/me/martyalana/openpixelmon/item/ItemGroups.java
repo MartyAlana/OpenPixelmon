@@ -10,4 +10,9 @@ public class ItemGroups {
 			OpenPixelmon.id("pokeballs"),
 			() -> new ItemStack(OpenPixelmonItems.POKEBALL)
 	);
+
+	public static final ItemGroup ORGANIC = FabricItemGroupBuilder.build(
+			OpenPixelmon.id("organic"),
+			() -> new ItemStack(OpenPixelmonItems.RED_ACORN)
+	);
 }

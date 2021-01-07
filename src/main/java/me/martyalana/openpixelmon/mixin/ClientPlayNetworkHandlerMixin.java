@@ -2,11 +2,9 @@ package me.martyalana.openpixelmon.mixin;
 
 import me.martyalana.openpixelmon.entity.Entities;
 import me.martyalana.openpixelmon.entity.PokeballEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityType;
-import net.minecraft.network.NetworkThreadUtils;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
