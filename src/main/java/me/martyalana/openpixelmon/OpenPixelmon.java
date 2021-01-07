@@ -1,5 +1,6 @@
 package me.martyalana.openpixelmon;
 
+import me.martyalana.openpixelmon.block.OpenPixelmonBlocks;
 import me.martyalana.openpixelmon.entity.Entities;
 import me.martyalana.openpixelmon.item.OpenPixelmonItems;
 import net.devtech.arrp.api.RRPCallback;
@@ -18,6 +19,7 @@ public class OpenPixelmon implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Open Pixelmon is Initializing");
 		OpenPixelmonItems.initialize();
+		OpenPixelmonBlocks.initialize();
 		Entities.initialize();
 		RRPCallback.EVENT.register(resources -> resources.add(RESOURCE_PACK));
 		LOGGER.info("Open Pixelmon Initialization successful!");

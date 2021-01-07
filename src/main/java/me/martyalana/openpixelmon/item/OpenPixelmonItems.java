@@ -1,9 +1,11 @@
 package me.martyalana.openpixelmon.item;
 
 import me.martyalana.openpixelmon.OpenPixelmon;
+import me.martyalana.openpixelmon.block.OpenPixelmonBlocks;
 import me.martyalana.openpixelmon.item.misc.PokeballItem;
 import net.devtech.arrp.json.models.JModel;
 import net.devtech.arrp.json.models.JTextures;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -26,7 +28,7 @@ public class OpenPixelmonItems {
 	public static final Item YELLOW_ACORN = generate(new Item(new Item.Settings().group(ItemGroups.ORGANIC)), "yellow_acorn");
 	public static final Item GREEN_ACORN = generate(new Item(new Item.Settings().group(ItemGroups.ORGANIC)), "green_acorn");
 	public static final Item PINK_ACORN = generate(new Item(new Item.Settings().group(ItemGroups.ORGANIC)), "pink_acorn");
-	public static final Item RED_ACORN = generate(new Item(new Item.Settings().group(ItemGroups.ORGANIC)), "red_acorn");
+	public static final Item RED_ACORN = generate(new BlockItem(OpenPixelmonBlocks.RED_ACORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "red_acorn");
 	public static final Item BLACK_ACORN = generate(new Item(new Item.Settings().group(ItemGroups.ORGANIC)), "black_acorn");
 
 	public static final Item BAKED_WHITE_ACORN = generate(new Item(new Item.Settings().group(ItemGroups.ORGANIC)), "baked_white_acorn");
