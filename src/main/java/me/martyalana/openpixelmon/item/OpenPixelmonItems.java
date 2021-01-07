@@ -1,15 +1,16 @@
 package me.martyalana.openpixelmon.item;
 
 import me.martyalana.openpixelmon.OpenPixelmon;
+import me.martyalana.openpixelmon.item.misc.PokeballItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 
 public class OpenPixelmonItems {
-	public static final Item POKEBALL = new Item(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
-	public static final Item GREATBALL = new Item(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
-	public static final Item ULTRABALL = new Item(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
-	public static final Item MASTERBALL = new Item(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
-	public static final Item QUICKBALL = new Item(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
+	public static final Item POKEBALL = new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
+	public static final Item GREATBALL = new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
+	public static final Item ULTRABALL = new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
+	public static final Item MASTERBALL = new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
+	public static final Item QUICKBALL = new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
 
 	public static void initialize() {
 		registerPokeballs();

@@ -15,6 +15,10 @@ public class OpenpixelmonClient implements ClientModInitializer {
 	}
 
 	private void registerEntityRenderers() {
+		// Misc
+		EntityRendererRegistry.INSTANCE.register(Entities.POKEBALL_ENTITY, EmptyEntityRenderer::new);
+
+		// Pixelmon
 		EntityRendererRegistry.INSTANCE.register(Entities.TESTING.TESTING_A, EmptyEntityRenderer::new);
 	}
 }
