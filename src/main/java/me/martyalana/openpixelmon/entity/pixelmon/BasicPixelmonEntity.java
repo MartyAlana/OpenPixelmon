@@ -1,7 +1,7 @@
 package me.martyalana.openpixelmon.entity.pixelmon;
 
-import me.martyalana.openpixelmon.entity.Entities;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -15,9 +15,19 @@ public class BasicPixelmonEntity extends AnimalEntity {
 		super(entityType, world);
 	}
 
+	public static DefaultAttributeContainer.Builder createPixelmonAttributes() { //TODO: finish
+		return createMobAttributes();
+	}
+
 	@Nullable
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-		return new BasicPixelmonEntity(Entities.TESTING.TESTING_A, world);
+		return new BasicPixelmonEntity(getType(), world);
+	}
+
+	// Hack to get everywhere else to shut up about casting.
+	@Override
+	public EntityType<BasicPixelmonEntity> getType() {
+		return (EntityType<BasicPixelmonEntity>) super.getType();
 	}
 }

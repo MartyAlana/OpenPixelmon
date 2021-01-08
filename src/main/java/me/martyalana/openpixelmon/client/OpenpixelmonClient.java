@@ -1,5 +1,6 @@
 package me.martyalana.openpixelmon.client;
 
+import me.martyalana.openpixelmon.api.pixelmon.PokedexData;
 import me.martyalana.openpixelmon.client.render.entity.EmptyEntityRenderer;
 import me.martyalana.openpixelmon.entity.Entities;
 import net.fabricmc.api.ClientModInitializer;
@@ -19,6 +20,8 @@ public class OpenpixelmonClient implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(Entities.POKEBALL_ENTITY, EmptyEntityRenderer::new);
 
 		// Pixelmon
-		EntityRendererRegistry.INSTANCE.register(Entities.TESTING.TESTING_A, EmptyEntityRenderer::new);
+		for (PokedexData pokedexData : Entities.GENERATION_3.getPokemon()) {
+			EntityRendererRegistry.INSTANCE.register(pokedexData.type, EmptyEntityRenderer::new);
+		}
 	}
 }
