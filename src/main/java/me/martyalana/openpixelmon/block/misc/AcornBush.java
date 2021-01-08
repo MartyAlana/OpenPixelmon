@@ -16,6 +16,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
 import java.util.Random;
 
@@ -25,14 +26,19 @@ public class AcornBush extends Block implements Fertilizable {
 	private final Item dropItem;
 
 	public AcornBush(Item dropItem) {
-		super(FabricBlockSettings.of(Material.WOOD).nonOpaque());
+		super(FabricBlockSettings.of(Material.LEAVES).nonOpaque());
 		this.dropItem = dropItem;
-		setDefaultState(getStateManager().getDefaultState().with(GROWN, 3));
+		setDefaultState(getStateManager().getDefaultState().with(GROWN, 1));
 	}
 
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		builder.add(GROWN);
+	}
+
+	@Override
+	public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+		return world.getBlockState(pos.up()).isAir() && world.getBlockState(pos).isAir() && world.getBlockState(pos.down()).getBlock() == Blocks.GRASS_BLOCK;
 	}
 
 	@Override
