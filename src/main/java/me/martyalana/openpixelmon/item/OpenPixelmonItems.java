@@ -14,11 +14,33 @@ public class OpenPixelmonItems {
 	/**
 	 * Pokeballs
 	 */
-	public static final Item POKEBALL = new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
-	public static final Item GREATBALL = new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
-	public static final Item ULTRABALL = new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
-	public static final Item MASTERBALL = new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
-	public static final Item QUICKBALL = new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS));
+	public static final Item POKE_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "poke_ball");
+	public static final Item GREAT_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "great_ball");
+	public static final Item ULTRA_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "ultra_ball");
+	public static final Item MASTER_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "master_ball");
+	public static final Item SAFARI_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "safari_ball");
+	public static final Item FAST_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "fast_ball");
+	public static final Item LEVEL_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "level_ball");
+	public static final Item LURE_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "lure_ball");
+	public static final Item HEAVY_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "heavy_ball");
+	public static final Item LOVE_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "love_ball");
+	public static final Item FRIEND_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "friend_ball");
+	public static final Item MOON_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "moon_ball");
+	public static final Item SPORT_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "sport_ball");
+	public static final Item NET_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "net_ball");
+	public static final Item NEST_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "nest_ball");
+	public static final Item REPEAT_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "repeat_ball");
+	public static final Item TIMER_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "timer_ball");
+	public static final Item LUXURY_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "luxury_ball");
+	public static final Item PREMIER_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "premier_ball");
+	public static final Item DIVE_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "dive_ball");
+	public static final Item DUSK_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "dusk_ball");
+	public static final Item HEAL_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "heal_ball");
+	public static final Item QUICK_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "quick_ball");
+	public static final Item CHERISH_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "cherish_ball");
+	public static final Item PARK_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "park_ball");
+	public static final Item DREAM_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "dream_ball");
+	public static final Item BEAST_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "beast_ball");
 
 	/**
 	 * Acorns

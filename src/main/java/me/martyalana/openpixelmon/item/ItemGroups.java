@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 public class ItemGroups {
 	public static final ItemGroup POKEBALLS = FabricItemGroupBuilder.build(
 			OpenPixelmon.id("pokeballs"),
-			() -> new ItemStack(OpenPixelmonItems.POKEBALL)
+			() -> new ItemStack(OpenPixelmonItems.POKE_BALL)
 	);
 
 	public static final ItemGroup ORGANIC = FabricItemGroupBuilder.build(
