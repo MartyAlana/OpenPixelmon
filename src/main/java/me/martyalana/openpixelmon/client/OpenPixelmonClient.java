@@ -18,7 +18,6 @@ public class OpenPixelmonClient implements ClientModInitializer {
 	}
 
 	private void registerEntityRenderers() {
-		// Misc
 		EntityRendererRegistry.INSTANCE.register(Entities.POKEBALL_ENTITY, (manager, context) -> new NonLivingGeckolibModelRenderer<>(manager, new GeckolibModel<>("pokeball", "pokeball/pokeball")));
 
 		// Pixelmon
