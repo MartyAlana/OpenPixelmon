@@ -18,7 +18,7 @@ public class ItemGroups {
 
 	public static final ItemGroup ORGANIC = FabricItemGroupBuilder.build(
 			OpenPixelmon.id("organic"),
-			() -> new ItemStack(OpenPixelmonItems.RED_ACORN)
+			() -> new ItemStack(OpenPixelmonItems.RED_APRICORN)
 	);
 
 	public static final ItemGroup TMS = FabricItemGroupBuilder.build(

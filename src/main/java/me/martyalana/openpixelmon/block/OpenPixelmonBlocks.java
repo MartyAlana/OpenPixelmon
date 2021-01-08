@@ -14,13 +14,13 @@ import net.minecraft.util.registry.Registry;
 
 public class OpenPixelmonBlocks {
 
-	public static final Block RED_ACORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_ACORN), "red_acorn_bush");
-	public static final Block WHITE_ACORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_ACORN), "white_acorn_bush");
-	public static final Block BLUE_ACORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_ACORN), "blue_acorn_bush");
-	public static final Block YELLOW_ACORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_ACORN), "yellow_acorn_bush");
-	public static final Block GREEN_ACORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_ACORN), "green_acorn_bush");
-	public static final Block PINK_ACORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_ACORN), "pink_acorn_bush");
-	public static final Block BLACK_ACORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_ACORN), "black_acorn_bush");
+	public static final Block RED_APRICORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_APRICORN), "red_acorn_bush");
+	public static final Block WHITE_APRICORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_APRICORN), "white_acorn_bush");
+	public static final Block BLUE_APRICORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_APRICORN), "blue_acorn_bush");
+	public static final Block YELLOW_APRICORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_APRICORN), "yellow_acorn_bush");
+	public static final Block GREEN_APRICORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_APRICORN), "green_acorn_bush");
+	public static final Block PINK_APRICORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_APRICORN), "pink_acorn_bush");
+	public static final Block BLACK_APRICORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_APRICORN), "black_acorn_bush");
 
 	public static void initialize(){
 	}
