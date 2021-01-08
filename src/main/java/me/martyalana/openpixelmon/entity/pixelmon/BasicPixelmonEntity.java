@@ -8,7 +8,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("EntityConstructor")
 public class BasicPixelmonEntity extends AnimalEntity {
 
 	public BasicPixelmonEntity(EntityType<? extends AnimalEntity> entityType, World world) {

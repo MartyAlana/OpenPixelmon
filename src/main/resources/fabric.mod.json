@@ -15,7 +15,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "me.martyalana.openpixelmon.client.OpenpixelmonClient"
+      "me.martyalana.openpixelmon.client.OpenPixelmonClient"
     ],
     "main": [
       "me.martyalana.openpixelmon.OpenPixelmon"

@@ -1,0 +1,56 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.pokeball.start_catch": {
+			"animation_length": 2,
+			"bones": {
+				"top": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.4": {
+							"vector": [0, 0, 0],
+							"easing": "easeInOutExpo"
+						},
+						"0.84": {
+							"vector": [-15, 0, 0],
+							"easing": "easeInOutExpo"
+						},
+						"1.68": {
+							"vector": [-15, 0, 0],
+							"easing": "easeInOutExpo"
+						},
+						"2.0": {
+							"vector": [0, 0, 0],
+							"easing": "easeInOutExpo"
+						}
+					}
+				},
+				"bottom": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.4": {
+							"vector": [0, 0, 0],
+							"easing": "easeInOutExpo"
+						},
+						"0.84": {
+							"vector": [17.5, 0, 0],
+							"easing": "easeInOutExpo"
+						},
+						"1.68": {
+							"vector": [17.5, 0, 0],
+							"easing": "easeInOutExpo"
+						},
+						"2.0": {
+							"vector": [0, 0, 0],
+							"easing": "easeInOutExpo"
+						}
+					}
+				}
+			}
+		}
+	}
+}
