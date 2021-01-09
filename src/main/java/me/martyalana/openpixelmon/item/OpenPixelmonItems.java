@@ -2,10 +2,11 @@ package me.martyalana.openpixelmon.item;
 
 import me.martyalana.openpixelmon.OpenPixelmon;
 import me.martyalana.openpixelmon.block.OpenPixelmonBlocks;
-import me.martyalana.openpixelmon.item.misc.PokeballItem;
+import me.martyalana.openpixelmon.item.plant.ApricornBlockItem;
+import me.martyalana.openpixelmon.item.pokeball.GreatballItem;
+import me.martyalana.openpixelmon.item.pokeball.PokeballItem;
 import net.devtech.arrp.json.models.JModel;
 import net.devtech.arrp.json.models.JTextures;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -15,7 +16,7 @@ public class OpenPixelmonItems {
 	 * Pokeballs
 	 */
 	public static final Item POKE_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "poke_ball");
-	public static final Item GREAT_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "great_ball");
+	public static final Item GREAT_BALL = generate(new GreatballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "great_ball");
 	public static final Item ULTRA_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "ultra_ball");
 	public static final Item MASTER_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "master_ball");
 	public static final Item SAFARI_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "safari_ball");
@@ -45,13 +46,13 @@ public class OpenPixelmonItems {
 	/**
 	 * Acorns
 	 */
-	public static final Item WHITE_APRICORN = generate(new BlockItem(OpenPixelmonBlocks.WHITE_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "white_apricorn");
-	public static final Item BlUE_APRICORN = generate(new BlockItem(OpenPixelmonBlocks.BLUE_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "blue_apricorn");
-	public static final Item YELLOW_APRICORN = generate(new BlockItem(OpenPixelmonBlocks.YELLOW_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "yellow_apricorn");
-	public static final Item GREEN_APRICORN = generate(new BlockItem(OpenPixelmonBlocks.GREEN_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "green_apricorn");
-	public static final Item PINK_APRICORN = generate(new BlockItem(OpenPixelmonBlocks.PINK_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "pink_apricorn");
-	public static final Item RED_APRICORN = generate(new BlockItem(OpenPixelmonBlocks.RED_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "red_apricorn");
-	public static final Item BLACK_APRICORN = generate(new BlockItem(OpenPixelmonBlocks.BLACK_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "black_apricorn");
+	public static final Item WHITE_APRICORN = generate(new ApricornBlockItem(OpenPixelmonBlocks.WHITE_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "white_apricorn");
+	public static final Item BlUE_APRICORN = generate(new ApricornBlockItem(OpenPixelmonBlocks.BLUE_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "blue_apricorn");
+	public static final Item YELLOW_APRICORN = generate(new ApricornBlockItem(OpenPixelmonBlocks.YELLOW_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "yellow_apricorn");
+	public static final Item GREEN_APRICORN = generate(new ApricornBlockItem(OpenPixelmonBlocks.GREEN_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "green_apricorn");
+	public static final Item PINK_APRICORN = generate(new ApricornBlockItem(OpenPixelmonBlocks.PINK_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "pink_apricorn");
+	public static final Item RED_APRICORN = generate(new ApricornBlockItem(OpenPixelmonBlocks.RED_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "red_apricorn");
+	public static final Item BLACK_APRICORN = generate(new ApricornBlockItem(OpenPixelmonBlocks.BLACK_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "black_apricorn");
 
 	public static final Item BAKED_WHITE_APRICORN = generate(new Item(new Item.Settings().group(ItemGroups.ORGANIC)), "baked_white_apricorn");
 	public static final Item BAKED_BlUE_APRICORN = generate(new Item(new Item.Settings().group(ItemGroups.ORGANIC)), "baked_blue_apricorn");

@@ -1,6 +1,7 @@
 package me.martyalana.openpixelmon.entity.pixelmon;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import me.martyalana.openpixelmon.OpenPixelmon;
 import me.martyalana.openpixelmon.api.pixelmon.PokedexData;
 import net.minecraft.util.Identifier;
 
@@ -17,8 +18,18 @@ public class PokeGeneration {
 		this.pokedexDataMap = pokedexDataMap;
 	}
 
-	public Collection<PokedexData> getPokemon() {
+	public Collection<PokedexData> getPixelmon() {
 		return pokedexDataMap.values();
+	}
+
+	public PokedexData getPixelmonById(Identifier pixelmonName) {
+		for (PokedexData pokedexData : getPixelmon()) {
+			if(pokedexData.name.equals(pixelmonName)){
+				return pokedexData;
+			}
+		}
+		OpenPixelmon.throwError("Couldnt get pixelmon from id: " + pixelmonName);
+		return null;
 	}
 
 	public static class Builder {

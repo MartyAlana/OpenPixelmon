@@ -1,7 +1,7 @@
 package me.martyalana.openpixelmon.api.pixelmon;
 
 import me.martyalana.openpixelmon.OpenPixelmon;
-import me.martyalana.openpixelmon.entity.pixelmon.BasicPixelmonEntity;
+import me.martyalana.openpixelmon.entity.pixelmon.PixelmonEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -16,7 +16,7 @@ import net.minecraft.util.registry.Registry;
  */
 public class PokedexData {
 
-	public EntityType<? extends BasicPixelmonEntity> type;
+	public EntityType<? extends PixelmonEntity> type;
 	public Identifier name;
 	public int maleRatio;
 	public PokeType[] pokeTypes;
@@ -41,7 +41,7 @@ public class PokedexData {
 		this.baseFriendship = baseFriendship;
 		this.type = Registry.register(Registry.ENTITY_TYPE, OpenPixelmon.id(pokemonName), FabricEntityTypeBuilder.create(
 				SpawnGroup.MISC,
-				BasicPixelmonEntity::new)
+				PixelmonEntity::new)
 				.dimensions(dimensions)
 				.build());
 	}

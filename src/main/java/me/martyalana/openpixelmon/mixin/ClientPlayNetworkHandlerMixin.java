@@ -1,7 +1,9 @@
 package me.martyalana.openpixelmon.mixin;
 
 import me.martyalana.openpixelmon.entity.Entities;
-import me.martyalana.openpixelmon.entity.PokeballEntity;
+import me.martyalana.openpixelmon.entity.pokeball.AbstractPokeballEntity;
+import me.martyalana.openpixelmon.entity.pokeball.GreatballEntity;
+import me.martyalana.openpixelmon.entity.pokeball.PokeballEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityType;
@@ -25,8 +27,16 @@ public class ClientPlayNetworkHandlerMixin {
 		double z = packet.getZ();
 		EntityType<?> entityType = packet.getEntityTypeId();
 
+		AbstractPokeballEntity pokeball = null;
 		if (entityType == Entities.POKEBALL_ENTITY) {
-			PokeballEntity pokeball = new PokeballEntity(x, y, z, world);
+			pokeball = new PokeballEntity(x, y, z, world);
+		}
+
+		if (entityType == Entities.GREATBALL_ENTITY) {
+			pokeball = new GreatballEntity(x, y, z, world);
+		}
+
+		if(pokeball != null) {
 			int id = packet.getId();
 			pokeball.updateTrackedPosition(x, y, z);
 			pokeball.refreshPositionAfterTeleport(x, y, z);

@@ -1,6 +1,7 @@
 package me.martyalana.openpixelmon.client.model.entity;
 
 import me.martyalana.openpixelmon.OpenPixelmon;
+import me.martyalana.openpixelmon.entity.pixelmon.PixelmonEntity;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
@@ -28,5 +29,9 @@ public class GeckolibModel<T extends IAnimatable> extends AnimatedGeoModel<T> {
 	@Override
 	public Identifier getAnimationFileLocation(T t) {
 		return OpenPixelmon.id("animations/" + modelName + ".animation.json");
+	}
+
+	public static GeckolibModel<PixelmonEntity> of(String pixelmonName) {
+		return new GeckolibModel<>(pixelmonName, "pixelmon/" + pixelmonName + "/" + pixelmonName);
 	}
 }
