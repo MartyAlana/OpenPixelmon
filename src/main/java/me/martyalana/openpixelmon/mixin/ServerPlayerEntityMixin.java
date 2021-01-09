@@ -1,17 +1,20 @@
 package me.martyalana.openpixelmon.mixin;
 
+import com.mojang.authlib.GameProfile;
 import me.martyalana.openpixelmon.api.pc.PcBox;
 import me.martyalana.openpixelmon.api.player.PixelmonPlayer;
 import me.martyalana.openpixelmon.entity.pixelmon.PixelmonEntity;
 import me.martyalana.openpixelmon.network.Packets;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -19,7 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(ServerPlayerEntity.class)
-public abstract class ServerPlayerEntityMixin implements PixelmonPlayer {
+public abstract class ServerPlayerEntityMixin extends PlayerEntity implements PixelmonPlayer {
+
+	public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile profile) {
+		super(world, pos, yaw, profile);
+	}
 
 	@Shadow public abstract void sendMessage(Text message, boolean actionBar);
 
@@ -57,10 +64,10 @@ public abstract class ServerPlayerEntityMixin implements PixelmonPlayer {
 		ServerPlayNetworking.send((ServerPlayerEntity) (Object)this, Packets.SYNC_PIXELMON, createPixelmonBuf(entity));
 		if(party.size() > 5) {
 			//TODO: pc logic
-			sendMessage(new LiteralText(entity.getDisplayName().getString() + " has been sent to your pc!").formatted(Formatting.GRAY), false);
+			sendMessage(new LiteralText(entity.getNickname() + " has been sent to your pc!").formatted(Formatting.GRAY), false);
 		} else {
 			party.add(entity);
-			sendMessage(new LiteralText(entity.getDisplayName().getString() + " is now in your party!").formatted(Formatting.GRAY), false);
+			sendMessage(new LiteralText(entity.getNickname() + " is now in your party!").formatted(Formatting.GRAY), false);
 		}
 	}
 
