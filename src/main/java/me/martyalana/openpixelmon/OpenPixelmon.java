@@ -1,5 +1,6 @@
 package me.martyalana.openpixelmon;
 
+import me.martyalana.openpixelmon.biome.Biomes;
 import me.martyalana.openpixelmon.block.OpenPixelmonBlocks;
 import me.martyalana.openpixelmon.entity.Entities;
 import me.martyalana.openpixelmon.item.OpenPixelmonItems;
@@ -21,6 +22,7 @@ public class OpenPixelmon implements ModInitializer {
 		OpenPixelmonItems.initialize();
 		OpenPixelmonBlocks.initialize();
 		Entities.initialize();
+		Biomes.initialize();
 		RRPCallback.EVENT.register(resources -> resources.add(RESOURCE_PACK));
 		LOGGER.info("Open Pixelmon Initialization successful!");
 	}

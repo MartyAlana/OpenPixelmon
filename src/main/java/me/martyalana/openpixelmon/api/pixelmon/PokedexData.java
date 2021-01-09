@@ -16,19 +16,23 @@ import net.minecraft.util.registry.Registry;
  */
 public class PokedexData {
 
-	public EntityType<? extends PixelmonEntity> type;
-	public Identifier name;
-	public int maleRatio;
-	public PokeType[] pokeTypes;
-	public int catchRate;
-	public EggGroup[] eggGroups;
-	public int stepHatchCount;
-	public double height;
-	public double weight;
-	public int colour;
-	public int baseFriendship;
+	public final int minLevel;
+	public final int evolutionLevel;
+	public final EntityType<? extends PixelmonEntity> type;
+	public final Identifier name;
+	public final int maleRatio;
+	public final PokeType[] pokeTypes;
+	public final int catchRate;
+	public final EggGroup[] eggGroups;
+	public final int stepHatchCount;
+	public final double height;
+	public final double weight;
+	public final int colour;
+	public final int baseFriendship;
+	public final boolean needsStoneToEvolve;
+	public final boolean legendary;
 
-	public PokedexData(EntityDimensions dimensions, String pokemonName, int maleRatio, PokeType[] pokeTypes, int catchRate, EggGroup[] eggGroups, int stepHatchCount, double height, double weight, int colour, int baseFriendship) {
+	public PokedexData(EntityDimensions dimensions, String pokemonName, int maleRatio, PokeType[] pokeTypes, int catchRate, EggGroup[] eggGroups, int stepHatchCount, double height, double weight, int colour, int baseFriendship, int minLevel, int evolutionLevel, boolean legendary, boolean needsStoneToEvolve) {
 		this.name = OpenPixelmon.id(pokemonName);
 		this.maleRatio = maleRatio;
 		this.pokeTypes = pokeTypes;
@@ -39,10 +43,18 @@ public class PokedexData {
 		this.weight = weight;
 		this.colour = colour;
 		this.baseFriendship = baseFriendship;
+		this.legendary = legendary;
+		this.minLevel = minLevel;
+		this.evolutionLevel = evolutionLevel;
+		this.needsStoneToEvolve = needsStoneToEvolve;
 		this.type = Registry.register(Registry.ENTITY_TYPE, OpenPixelmon.id(pokemonName), FabricEntityTypeBuilder.create(
-				SpawnGroup.MISC,
+				SpawnGroup.CREATURE,
 				PixelmonEntity::new)
 				.dimensions(dimensions)
 				.build());
+	}
+
+	public PokedexData(EntityDimensions dimensions, String pokemonName, int maleRatio, PokeType[] pokeTypes, int catchRate, EggGroup[] eggGroups, int stepHatchCount, double height, double weight, int colour, int baseFriendship, int evolutionLevel, boolean needsStoneToEvolve, boolean legendary) {
+		this(dimensions, pokemonName, maleRatio, pokeTypes, catchRate, eggGroups, stepHatchCount, height, weight, colour, baseFriendship, 1, evolutionLevel, legendary, needsStoneToEvolve);
 	}
 }

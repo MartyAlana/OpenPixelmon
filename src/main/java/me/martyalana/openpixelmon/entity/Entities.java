@@ -33,7 +33,10 @@ public class Entities {
 					0.5D,
 					4,
 					0xAAFFFFFF,
-					70))
+					70,
+					18,
+					false,
+					false))
 			.build();
 
 	/**
