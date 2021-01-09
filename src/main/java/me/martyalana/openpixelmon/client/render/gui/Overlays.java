@@ -31,18 +31,4 @@ public class Overlays extends DrawableHelper {
 			}
 		}
 	}
-
-	/**
-	 * Static version of mojang's non-static one because mojank
-	 * @param matrices the matrices
-	 * @param x the x position
-	 * @param y the y position
-	 * @param u the u tex coordinate
-	 * @param v the v tex coordinate
-	 * @param width the width
-	 * @param height the height
-	 */
-	public static void draw(MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
-		drawTexture(matrices, x, y, (float)u, (float)v, width, height, 256, 256);
-	}
 }
