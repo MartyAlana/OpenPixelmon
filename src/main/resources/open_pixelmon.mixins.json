@@ -7,7 +7,9 @@
   ],
   "client": [
     "ClientPlayNetworkHandlerMixin",
-    "InGameHudMixin"
+    "InGameHudMixin",
+    "ClientPlayerEntityMixin",
+    "ServerPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

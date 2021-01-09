@@ -1,6 +1,7 @@
 package me.martyalana.openpixelmon.entity.pixelmon;
 
 import me.martyalana.openpixelmon.api.pixelmon.PokedexData;
+import me.martyalana.openpixelmon.client.translate.OpenPixelmonTranslator;
 import me.martyalana.openpixelmon.entity.Entities;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -131,5 +132,13 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	@Override
 	public AnimationFactory getFactory() {
 		return factory;
+	}
+
+	public PokedexData getPokedexData() {
+		return pokedexData;
+	}
+
+	public String getNickname() {
+		return OpenPixelmonTranslator.createTranslation(pokedexData.name).getString();
 	}
 }
