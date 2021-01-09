@@ -25,6 +25,8 @@ public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
 	@Override
 	public void render(PixelmonEntity entity, float entityYaw, float partialTicks, MatrixStack matrices, VertexConsumerProvider vertexConsumerProvider, int light) {
 		matrices.push();
+		float levelScale = (float) (0.01 * entity.getLevel());
+		matrices.scale(1 + levelScale, 1 + levelScale, 1 + levelScale);
 		super.render(entity, entityYaw, partialTicks, matrices, vertexConsumerProvider, light);
 		matrices.pop();
 		renderPixelmonInfo(entity, matrices, light, vertexConsumerProvider);

@@ -70,7 +70,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
 		entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 
-		setBoss(random.nextFloat() < 0.05F);
+		setBoss(getLevel() >= 20 && random.nextFloat() < 0.05F);
 		setLevel(pokedexData.minLevel + random.nextInt(pokedexData.evolutionLevel / 2));
 		return entityData;
 	}
