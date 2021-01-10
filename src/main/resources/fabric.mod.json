@@ -3,7 +3,7 @@
   "id": "open_pixelmon",
   "version": "${version}",
   "name": "Open Pixelmon",
-  "description": "An rewrite of the origin pixelmon mod for fabric",
+  "description": "An rewrite of pixelmon reforged & generations mod for fabric",
   "authors": [
     "openPixelmonContributors"
   ],
@@ -15,10 +15,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "me.martyalana.openpixelmon.client.OpenPixelmonClient"
+      "me.marty.openpixelmon.client.OpenPixelmonClient"
     ],
     "main": [
-      "me.martyalana.openpixelmon.OpenPixelmon"
+      "me.marty.openpixelmon.OpenPixelmon"
     ]
   },
   "mixins": [
