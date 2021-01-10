@@ -6,6 +6,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 
 import java.util.Arrays;
@@ -19,7 +20,7 @@ public class Party {
 		return entries;
 	}
 
-	public CompoundTag writeToTag(CompoundTag tag) {
+	public void writeToTag(CompoundTag tag) {
 		ListTag list = new ListTag();
 		for (PartyEntry entry : entries) {
 			if (entry == null) {
@@ -29,7 +30,6 @@ public class Party {
 			}
 		}
 		tag.put("Party", list);
-		return tag;
 	}
 
 	public void readFromTag(CompoundTag tag) {
@@ -52,12 +52,12 @@ public class Party {
 		for (int i = 0; i < entries.length; i++) {
 			if(entries[i] == null && !couldFitInPokemon) {
 				entries[i] = partyEntry;
-				player.sendMessage(new TranslatableText("text.open_pixelmon.caught"), false);
+				player.sendMessage(new TranslatableText("text.open_pixelmon.caught").formatted(Formatting.GRAY, Formatting.ITALIC), false);
 				couldFitInPokemon = true;
 			}
 		}
 		if(!couldFitInPokemon) {
-			player.sendMessage(new TranslatableText("text.open_pixelmon.caught_pc"), false);
+			player.sendMessage(new TranslatableText("text.open_pixelmon.caught_pc").formatted(Formatting.GRAY, Formatting.ITALIC), false);
 		}
 	}
 

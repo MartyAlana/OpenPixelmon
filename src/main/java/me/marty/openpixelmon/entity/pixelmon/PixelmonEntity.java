@@ -25,31 +25,33 @@ import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 @SuppressWarnings("EntityConstructor")
 public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
-	private static final AnimationBuilder IDLE_ANIMATION = new AnimationBuilder().addAnimation("animation.pixelmon.idle", true);
 	private final AnimationFactory factory = new AnimationFactory(this);
 	private final PokedexEntry pokedexEntry;
 	protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	protected static final TrackedData<Boolean> WILD = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	protected static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	protected static final TrackedData<Byte> GENDER = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BYTE);
 	protected static final byte MALE_BYTE = (byte) Gender.MALE.ordinal();
 	protected static final byte FEMALE_BYTE = (byte) Gender.FEMALE.ordinal();
 	protected static final Gender[] GENDERS = Gender.values();
+	private final int hp;
 
 	public PixelmonEntity(EntityType<? extends AnimalEntity> entityType, World world) {
 		super(entityType, world);
-		pokedexEntry = PokeGeneration.getPixelmonById(Registry.ENTITY_TYPE.getId(getType()));
+		this.pokedexEntry = PokeGeneration.getPixelmonById(Registry.ENTITY_TYPE.getId(getType()));
+		this.hp = getMaxHp();
 	}
 
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(BOSS, false);
+		this.dataTracker.startTracking(WILD, false);
 		this.dataTracker.startTracking(LEVEL, 0);
 		this.dataTracker.startTracking(GENDER, MALE_BYTE);
 	}
@@ -59,6 +61,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		super.writeCustomDataToTag(tag);
 
 		tag.putBoolean("boss", this.dataTracker.get(BOSS));
+		tag.putBoolean("wild", this.dataTracker.get(WILD));
 		tag.putInt("level", this.dataTracker.get(LEVEL));
 	}
 
@@ -68,8 +71,13 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
 		if (tag.getKeys().contains("level")) {
 			this.setBoss(tag.getBoolean("boss"));
+			this.setWild(tag.getBoolean("wild"));
 			this.setLevel(tag.getInt("level"));
 		}
+	}
+
+	private void setWild(boolean wild) {
+		this.dataTracker.set(WILD, wild);
 	}
 
 	@Override
@@ -153,5 +161,21 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
 	public String getNickname() {
 		return OpenPixelmonTranslator.createTranslation(pokedexEntry.name).getString();
+	}
+
+	public boolean isWild() {
+		return this.dataTracker.get(WILD);
+	}
+
+	public int getMaxHp() {
+		return 100; //TODO: implement base stats, IV & EV properly,
+	}
+
+	public int getHp() {
+		return hp;
+	}
+
+	public String getOwner() {
+		return "Owner name here."; //TODO
 	}
 }

@@ -15,7 +15,7 @@ public class PartyEntry {
 	private final Gender gender;
 	private final int level;
 
-	public PartyEntry(EntityType<? extends PixelmonEntity> entityType, int hp, Gender gender, int level, PokeballItem pokeball) {
+	public PartyEntry(EntityType<? extends PixelmonEntity> entityType, int hp, int maxHp, Gender gender, int level, PokeballItem pokeball) {
 		this.entityType = entityType;
 		this.hp = hp;
 		this.gender = gender;
@@ -23,12 +23,12 @@ public class PartyEntry {
 		this.pokeball = pokeball;
 	}
 
-	public PartyEntry(EntityType<? extends PixelmonEntity> rawId, int hp, Gender gender, PokeballItem pokeball) {
-		this(rawId, hp, gender, DEFAULT_LEVEL, pokeball);
+	public PartyEntry(EntityType<? extends PixelmonEntity> rawId, int hp, int maxHp, Gender gender, PokeballItem pokeball) {
+		this(rawId, hp, maxHp, gender, DEFAULT_LEVEL, pokeball);
 	}
 
 	public PartyEntry(PixelmonEntity entity, PokeballItem pokeball) {
-		this(entity.getType(), 0 /*TODO*/, entity.getGender() , entity.getLevel(), pokeball);
+		this(entity.getType(), entity.getHp(), entity.getMaxHp(), entity.getGender() , entity.getLevel(), pokeball);
 	}
 
 	public EntityType<? extends PixelmonEntity> getEntityType() {
@@ -66,7 +66,7 @@ public class PartyEntry {
 		Gender gender = Gender.values()[tag.getByte("Gender")];
 		int level = tag.getInt("Level");
 		PokeballItem pokeball = (PokeballItem) Registry.ITEM.get(new Identifier(tag.getString("Pokeball")));
-		return new PartyEntry(entityType, hp, gender, level, pokeball);
+		return new PartyEntry(entityType, hp, 0, gender, level, pokeball);
 	}
 
 //    public PacketByteBuf writeToPacketBuf(PacketByteBuf buf) {

@@ -18,7 +18,7 @@ public class Commands {
 						literal("pokedebug")
 								.requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(4))
 								.executes(context -> {
-									EntityComponents.PARTY_COMPONENT.get(context.getSource().getPlayer()).getParty().add(context.getSource().getPlayer(), new PartyEntry(PokeGeneration.getPixelmonById(OpenPixelmon.id("seedot")).type.create(context.getSource().getWorld()), (PokeballItem) OpenPixelmonItems.POKE_BALL));
+									EntityComponents.PARTY_COMPONENT.get(context.getSource().getPlayer()).getParty().add(context.getSource().getPlayer(), new PartyEntry(PokeGeneration.getPixelmonById(OpenPixelmon.id("bulbasaur")).type.create(context.getSource().getWorld()), (PokeballItem) OpenPixelmonItems.POKE_BALL));
 									EntityComponents.PARTY_COMPONENT.sync(context.getSource().getPlayer());
 									return Command.SINGLE_SUCCESS;
 								})));
