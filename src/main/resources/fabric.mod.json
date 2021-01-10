@@ -21,7 +21,7 @@
       "me.marty.openpixelmon.OpenPixelmon"
     ],
     "cardinal-components-entity": [
-      "me.marty.openpixelmon.component.EntityComponents"
+      "me.marty.openpixelmon.api.component.EntityComponents"
     ]
   },
   "accessWidener": "openPixelmon.aw",

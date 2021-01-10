@@ -4,6 +4,8 @@ import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Util;
 
 import java.util.Arrays;
@@ -45,8 +47,18 @@ public class Party {
 		return (int) Arrays.stream(entries).filter(Objects::nonNull).count();
 	}
 
-	public void add(PartyEntry partyEntry) {
-
+	public void add(ServerPlayerEntity player, PartyEntry partyEntry) {
+		boolean couldFitInPokemon = false;
+		for (int i = 0; i < entries.length; i++) {
+			if(entries[i] == null && !couldFitInPokemon) {
+				entries[i] = partyEntry;
+				player.sendMessage(new TranslatableText("text.open_pixelmon.caught"), false);
+				couldFitInPokemon = true;
+			}
+		}
+		if(!couldFitInPokemon) {
+			player.sendMessage(new TranslatableText("text.open_pixelmon.caught_pc"), false);
+		}
 	}
 
 	@Override

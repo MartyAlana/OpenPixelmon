@@ -60,7 +60,7 @@ public class PokedexEntry {
 
 		//TODO: spawn testing stuff below.
 		SpawnRestriction.register(type, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::isValidNaturalSpawn);
-		BiomeModifications.addSpawn(biomeSelectionContext -> true, SpawnGroup.AMBIENT, PokeGeneration.getPixelmonById(OpenPixelmon.id("seedot")).type, 1, 1, 1);
+		BiomeModifications.addSpawn(biomeSelectionContext -> true, SpawnGroup.AMBIENT, type, 1, 1, 1);
 	}
 
 	public PokedexEntry(EntityDimensions dimensions, String pokemonName, int maleRatio, PokeType[] pokeTypes, int catchRate, EggGroup[] eggGroups, int stepHatchCount, double height, double weight, int colour, int baseFriendship, int evolutionLevel, boolean needsStoneToEvolve, boolean legendary) {

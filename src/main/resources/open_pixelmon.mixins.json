@@ -7,7 +7,6 @@
     "ServerPlayerEntityMixin"
   ],
   "client": [
-    "ClientPlayerEntityMixin",
     "ClientPlayNetworkHandlerMixin",
     "InGameHudMixin"
   ],
