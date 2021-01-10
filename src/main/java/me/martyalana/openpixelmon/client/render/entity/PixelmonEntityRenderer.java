@@ -6,6 +6,7 @@ import me.martyalana.openpixelmon.entity.pixelmon.PixelmonEntity;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -17,8 +18,8 @@ public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
 
 	private final Identifier pixelmonName;
 
-	public PixelmonEntityRenderer(EntityRenderDispatcher renderManager, Identifier pixelmonName) {
-		super(renderManager, GeckolibModel.of(pixelmonName.getPath()));
+	public PixelmonEntityRenderer(EntityRendererFactory.Context context, Identifier pixelmonName) {
+		super(context, GeckolibModel.of(pixelmonName.getPath()));
 		this.pixelmonName = pixelmonName;
 	}
 

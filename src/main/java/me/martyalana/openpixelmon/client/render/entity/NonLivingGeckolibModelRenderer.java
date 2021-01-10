@@ -5,11 +5,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
@@ -17,6 +16,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3f;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimatableModel;
 import software.bernie.geckolib3.core.controller.AnimationController;
@@ -38,8 +38,8 @@ public class NonLivingGeckolibModelRenderer<T extends Entity & IAnimatable> exte
 	protected final List<GeoLayerRenderer<T>> layerRenderers = Lists.newArrayList();
 	private final AnimatedGeoModel<T> modelProvider;
 
-	public NonLivingGeckolibModelRenderer(EntityRenderDispatcher renderManager, AnimatedGeoModel<T> modelProvider) {
-		super(renderManager);
+	public NonLivingGeckolibModelRenderer(EntityRendererFactory.Context context, AnimatedGeoModel<T> modelProvider) {
+		super(context);
 		this.modelProvider = modelProvider;
 	}
 
@@ -118,14 +118,14 @@ public class NonLivingGeckolibModelRenderer<T extends Entity & IAnimatable> exte
 	protected void applyRotations(T entityLiving, MatrixStack matrixStackIn, float rotationYaw) {
 		EntityPose pose = entityLiving.getPose();
 		if (pose != EntityPose.SLEEPING) {
-			matrixStackIn.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180.0F - rotationYaw));
+			matrixStackIn.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - rotationYaw));
 		}
 
 		if (entityLiving.hasCustomName() || entityLiving instanceof PlayerEntity) {
 			String s = Formatting.strip(entityLiving.getName().getString());
 			if (("Dinnerbone".equals(s) || "Grumm".equals(s)) && (!(entityLiving instanceof PlayerEntity) || ((PlayerEntity)entityLiving).isPartVisible(PlayerModelPart.CAPE))) {
 				matrixStackIn.translate(0.0D, entityLiving.getHeight() + 0.1F, 0.0D);
-				matrixStackIn.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180.0F));
+				matrixStackIn.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0F));
 			}
 		}
 	}

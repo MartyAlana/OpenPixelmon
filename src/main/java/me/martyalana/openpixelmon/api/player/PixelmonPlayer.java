@@ -15,7 +15,5 @@ public interface PixelmonPlayer {
 
 	void setPP(int pp);
 
-	void clearParty();
-
 	void givePixelmon(PixelmonEntity entity);
 }

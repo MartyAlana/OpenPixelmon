@@ -1,6 +1,5 @@
 package me.martyalana.openpixelmon.mixin;
 
-import me.martyalana.openpixelmon.OpenPixelmon;
 import me.martyalana.openpixelmon.api.pc.PcBox;
 import me.martyalana.openpixelmon.api.player.PixelmonPlayer;
 import me.martyalana.openpixelmon.entity.pixelmon.PixelmonEntity;
@@ -38,15 +37,11 @@ public class ClientPlayerEntityMixin implements PixelmonPlayer {
 	}
 
 	@Override
-	public void clearParty() {
-		this.party.clear();
-	}
-
-	@Override
 	public void givePixelmon(PixelmonEntity entity) {
 		if(party.size() > 5) {
-			//TODO: pc logic
-			OpenPixelmon.LOGGER.warn("Player did not recieve pokemon in pc due to missing implementation :(");
+			for (PcBox pcBox : pcBoxes) {
+				pcBox.pixelmon.add(entity);
+			}
 		} else {
 			party.add(entity);
 		}

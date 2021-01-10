@@ -11,7 +11,7 @@
     "repo": "https://github.com/MartyAlana/OpenPixelmon"
   },
   "license": "MIT",
-  "icon": "assets/open_pixelmon/icon.png",
+  "icon": "assets/open_pixelmon/textures/item/poke_ball.png",
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -27,6 +27,6 @@
   "depends": {
     "fabricloader": ">=0.10.8",
     "fabric": "*",
-    "minecraft": "1.16.4"
+    "minecraft": "1.17.*"
   }
 }

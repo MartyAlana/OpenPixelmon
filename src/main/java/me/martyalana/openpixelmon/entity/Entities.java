@@ -21,6 +21,9 @@ public class Entities {
 	/**
 	 * Pixelmon Generations
 	 */
+	public static final PokeGeneration GENERATION_1 = new PokeGeneration.Builder(OpenPixelmon.id("generation_3"))
+			.build();
+
 	public static final PokeGeneration GENERATION_3 = new PokeGeneration.Builder(OpenPixelmon.id("generation_3"))
 			.addPixelmon(new PokedexData(
 					EntityDimensions.fixed(1, 1),

@@ -55,26 +55,16 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements Pi
 	}
 
 	@Override
-	public void clearParty() {
-		this.party.clear();
-	}
-
-	@Override
 	public void givePixelmon(PixelmonEntity entity) {
-		ServerPlayNetworking.send((ServerPlayerEntity) (Object)this, Packets.SYNC_PIXELMON, createPixelmonBuf(entity));
+		ServerPlayNetworking.send((ServerPlayerEntity) (Object)this, Packets.SYNC_PIXELMON, Packets.createPixelmonBuf(entity));
 		if(party.size() > 5) {
-			//TODO: pc logic
+			for (PcBox pcBox : pcBoxes) {
+				pcBox.pixelmon.add(entity);
+			}
 			sendMessage(new LiteralText(entity.getNickname() + " has been sent to your pc!").formatted(Formatting.GRAY), false);
 		} else {
 			party.add(entity);
 			sendMessage(new LiteralText(entity.getNickname() + " is now in your party!").formatted(Formatting.GRAY), false);
 		}
-	}
-
-	private PacketByteBuf createPixelmonBuf(PixelmonEntity entity) {
-		PacketByteBuf packetByteBuf = PacketByteBufs.create();
-		packetByteBuf.writeIdentifier(entity.getPokedexData().name);
-		packetByteBuf.writeInt(entity.getLevel());
-		return packetByteBuf;
 	}
 }
