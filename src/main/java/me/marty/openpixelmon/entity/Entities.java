@@ -3,7 +3,7 @@ package me.marty.openpixelmon.entity;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.pixelmon.EggGroup;
 import me.marty.openpixelmon.api.pixelmon.PokeType;
-import me.marty.openpixelmon.api.pixelmon.PokedexData;
+import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import me.marty.openpixelmon.entity.pixelmon.PokeGeneration;
 import me.marty.openpixelmon.entity.pokeball.AbstractPokeballEntity;
@@ -22,7 +22,7 @@ public class Entities {
 	 * Pixelmon Generations
 	 */
 	private static final PokeGeneration GENERATION_1 = new PokeGeneration.Builder(OpenPixelmon.id("generation_1"))
-			.addPixelmon(new PokedexData(
+			.addPixelmon(new PokedexEntry(
 					EntityDimensions.fixed(1, 1),
 					"bulbasaur",
 					88,
@@ -43,7 +43,7 @@ public class Entities {
 			.build();
 
 	private static final PokeGeneration GENERATION_3 = new PokeGeneration.Builder(OpenPixelmon.id("generation_3"))
-			.addPixelmon(new PokedexData(
+			.addPixelmon(new PokedexEntry(
 					EntityDimensions.fixed(1, 1),
 					"seedot",
 					50,
@@ -92,8 +92,8 @@ public class Entities {
 					.build());
 
 	public static void initialize() {
-		for (PokedexData pokedexData : GENERATION_3.getAllPixelmon()) {
-			FabricDefaultAttributeRegistry.register(pokedexData.type, PixelmonEntity.createPixelmonAttributes());
+		for (PokedexEntry pokedexEntry : GENERATION_3.getAllPixelmon()) {
+			FabricDefaultAttributeRegistry.register(pokedexEntry.type, PixelmonEntity.createPixelmonAttributes());
 		}
 	}
 }

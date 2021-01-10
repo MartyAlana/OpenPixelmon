@@ -2,7 +2,7 @@ package me.marty.openpixelmon.client.render.gui;
 
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.component.EntityComponents;
-import me.marty.openpixelmon.api.pixelmon.PokedexData;
+import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
 import me.marty.openpixelmon.client.translate.OpenPixelmonTranslator;
 import me.marty.openpixelmon.entity.data.Party;
 import me.marty.openpixelmon.entity.data.PartyEntry;
@@ -32,8 +32,8 @@ public class Overlays extends DrawableHelper {
 			if (party.partySize() > i) {
 				PartyEntry partyEntry = party.getEntries()[i];
 				if (partyEntry != null) {
-					PokedexData pokedexData = PokeGeneration.getPixelmonByType(partyEntry.getEntityType());
-					client.textRenderer.draw(matrices, OpenPixelmonTranslator.createTranslation(pokedexData.name).getString(), 24, scaledHeight / 2 - 12 - offset, pokedexData.legendary ? 0xFF55FFFF : 0xFFFFFFFF);
+					PokedexEntry pokedexEntry = PokeGeneration.getPixelmonByType(partyEntry.getEntityType());
+					client.textRenderer.draw(matrices, OpenPixelmonTranslator.createTranslation(pokedexEntry.name).getString(), 24, scaledHeight / 2 - 12 - offset, pokedexEntry.legendary ? 0xFF55FFFF : 0xFFFFFFFF);
 					client.textRenderer.draw(matrices, "Lv. " + partyEntry.getLevel(), 24, scaledHeight / 2 - 4 - offset, 0xFFFFFFFF);
 					client.textRenderer.draw(matrices, "HP: 69/420", 24, scaledHeight / 2 + 4 - offset, 0xFFFFFFFF);
 				}

@@ -1,6 +1,6 @@
 package me.marty.openpixelmon.client;
 
-import me.marty.openpixelmon.api.pixelmon.PokedexData;
+import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
 import me.marty.openpixelmon.client.model.entity.GeckolibModel;
 import me.marty.openpixelmon.client.render.entity.NonLivingGeckolibModelRenderer;
 import me.marty.openpixelmon.client.render.entity.PixelmonEntityRenderer;
@@ -15,7 +15,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.LiteralText;
@@ -69,8 +68,8 @@ public class OpenPixelmonClient implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(Entities.POKEBALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/pokeball")));
 
 		// Pixelmon
-		for (PokedexData pokedexData : PokeGeneration.getAllPixelmon()) {
-			EntityRendererRegistry.INSTANCE.register(pokedexData.type, ctx -> new PixelmonEntityRenderer(ctx, pokedexData.name));
+		for (PokedexEntry pokedexEntry : PokeGeneration.getAllPixelmon()) {
+			EntityRendererRegistry.INSTANCE.register(pokedexEntry.type, ctx -> new PixelmonEntityRenderer(ctx, pokedexEntry.name));
 		}
 	}
 }

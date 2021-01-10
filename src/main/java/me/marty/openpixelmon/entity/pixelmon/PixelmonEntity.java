@@ -1,6 +1,6 @@
 package me.marty.openpixelmon.entity.pixelmon;
 
-import me.marty.openpixelmon.api.pixelmon.PokedexData;
+import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
 import me.marty.openpixelmon.client.translate.OpenPixelmonTranslator;
 import me.marty.openpixelmon.entity.data.Gender;
 import net.minecraft.entity.EntityData;
@@ -34,7 +34,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
 	private static final AnimationBuilder IDLE_ANIMATION = new AnimationBuilder().addAnimation("animation.pixelmon.idle", true);
 	private final AnimationFactory factory = new AnimationFactory(this);
-	private final PokedexData pokedexData;
+	private final PokedexEntry pokedexEntry;
 	protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	protected static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	protected static final TrackedData<Byte> GENDER = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BYTE);
@@ -44,7 +44,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
 	public PixelmonEntity(EntityType<? extends AnimalEntity> entityType, World world) {
 		super(entityType, world);
-		pokedexData = PokeGeneration.getPixelmonById(Registry.ENTITY_TYPE.getId(getType()));
+		pokedexEntry = PokeGeneration.getPixelmonById(Registry.ENTITY_TYPE.getId(getType()));
 	}
 
 	protected void initDataTracker() {
@@ -77,7 +77,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 
 		setBoss(getLevel() >= 20 && random.nextFloat() < 0.05F);
-		setLevel(pokedexData.minLevel + random.nextInt(pokedexData.evolutionLevel / 2));
+		setLevel(pokedexEntry.minLevel + random.nextInt(pokedexEntry.evolutionLevel / 2));
 		return entityData;
 	}
 
@@ -147,11 +147,11 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		return factory;
 	}
 
-	public PokedexData getPokedexData() {
-		return pokedexData;
+	public PokedexEntry getPokedexData() {
+		return pokedexEntry;
 	}
 
 	public String getNickname() {
-		return OpenPixelmonTranslator.createTranslation(pokedexData.name).getString();
+		return OpenPixelmonTranslator.createTranslation(pokedexEntry.name).getString();
 	}
 }
