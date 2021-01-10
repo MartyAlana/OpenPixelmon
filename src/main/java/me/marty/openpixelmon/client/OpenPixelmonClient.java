@@ -8,6 +8,7 @@ import me.marty.openpixelmon.client.render.entity.NonLivingGeckolibModelRenderer
 import me.marty.openpixelmon.client.render.entity.PixelmonEntityRenderer;
 import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
+import me.marty.openpixelmon.entity.pixelmon.PokeGeneration;
 import me.marty.openpixelmon.network.Packets;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -47,10 +48,10 @@ public class OpenPixelmonClient implements ClientModInitializer {
 			Identifier pokemonIdentifier = buf.readIdentifier();
 			PixelmonPlayer pixelmonPlayer = (PixelmonPlayer) MinecraftClient.getInstance().player;
 			if (pixelmonPlayer == null) {
-				OpenPixelmon.throwError("The Client Player is null when syncing pixelmon");
+				throw new RuntimeException("The Client Player is null when syncing pixelmon");
 			}
 			PixelmonEntity pixelmon = new PixelmonEntity(
-					Entities.GENERATION_3.getPixelmonById(pokemonIdentifier).type,
+					PokeGeneration.getPixelmonById(pokemonIdentifier).type,
 					MinecraftClient.getInstance().world
 			);
 
@@ -66,7 +67,7 @@ public class OpenPixelmonClient implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(Entities.POKEBALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/pokeball")));
 
 		// Pixelmon
-		for (PokedexData pokedexData : Entities.GENERATION_3.getPixelmon()) {
+		for (PokedexData pokedexData : PokeGeneration.getAllPixelmon()) {
 			EntityRendererRegistry.INSTANCE.register(pokedexData.type, ctx -> new PixelmonEntityRenderer(ctx, pokedexData.name));
 		}
 	}

@@ -4,6 +4,7 @@ import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.player.PixelmonPlayer;
 import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
+import me.marty.openpixelmon.entity.pixelmon.PokeGeneration;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.command.CommandException;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -23,7 +24,7 @@ public class Commands {
 										ServerPlayerEntity player = context.getSource().getPlayer();
 										PixelmonPlayer pixelmonPlayer = (PixelmonPlayer) player;
 										pixelmonPlayer.givePixelmon(new PixelmonEntity(
-												Entities.GENERATION_3.getPixelmonById(OpenPixelmon.id("seedot")).type,
+												PokeGeneration.getPixelmonById(OpenPixelmon.id("seedot")).type,
 												context.getSource().getWorld()));
 									} else {
 										throw new CommandException(new LiteralText("You must be a player to run this command!").formatted(Formatting.RED));

@@ -31,10 +31,6 @@ public class OpenPixelmon implements ModInitializer {
 		LOGGER.info("Open Pixelmon Initialization successful!");
 	}
 
-	public static void throwError(String errorInfo) {
-		throw new RuntimeException(errorInfo);
-	}
-
 	public static Identifier id(String path) {
 		return new Identifier("open_pixelmon", path);
 	}

@@ -1,9 +1,7 @@
 package me.marty.openpixelmon.entity.pixelmon;
 
-import com.sun.tools.javac.jvm.Gen;
 import me.marty.openpixelmon.api.pixelmon.PokedexData;
 import me.marty.openpixelmon.client.translate.OpenPixelmonTranslator;
-import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.entity.data.Gender;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -46,7 +44,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
 	public PixelmonEntity(EntityType<? extends AnimalEntity> entityType, World world) {
 		super(entityType, world);
-		pokedexData = Entities.GENERATION_3.getPixelmonById(Registry.ENTITY_TYPE.getId(getType()));
+		pokedexData = PokeGeneration.getPixelmonById(Registry.ENTITY_TYPE.getId(getType()));
 	}
 
 	protected void initDataTracker() {

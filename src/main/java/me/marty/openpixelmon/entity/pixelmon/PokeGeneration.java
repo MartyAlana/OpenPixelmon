@@ -1,35 +1,50 @@
 package me.marty.openpixelmon.entity.pixelmon;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.pixelmon.PokedexData;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class PokeGeneration {
 
+	public static final Map<Identifier, PokedexData> CACHED_POKEDEX_DATA_MAP = new Object2ObjectOpenHashMap<>();
+	public static final List<PokeGeneration> GENERATIONS = new ObjectArrayList<>();
 	public Identifier name;
 	public Map<Identifier, PokedexData> pokedexDataMap;
 
 	public PokeGeneration(Identifier generationName, Map<Identifier, PokedexData> pokedexDataMap) {
 		this.name = generationName;
 		this.pokedexDataMap = pokedexDataMap;
+		GENERATIONS.add(this);
+	}
+
+	public static Collection<PokedexData> getAllPixelmon() {
+		if(CACHED_POKEDEX_DATA_MAP.values().size() == 0) {
+			for (PokeGeneration generation : GENERATIONS) {
+				CACHED_POKEDEX_DATA_MAP.putAll(generation.pokedexDataMap);
+			}
+		}
+		return CACHED_POKEDEX_DATA_MAP.values();
 	}
 
 	public Collection<PokedexData> getPixelmon() {
 		return pokedexDataMap.values();
 	}
 
-	public PokedexData getPixelmonById(Identifier pixelmonName) {
-		for (PokedexData pokedexData : getPixelmon()) {
+	@NotNull
+	public static PokedexData getPixelmonById(Identifier pixelmonName) {
+		for (PokedexData pokedexData : getAllPixelmon()) {
 			if(pokedexData.name.equals(pixelmonName)){
 				return pokedexData;
 			}
 		}
-		OpenPixelmon.throwError("Couldnt get pixelmon from id: " + pixelmonName);
-		return null;
+		throw new RuntimeException("Couldnt get pixelmon from id: " + pixelmonName);
 	}
 
 	public static class Builder {

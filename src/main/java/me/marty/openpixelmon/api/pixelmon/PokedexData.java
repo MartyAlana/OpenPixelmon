@@ -1,7 +1,9 @@
 package me.marty.openpixelmon.api.pixelmon;
 
 import me.marty.openpixelmon.OpenPixelmon;
+import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
+import me.marty.openpixelmon.entity.pixelmon.PokeGeneration;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -56,7 +58,7 @@ public class PokedexData {
 				.dimensions(dimensions)
 				.build());
 
-		SpawnRestriction.register(EntityType.COW, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::isValidNaturalSpawn);
+		SpawnRestriction.register(type, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::isValidNaturalSpawn);
 	}
 
 	public PokedexData(EntityDimensions dimensions, String pokemonName, int maleRatio, PokeType[] pokeTypes, int catchRate, EggGroup[] eggGroups, int stepHatchCount, double height, double weight, int colour, int baseFriendship, int evolutionLevel, boolean needsStoneToEvolve, boolean legendary) {

@@ -21,10 +21,28 @@ public class Entities {
 	/**
 	 * Pixelmon Generations
 	 */
-	public static final PokeGeneration GENERATION_1 = new PokeGeneration.Builder(OpenPixelmon.id("generation_3"))
+	private static final PokeGeneration GENERATION_1 = new PokeGeneration.Builder(OpenPixelmon.id("generation_1"))
+			.addPixelmon(new PokedexData(
+					EntityDimensions.fixed(1, 1),
+					"bulbasaur",
+					88,
+					new PokeType[]{PokeType.GRASS, PokeType.POISON},
+					45,
+					new EggGroup[]{EggGroup.MONSTER, EggGroup.GRASS},
+					3855,
+					0.7D,
+					6.9,
+					0xAAFFFFFF,
+					70,
+					16,
+					false,
+					false))
 			.build();
 
-	public static final PokeGeneration GENERATION_3 = new PokeGeneration.Builder(OpenPixelmon.id("generation_3"))
+	private static final PokeGeneration GENERATION_2 = new PokeGeneration.Builder(OpenPixelmon.id("generation_2"))
+			.build();
+
+	private static final PokeGeneration GENERATION_3 = new PokeGeneration.Builder(OpenPixelmon.id("generation_3"))
 			.addPixelmon(new PokedexData(
 					EntityDimensions.fixed(1, 1),
 					"seedot",
@@ -74,7 +92,7 @@ public class Entities {
 					.build());
 
 	public static void initialize() {
-		for (PokedexData pokedexData : GENERATION_3.getPixelmon()) {
+		for (PokedexData pokedexData : GENERATION_3.getAllPixelmon()) {
 			FabricDefaultAttributeRegistry.register(pokedexData.type, PixelmonEntity.createPixelmonAttributes());
 		}
 	}
