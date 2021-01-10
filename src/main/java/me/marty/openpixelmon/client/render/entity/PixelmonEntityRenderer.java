@@ -42,9 +42,9 @@ public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
 			matrices.translate(0, 0.5, 0);
 			drawLabel(matrices, pixelmon, light, vertexConsumers, new LiteralText("Boss"), true);
 		}
-		if(!pixelmon.isWild()) {
+		if(!pixelmon.isWild() && pixelmon.getOwner() != null) {
 			matrices.translate(0, 0.5, 0);
-			drawLabel(matrices, pixelmon, light, vertexConsumers, new LiteralText(pixelmon.getOwner()), true);
+			drawLabel(matrices, pixelmon, light, vertexConsumers, pixelmon.getOwner().getDisplayName(), true);
 		}
 		matrices.pop();
 	}

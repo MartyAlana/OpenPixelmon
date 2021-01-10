@@ -21,6 +21,7 @@ public class PokeballItem extends Item {
 			AbstractPokeballEntity pokeball = new PokeballEntity(world, user);
 			pokeball.setProperties(user, user.pitch, user.yaw, 0.0F, 1.5F, 1.0F);
 			world.spawnEntity(pokeball);
+			user.getStackInHand(hand).decrement(1);
 			return TypedActionResult.success(user.getStackInHand(hand));
 		}
 		return super.use(world, user, hand);

@@ -4,7 +4,8 @@
   "package": "me.marty.openpixelmon.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ServerPlayerEntityMixin"
+    "ServerPlayerEntityMixin",
+    "TitleScreenMixin"
   ],
   "client": [
     "ClientPlayNetworkHandlerMixin",
