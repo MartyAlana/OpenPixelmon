@@ -1,4 +1,4 @@
-package me.marty.openpixelmon.component;
+package me.marty.openpixelmon.api.component;
 
 import dev.onyxstudios.cca.api.v3.component.ComponentV3;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
@@ -33,6 +33,14 @@ public class PartyComponent implements ComponentV3, AutoSyncedComponent {
 		CompoundTag inv = new CompoundTag();
 		Inventories.toTag(inv, pokemonItemInventory);
 		tag.put("Inventory", inv);
+	}
+
+	public Party getParty() {
+		return party;
+	}
+
+	public DefaultedList<ItemStack> getPokemonItemInventory() {
+		return pokemonItemInventory;
 	}
 
 	@Override

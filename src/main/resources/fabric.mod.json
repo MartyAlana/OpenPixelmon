@@ -19,6 +19,9 @@
     ],
     "main": [
       "me.marty.openpixelmon.OpenPixelmon"
+    ],
+    "cardinal-components-entity": [
+      "me.marty.openpixelmon.component.EntityComponents"
     ]
   },
   "accessWidener": "openPixelmon.aw",
@@ -29,5 +32,10 @@
     "fabricloader": ">=0.10.8",
     "fabric": "*",
     "minecraft": "1.17.*"
+  },
+  "custom": {
+    "cardinal-components": [
+      "open_pixelmon:pixelmon_party"
+    ]
   }
 }

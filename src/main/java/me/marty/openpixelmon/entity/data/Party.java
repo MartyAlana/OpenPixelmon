@@ -7,6 +7,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.util.Util;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Party {
 	private static final CompoundTag NULL_TAG = Util.make(new CompoundTag(), tag -> tag.putBoolean("Null", true));
@@ -38,6 +39,14 @@ public class Party {
 				this.entries[i] = PartyEntry.readFromTag(compoundTag);
 			}
 		}
+	}
+
+	public int partySize() {
+		return (int) Arrays.stream(entries).filter(Objects::nonNull).count();
+	}
+
+	public void add(PartyEntry partyEntry) {
+
 	}
 
 	@Override

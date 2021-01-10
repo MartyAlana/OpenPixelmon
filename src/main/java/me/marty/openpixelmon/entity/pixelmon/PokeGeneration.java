@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.pixelmon.PokedexData;
+import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,6 +42,16 @@ public class PokeGeneration {
 	public static PokedexData getPixelmonById(Identifier pixelmonName) {
 		for (PokedexData pokedexData : getAllPixelmon()) {
 			if(pokedexData.name.equals(pixelmonName)){
+				return pokedexData;
+			}
+		}
+		throw new RuntimeException("Couldnt get pixelmon from id: " + pixelmonName);
+	}
+
+	@NotNull
+	public static PokedexData getPixelmonByType(EntityType<? extends PixelmonEntity> pixelmonName) {
+		for (PokedexData pokedexData : getAllPixelmon()) {
+			if(pokedexData.type.equals(pixelmonName)){
 				return pokedexData;
 			}
 		}
