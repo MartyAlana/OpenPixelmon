@@ -1,8 +1,10 @@
 package me.marty.openpixelmon.entity.pixelmon;
 
+import com.sun.tools.javac.jvm.Gen;
 import me.marty.openpixelmon.api.pixelmon.PokedexData;
 import me.marty.openpixelmon.client.translate.OpenPixelmonTranslator;
 import me.marty.openpixelmon.entity.Entities;
+import me.marty.openpixelmon.entity.data.Gender;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -35,8 +37,12 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	private static final AnimationBuilder IDLE_ANIMATION = new AnimationBuilder().addAnimation("animation.pixelmon.idle", true);
 	private final AnimationFactory factory = new AnimationFactory(this);
 	private final PokedexData pokedexData;
-	private static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-	private static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	protected static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	protected static final TrackedData<Byte> GENDER = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BYTE);
+	protected static final byte MALE_BYTE = (byte) Gender.MALE.ordinal();
+	protected static final byte FEMALE_BYTE = (byte) Gender.FEMALE.ordinal();
+	protected static final Gender[] GENDERS = Gender.values();
 
 	public PixelmonEntity(EntityType<? extends AnimalEntity> entityType, World world) {
 		super(entityType, world);
@@ -47,6 +53,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		super.initDataTracker();
 		this.dataTracker.startTracking(BOSS, false);
 		this.dataTracker.startTracking(LEVEL, 0);
+		this.dataTracker.startTracking(GENDER, MALE_BYTE);
 	}
 
 	@Override
@@ -94,6 +101,14 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
 	public int getLevel() {
 		return this.dataTracker.get(LEVEL);
+	}
+
+	public void setGender(Gender gender) {
+		this.dataTracker.set(GENDER, (byte) gender.ordinal());
+	}
+
+	public Gender getGender() {
+		return GENDERS[this.dataTracker.get(GENDER)];
 	}
 
 	public void setLevel(int level) {

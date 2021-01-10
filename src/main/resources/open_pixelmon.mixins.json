@@ -4,12 +4,12 @@
   "package": "me.marty.openpixelmon.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ServerPlayerEntityMixin"
   ],
   "client": [
-    "ClientPlayNetworkHandlerMixin",
-    "InGameHudMixin",
     "ClientPlayerEntityMixin",
-    "ServerPlayerEntityMixin"
+    "ClientPlayNetworkHandlerMixin",
+    "InGameHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -13,12 +13,17 @@ group = project.maven_group
 repositories {
     maven {
         name = "Devan-Kerman/Devan-Repo"
-        url = "https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master/"
+        url = uri("https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master/")
     }
 
     maven {
         name = "CurseMaven"
         url = uri("https://www.cursemaven.com/")
+    }
+
+    maven {
+        name = "Ladysnake Libs"
+        url = uri("https://dl.bintray.com/ladysnake/libs")
     }
 
     maven {
@@ -33,13 +38,15 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
     include(modImplementation("net.devtech:arrp:0.3.2"))
     include(modImplementation("software.bernie.geckolib:fabric-1.16.4-geckolib:3.0.3:dev"))
+    include(modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${project.cca_version}"))
+    include(modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${project.cca_version}"))
+}
 
-//    modRuntime("me.shedaniel:RoughlyEnoughItems:5.8.10")
-//    modRuntime("curse.maven:worldedit-225608:3135186")
-//    modRuntime("curse.maven:appleskin-248787:2987255")
-//    modRuntime("curse.maven:hwyla-253449:3033613")
+minecraft {
+    accessWidener "src/main/resources/openPixelmon.aw"
 }
 
 processResources {

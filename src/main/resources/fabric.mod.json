@@ -21,6 +21,7 @@
       "me.marty.openpixelmon.OpenPixelmon"
     ]
   },
+  "accessWidener": "openPixelmon.aw",
   "mixins": [
     "open_pixelmon.mixins.json"
   ],
