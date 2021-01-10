@@ -1,7 +1,6 @@
 package me.marty.openpixelmon.mixin;
 
 import com.mojang.authlib.GameProfile;
-import me.marty.openpixelmon.api.player.PixelmonPlayer;
 import me.marty.openpixelmon.api.component.EntityComponents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
