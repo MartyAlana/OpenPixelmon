@@ -46,7 +46,7 @@ public class Overlays extends DrawableHelper {
 		matrices.pop();
 	}
 
-	public static void renderLegalOverlay(MatrixStack matrices, MinecraftClient client, int height, int width) {
+	public static void renderLegalOverlay(MatrixStack matrices, MinecraftClient client, int width, int height) {
 //		client.getTextureManager().bindTexture(DEMO_BG);
 //		drawTexture(matrices, (width - 248) / 2, (height - 166) / 2, 0, 0, 248, 166, 256, 256);
 //		Window window = client.getWindow();

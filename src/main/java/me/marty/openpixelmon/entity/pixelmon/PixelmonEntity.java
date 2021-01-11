@@ -74,11 +74,12 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	@Override
 	public void readCustomDataFromTag(CompoundTag tag) {
 		super.readCustomDataFromTag(tag);
-
 		if (tag.getKeys().contains("level")) {
 			this.setBoss(tag.getBoolean("boss"));
-			this.setOwnerUuid(tag.getUuid("ownerUuid"));
 			this.setLevel(tag.getInt("level"));
+		}
+		if(tag.getKeys().contains("ownerUuid")) {
+			this.setOwnerUuid(tag.getUuid("ownerUuid"));
 		}
 	}
 
