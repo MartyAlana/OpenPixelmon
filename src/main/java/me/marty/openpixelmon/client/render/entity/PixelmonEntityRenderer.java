@@ -17,7 +17,7 @@ public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
 
 	private final Identifier pixelmonName;
 
-	public PixelmonEntityRenderer(EntityRendererFactory.Context context, Identifier pixelmonName) {
+	public PixelmonEntityRenderer(EntityRendererFactory.Context context) {
 		super(context, GeckolibModel.of(pixelmonName.getPath()));
 		this.pixelmonName = pixelmonName;
 	}

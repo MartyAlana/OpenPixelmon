@@ -6,7 +6,6 @@ import me.marty.openpixelmon.client.render.entity.NonLivingGeckolibModelRenderer
 import me.marty.openpixelmon.client.render.entity.PixelmonEntityRenderer;
 import me.marty.openpixelmon.client.render.gui.Overlays;
 import me.marty.openpixelmon.entity.Entities;
-import me.marty.openpixelmon.entity.pixelmon.PokeGeneration;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -69,7 +68,7 @@ public class OpenPixelmonClient implements ClientModInitializer {
 
 		// Pixelmon
 		for (PokedexEntry pokedexEntry : PokeGeneration.getAllPixelmon()) {
-			EntityRendererRegistry.INSTANCE.register(pokedexEntry.type, ctx -> new PixelmonEntityRenderer(ctx, pokedexEntry.name));
+			EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, ctx -> new PixelmonEntityRenderer(ctx));
 		}
 	}
 }

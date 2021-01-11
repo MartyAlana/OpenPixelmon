@@ -1,10 +1,8 @@
 package me.marty.openpixelmon.entity.pokeball;
 
-import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.component.EntityComponents;
 import me.marty.openpixelmon.entity.data.PartyEntry;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
-import me.marty.openpixelmon.entity.pixelmon.PokeGeneration;
 import me.marty.openpixelmon.item.OpenPixelmonItems;
 import me.marty.openpixelmon.item.pokeball.PokeballItem;
 import net.minecraft.client.world.ClientWorld;
@@ -65,8 +63,10 @@ public abstract class AbstractPokeballEntity extends ThrownEntity implements IAn
 		if(entityHitResult.getEntity() instanceof PixelmonEntity) {
 			this.catchingPixelmon = true;
 			setNoGravity(true);
-			EntityComponents.PARTY_COMPONENT.get(getOwner()).getParty().add((ServerPlayerEntity) getOwner(), new PartyEntry((PixelmonEntity) entityHitResult.getEntity(), (PokeballItem) OpenPixelmonItems.POKE_BALL));
-			EntityComponents.PARTY_COMPONENT.sync(getOwner());
+			if(!getEntityWorld().isClient()){
+				EntityComponents.PARTY_COMPONENT.get(getOwner()).getParty().add((ServerPlayerEntity) getOwner(), new PartyEntry((PixelmonEntity) entityHitResult.getEntity(), (PokeballItem) OpenPixelmonItems.POKE_BALL));
+				EntityComponents.PARTY_COMPONENT.sync(getOwner());
+			}
 			entityHitResult.getEntity().kill();
 			setVelocity(0, 0.5, 0);
 		} else {

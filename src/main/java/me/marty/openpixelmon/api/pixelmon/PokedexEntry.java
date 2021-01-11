@@ -1,8 +1,12 @@
 package me.marty.openpixelmon.api.pixelmon;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import me.marty.openpixelmon.OpenPixelmon;
+import me.marty.openpixelmon.api.generation.PixelmonGeneration;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
-import me.marty.openpixelmon.entity.pixelmon.PokeGeneration;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
@@ -13,57 +17,62 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
+import org.jetbrains.annotations.ApiStatus;
+
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Holds the entity type and pixelmon info. essential to the core of Open Pixelmon
- *
- * @author hydos
+ * One of the most important classes in the mod.
+ * This class is deserialized from json so its easier to manage this amount of data.
  */
 public class PokedexEntry {
 
-	public final int minLevel;
-	public final int evolutionLevel;
-	public final EntityType<? extends PixelmonEntity> type;
-	public final Identifier name;
-	public final int maleRatio;
-	public final PokeType[] pokeTypes;
-	public final int catchRate;
-	public final EggGroup[] eggGroups;
-	public final int stepHatchCount;
-	public final double height;
-	public final double weight;
-	public final int colour;
-	public final int baseFriendship;
-	public final boolean needsStoneToEvolve;
-	public final boolean legendary;
+	public int specialAttack;
+	public int specialDefense;
+	public int attack;
+	public int defense;
+	public int speed;
+	public int hp;
 
-	public PokedexEntry(EntityDimensions dimensions, String pixelmonName, int maleRatio, PokeType[] pokeTypes, int catchRate, EggGroup[] eggGroups, int stepHatchCount, double height, double weight, int colour, int baseFriendship, int minLevel, int evolutionLevel, boolean legendary, boolean needsStoneToEvolve) {
-		this.name = OpenPixelmon.id(pixelmonName);
-		this.maleRatio = maleRatio;
-		this.pokeTypes = pokeTypes;
-		this.catchRate = catchRate;
-		this.eggGroups = eggGroups;
-		this.stepHatchCount = stepHatchCount;
-		this.height = height;
-		this.weight = weight;
-		this.colour = colour;
-		this.baseFriendship = baseFriendship;
-		this.legendary = legendary;
-		this.minLevel = minLevel;
-		this.evolutionLevel = evolutionLevel;
-		this.needsStoneToEvolve = needsStoneToEvolve;
-		this.type = Registry.register(Registry.ENTITY_TYPE, OpenPixelmon.id(pixelmonName), FabricEntityTypeBuilder.create(
-				SpawnGroup.CREATURE,
-				PixelmonEntity::new)
-				.dimensions(dimensions)
-				.build());
+	public int baseFriendship;
+	public int baseExp;
 
-		//TODO: spawn testing stuff below.
-		SpawnRestriction.register(type, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::isValidNaturalSpawn);
-		BiomeModifications.addSpawn(biomeSelectionContext -> true, SpawnGroup.AMBIENT, type, 1, 1, 1);
-	}
+	public int catchRate;
+	public int maleRatio;
+	public int pokedexId;
 
-	public PokedexEntry(EntityDimensions dimensions, String pixelmonName, int maleRatio, PokeType[] pokeTypes, int catchRate, EggGroup[] eggGroups, int stepHatchCount, double height, double weight, int colour, int baseFriendship, int evolutionLevel, boolean needsStoneToEvolve, boolean legendary) {
-		this(dimensions, pixelmonName, maleRatio, pokeTypes, catchRate, eggGroups, stepHatchCount, height, weight, colour, baseFriendship, 1, evolutionLevel, legendary, needsStoneToEvolve);
-	}
+	public int width;
+	public int height;
+	public int length;
+	public int weight;
+
+	public int minSpawnGroupSize;
+	public int maxSpawnGroupSize;
+
+	public int hoveringHeight;
+
+	public int eggCycles;
+
+	public Map<String, Integer> spawnInformation;
+	public Map<String, Integer> aggression;
+	public Map<String, Integer> evGain;
+	public Map<Integer, List<String>> levelMoves;
+	public Map<String, List<String>> moves;
+
+	public List<Map<String, Integer>> evolutions;
+
+	public PokeType[] types;
+	public String[] previousEvolutions;
+	public String[] validSpawnLocations;
+	public String[] abilities;
+	public EggGroup[] eggGroups;
+
+	public boolean canFly;
+	public boolean canSurf;
+	public boolean doesHover;
+	public boolean isRideable;
+
+	public String expGainSpeed;
 }

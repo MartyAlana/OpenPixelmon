@@ -1,7 +1,7 @@
 {
-  "name": "Generation 1",
-  "shortName": "Gen I",
-  "pokemon": [
+  "id": "generation_1",
+  "displayName": "Gen I",
+  "pixelmon": [
     "bulbasaur"
   ]
 }

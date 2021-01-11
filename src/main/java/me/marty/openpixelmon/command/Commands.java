@@ -4,7 +4,6 @@ import com.mojang.brigadier.Command;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.component.EntityComponents;
 import me.marty.openpixelmon.entity.data.PartyEntry;
-import me.marty.openpixelmon.entity.pixelmon.PokeGeneration;
 import me.marty.openpixelmon.item.OpenPixelmonItems;
 import me.marty.openpixelmon.item.pokeball.PokeballItem;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;

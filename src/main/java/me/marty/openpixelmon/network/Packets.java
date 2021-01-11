@@ -10,11 +10,4 @@ public class Packets {
 
 	public static final Identifier SYNC_PIXELMON = OpenPixelmon.id("sync_pixelmon");
 	public static final Identifier SYNC_PP = OpenPixelmon.id("sync_pp");
-
-	public static PacketByteBuf createPixelmonBuf(PixelmonEntity entity) {
-		PacketByteBuf packetByteBuf = PacketByteBufs.create();
-		packetByteBuf.writeIdentifier(entity.getPokedexData().name);
-		packetByteBuf.writeInt(entity.getLevel());
-		return packetByteBuf;
-	}
 }

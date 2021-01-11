@@ -1,5 +1,6 @@
 package me.marty.openpixelmon;
 
+import me.marty.openpixelmon.api.generation.PixelmonGenerationManager;
 import me.marty.openpixelmon.biome.Biomes;
 import me.marty.openpixelmon.block.OpenPixelmonBlocks;
 import me.marty.openpixelmon.command.Commands;
@@ -22,6 +23,7 @@ public class OpenPixelmon implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Open Pixelmon is Initializing");
 		GeckoLib.initialize();
+		PixelmonGenerationManager.loadDefaultGenerations();
 		OpenPixelmonItems.initialize();
 		OpenPixelmonBlocks.initialize();
 		Entities.initialize();

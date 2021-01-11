@@ -6,14 +6,9 @@ import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
 import me.marty.openpixelmon.client.translate.OpenPixelmonTranslator;
 import me.marty.openpixelmon.entity.data.Party;
 import me.marty.openpixelmon.entity.data.PartyEntry;
-import me.marty.openpixelmon.entity.pixelmon.PokeGeneration;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 public class Overlays extends DrawableHelper {

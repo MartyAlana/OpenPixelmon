@@ -34,5 +34,6 @@
   "block.open_pixelmon.red_acorn_bush": "Red Apricorn Bush",
   "block.open_pixelmon.black_acorn_bush": "Black Apricorn Bush",
 
-  "entity.open_pixelmon.seedot": "Seedot"
+  "entity.open_pixelmon.seedot": "Seedot",
+  "entity.open_pixelmon.bulbasaur": "Bulbasaur"
 }
