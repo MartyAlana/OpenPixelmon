@@ -16,12 +16,12 @@ import software.bernie.geckolib3.GeckoLib;
 
 public class OpenPixelmon implements ModInitializer {
 
-	public static final Logger LOGGER = LogManager.getLogger("Open Pixelmon");
+	public static final Logger LOGGER = LogManager.getLogger("OpenPixelmon");
 	public static final RuntimeResourcePack RESOURCE_PACK = RuntimeResourcePack.create("open_pixelmon");
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("Open Pixelmon is Initializing");
+		LOGGER.info("OpenPixelmon is Initializing");
 		GeckoLib.initialize();
 		PixelmonGenerationManager.loadDefaultGenerations();
 		OpenPixelmonItems.initialize();
@@ -30,7 +30,7 @@ public class OpenPixelmon implements ModInitializer {
 		Biomes.initialize();
 		Commands.initialize();
 		RRPCallback.EVENT.register(resources -> resources.add(RESOURCE_PACK));
-		LOGGER.info("Open Pixelmon Initialization successful!");
+		LOGGER.info("OpenPixelmon Initialization successful!");
 	}
 
 	public static Identifier id(String path) {
