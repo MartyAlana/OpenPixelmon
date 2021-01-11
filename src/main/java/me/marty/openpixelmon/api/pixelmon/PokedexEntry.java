@@ -15,7 +15,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 
 /**
- * Holds the entity type and pixelmon info. essential to the core of Open Pixelmon
+ * Holds the entity type and pixelmon info. essential to the core of OpenPixelmon
  *
  * @author hydos
  */
