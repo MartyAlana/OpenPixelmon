@@ -1,5 +1,6 @@
 package me.marty.openpixelmon.client.render.entity;
 
+import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.client.model.entity.GeckolibModel;
 import me.marty.openpixelmon.client.translate.OpenPixelmonTranslator;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
@@ -18,8 +19,8 @@ public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
 	private final Identifier pixelmonName;
 
 	public PixelmonEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, GeckolibModel.of(pixelmonName.getPath()));
-		this.pixelmonName = pixelmonName;
+		super(context, GeckolibModel.of("bulbasaur"));
+		this.pixelmonName = OpenPixelmon.id("bulbasaur");
 	}
 
 	@Override

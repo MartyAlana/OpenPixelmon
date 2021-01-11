@@ -1,0 +1,200 @@
+{
+  "baseStats": {
+    "spDef": 65,
+    "spAtt": 65,
+    "speed": 45,
+    "defence": 49,
+    "attack": 49,
+    "hp": 45
+  },
+  "catchRate": 45,
+  "malePercent": 87,
+  "nationalPokedexNumber": 1,
+  "spawn": {
+    "spawnLevel": 10,
+    "spawnLevelRange": 6
+  },
+  "baseExp": 64,
+  "baseFriendship": 70,
+  "rarity": {
+    "day": 10,
+    "dawndusk": 0,
+    "night": 0
+  },
+  "type1": "grass",
+  "type2": "poison",
+  "height": 0.7,
+  "width": 0.7,
+  "length": 0.7,
+  "giScale": 0.651,
+  "canFly": false,
+  "isRideable": false,
+  "preEvolutions": [],
+  "experienceGroup": "MediumSlow",
+  "aggression": {
+    "timid": 80,
+    "passive": 0,
+    "aggressive": 20
+  },
+  "spawnLocations": [
+    "land"
+  ],
+  "evGain": {
+    "HP": 0,
+    "Attack": 0,
+    "Defence": 0,
+    "SpecialAttack": 1,
+    "SpecialDefence": 0,
+    "Speed": 0
+  },
+  "canSurf": false,
+  "maxGroupSize": 1,
+  "minGroupSize": 1,
+  "hoverHeight": 0.0,
+  "doesHover": false,
+  "id": 35,
+  "baseFormID": 35,
+  "weight": 6.9,
+  "abilities": [
+    "Overgrow",
+    null,
+    "Chlorophyll"
+  ],
+  "eggGroups": [
+    "monster",
+    "grass"
+  ],
+  "eggCycles": 21,
+  "evolution": [
+    {
+      "id": 36,
+      "level": 16
+    }
+  ],
+  "levelMoves": {
+    "1": [
+      "Tackle",
+      "Growl"
+    ],
+    "6": [
+      "Growth"
+    ],
+    "9": [
+      "Leech Seed"
+    ],
+    "12": [
+      "Razor Leaf"
+    ],
+    "15": [
+      "Poison Powder",
+      "Sleep Powder"
+    ],
+    "18": [
+      "Seed Bomb"
+    ],
+    "21": [
+      "Take Down"
+    ],
+    "24": [
+      "Sweet Scent"
+    ],
+    "27": [
+      "Synthesis"
+    ],
+    "30": [
+      "Worry Seed"
+    ],
+    "33": [
+      "Double-Edge"
+    ],
+    "3": [
+      "Vine Whip"
+    ],
+    "36": [
+      "Solar Beam"
+    ]
+  },
+  "tutorMoves": {
+    "regular": [
+      "Grassy Glide"
+    ],
+    "transfer": [
+      "Rock Smash",
+      "Secret Power",
+      "Grass Whistle",
+      "Natural Gift",
+      "Confide",
+      "Cut",
+      "Hidden Power",
+      "Mega Drain",
+      "Outrage",
+      "Echoed Voice",
+      "Bide",
+      "Double Team",
+      "Mud-Slap",
+      "Bind",
+      "Rage",
+      "Headbutt",
+      "Razor Wind",
+      "Swagger",
+      "Defense Curl",
+      "Flash",
+      "Grass Pledge",
+      "Return",
+      "Mimic",
+      "Captivate",
+      "Knock Off",
+      "Sludge",
+      "Fury Cutter",
+      "Reflect",
+      "String Shot",
+      "Frustration",
+      "Strength"
+    ]
+  },
+  "moves": {
+    "egg": [
+      "Petal Dance",
+      "Nature Power",
+      "Toxic",
+      "Curse",
+      "Skull Bash",
+      "Ingrain"
+    ],
+    "evolution": [],
+    "tr": [
+      "Giga Drain",
+      "Weather Ball",
+      "Snore",
+      "Facade",
+      "Sludge Bomb",
+      "Light Screen",
+      "Grass Knot",
+      "Swords Dance",
+      "Solar Beam",
+      "Magical Leaf",
+      "Rest",
+      "Seed Bomb",
+      "Work Up",
+      "Charm",
+      "Bullet Seed",
+      "Round",
+      "Body Slam",
+      "Leaf Storm",
+      "Amnesia",
+      "Grassy Terrain",
+      "Substitute",
+      "Attract",
+      "Helping Hand",
+      "Energy Ball",
+      "Safeguard",
+      "False Swipe",
+      "Protect",
+      "Venoshock",
+      "Power Whip",
+      "Sunny Day",
+      "Endure",
+      "Sleep Talk"
+    ]
+  }
+}

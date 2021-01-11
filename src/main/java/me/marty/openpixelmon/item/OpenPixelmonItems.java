@@ -78,7 +78,7 @@ public class OpenPixelmonItems {
 		OpenPixelmon.RESOURCE_PACK.addModel(new JModel()
 						.parent("item/generated")
 						.textures(new JTextures()
-								.layer0("open_pixelmon:item/" + id)),
+								.layer0("pixelmon:item/" + id)),
 				modelIdentifier);
 		Registry.register(Registry.ITEM, identifier, item);
 		return item;

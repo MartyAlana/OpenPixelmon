@@ -32,7 +32,7 @@ public class PixelmonGenerationManager {
 	}
 
 	public static Reader readResource(String path) {
-		return readResource("open_pixelmon", path);
+		return readResource("pixelmon", path);
 	}
 
 	public static PokedexEntry loadPixelmon(Identifier rawPokemonIdentifier) {

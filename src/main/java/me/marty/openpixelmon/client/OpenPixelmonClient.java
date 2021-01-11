@@ -34,7 +34,7 @@ public class OpenPixelmonClient implements ClientModInitializer {
 	}
 
 	private void registerKeybindings() {
-		KeyBinding keyBinding = new KeyBinding("keybind.open_pixelmon.throw_pixelmon", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "category.open_pixelmon.pixelmon");
+		KeyBinding keyBinding = new KeyBinding("keybind.pixelmon.throw_pixelmon", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "category.pixelmon.pixelmon");
 		KeyBindingHelper.registerKeyBinding(keyBinding);
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (keyBinding.wasPressed()) {
@@ -66,9 +66,9 @@ public class OpenPixelmonClient implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(Entities.MASTERBALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/masterball")));
 		EntityRendererRegistry.INSTANCE.register(Entities.POKEBALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/pokeball")));
 
-		// Pixelmon
-		for (PokedexEntry pokedexEntry : PokeGeneration.getAllPixelmon()) {
-			EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, ctx -> new PixelmonEntityRenderer(ctx));
-		}
+//		// Pixelmon
+//		for (PokedexEntry pokedexEntry : PokeGeneration.getAllPixelmon()) {
+//			EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, ctx -> new PixelmonEntityRenderer(ctx));
+//		}
 	}
 }

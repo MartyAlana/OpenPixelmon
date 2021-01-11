@@ -48,7 +48,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
 	public PixelmonEntity(EntityType<? extends AnimalEntity> entityType, World world) {
 		super(entityType, world);
-		this.pokedexEntry = PokeGeneration.getPixelmonById(Registry.ENTITY_TYPE.getId(getType()));
+		this.pokedexEntry = null;//PokeGeneration.getPixelmonById(Registry.ENTITY_TYPE.getId(getType()));
 		this.hp = getMaxHp();
 	}
 
@@ -96,7 +96,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 
 		setBoss(getLevel() >= 20 && random.nextFloat() < 0.05F);
-		setLevel(pokedexEntry.minLevel + random.nextInt(pokedexEntry.evolutionLevel / 2));
+		setLevel(0);//pokedexEntry.minLevel + random.nextInt(pokedexEntry.evolutionLevel / 2));
 		return entityData;
 	}
 
@@ -171,7 +171,8 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	}
 
 	public String getNickname() {
-		return OpenPixelmonTranslator.createTranslation(pokedexEntry.name).getString();
+		return "No";
+//		return OpenPixelmonTranslator.createTranslation(pokedexEntry.name).getString();
 	}
 
 	public boolean isWild() {

@@ -60,6 +60,7 @@ public class PokedexEntry {
 	public Map<String, Integer> evGain;
 	public Map<Integer, List<String>> levelMoves;
 	public Map<String, List<String>> moves;
+	public Map<String, List<String>> tutorMoves;
 
 	public List<Map<String, Integer>> evolutions;
 

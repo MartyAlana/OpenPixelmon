@@ -1,0 +1,39 @@
+{
+  "itemGroup.pixelmon.organic": "Organic",
+  "itemGroup.pixelmon.pokeballs": "Pokeballs",
+  "itemGroup.pixelmon.restoration": "Restoration",
+  "itemGroup.pixelmon.tms": "Tms",
+  "itemGroup.pixelmon.blocks": "Blocks",
+  "itemGroup.pixelmon.items": "Items",
+  "itemGroup.pixelmon.badges": "Badges",
+  "itemGroup.pixelmon.decoration": "Decoration",
+
+  "item.pixelmon.poke_ball": "PokeBall",
+  "item.pixelmon.great_ball": "GreatBall",
+  "item.pixelmon.ultra_ball": "UltraBall",
+  "item.pixelmon.master_ball": "MasterBall",
+  "item.pixelmon.safari_ball": "SafariBall",
+  "item.pixelmon.fast_ball": "FastBall",
+  "item.pixelmon.level_ball": "LevelBall",
+  "item.pixelmon.lure_ball": "LureBall",
+  "item.pixelmon.heavy_ball": "HeavyBall",
+
+  "item.pixelmon.white_apricorn": "White Apricorn",
+  "item.pixelmon.blue_apricorn": "Blue Apricorn",
+  "item.pixelmon.yellow_apricorn": "Yellow Apricorn",
+  "item.pixelmon.green_apricorn": "Green Apricorn",
+  "item.pixelmon.pink_apricorn": "Pink Apricorn",
+  "item.pixelmon.red_apricorn": "Red Apricorn",
+  "item.pixelmon.black_apricorn": "Black Apricorn",
+
+  "block.pixelmon.white_acorn_bush": "White Apricorn Bush",
+  "block.pixelmon.blue_acorn_bush": "Blue Apricorn Bush",
+  "block.pixelmon.yellow_acorn_bush": "Yellow Apricorn Bush",
+  "block.pixelmon.green_acorn_bush": "Green Apricorn Bush",
+  "block.pixelmon.pink_acorn_bush": "Pink Apricorn Bush",
+  "block.pixelmon.red_acorn_bush": "Red Apricorn Bush",
+  "block.pixelmon.black_acorn_bush": "Black Apricorn Bush",
+
+  "entity.pixelmon.seedot": "Seedot",
+  "entity.pixelmon.bulbasaur": "Bulbasaur"
+}

@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "open_pixelmon:block/grown_red_acorn_bush",
-		"particle": "open_pixelmon:block/grown_red_acorn_bush"
+		"0": "pixelmon:block/grown_red_acorn_bush",
+		"particle": "pixelmon:block/grown_red_acorn_bush"
 	},
 	"elements": [
 		{

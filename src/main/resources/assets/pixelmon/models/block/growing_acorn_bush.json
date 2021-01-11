@@ -1,0 +1,7 @@
+{
+	"parent": "pixelmon:block/grown_acorn_bush",
+	"textures": {
+		"0": "pixelmon:block/growing_red_acorn_bush",
+		"particle": "pixelmon:block/growing_red_acorn_bush"
+	}
+}

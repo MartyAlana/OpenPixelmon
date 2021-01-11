@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "ServerPlayerEntityMixin",
+    "ServerResourceManagerMixin",
     "TitleScreenMixin"
   ],
   "client": [

@@ -36,10 +36,10 @@ public class OpenPixelmonBlocks {
 				.put("grown=3", new JBlockModel(grownIdentifier))), identifier);
 
 		OpenPixelmon.RESOURCE_PACK.addModel(new JModel()
-				.parent("open_pixelmon:block/grown_acorn_bush")
+				.parent("pixelmon:block/grown_acorn_bush")
 				.textures(new JTextures().var("0", grownIdentifier.toString())), grownIdentifier);
 		OpenPixelmon.RESOURCE_PACK.addModel(new JModel()
-				.parent("open_pixelmon:block/growing_acorn_bush")
+				.parent("pixelmon:block/growing_acorn_bush")
 				.textures(new JTextures().var("0", growingIdentifier.toString())), growingIdentifier);
 		return block;
 	}
