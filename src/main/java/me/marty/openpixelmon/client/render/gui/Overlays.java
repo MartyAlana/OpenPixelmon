@@ -18,7 +18,7 @@ import net.minecraft.util.Identifier;
 
 public class Overlays extends DrawableHelper {
 
-	private static final Identifier POKEBALL = OpenPixelmon.id("textures/gui/ingame/pokemon.png");
+	private static final Identifier POKEBALL = OpenPixelmon.id("textures/gui/ingame/pixelmon.png");
 	private static final Identifier DEMO_BG = new Identifier("textures/gui/demo_background.png");
 
 	public static void renderPartyOverlay(MatrixStack matrices, MinecraftClient client, int scaledHeight) {

@@ -48,15 +48,15 @@ public class Party {
 	}
 
 	public void add(ServerPlayerEntity player, PartyEntry partyEntry) {
-		boolean couldFitInPokemon = false;
+		boolean couldFitInpixelmon = false;
 		for (int i = 0; i < entries.length; i++) {
-			if(entries[i] == null && !couldFitInPokemon) {
+			if(entries[i] == null && !couldFitInpixelmon) {
 				entries[i] = partyEntry;
 				player.sendMessage(new TranslatableText("text.open_pixelmon.caught").formatted(Formatting.GRAY, Formatting.ITALIC), false);
-				couldFitInPokemon = true;
+				couldFitInpixelmon = true;
 			}
 		}
-		if(!couldFitInPokemon) {
+		if(!couldFitInpixelmon) {
 			player.sendMessage(new TranslatableText("text.open_pixelmon.caught_pc").formatted(Formatting.GRAY, Formatting.ITALIC), false);
 		}
 	}

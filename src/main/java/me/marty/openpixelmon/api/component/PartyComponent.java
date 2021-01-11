@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class PartyComponent implements ComponentV3, AutoSyncedComponent {
 	private final Party party = new Party();
-	private final DefaultedList<ItemStack> pokemonItemInventory = DefaultedList.ofSize(6, ItemStack.EMPTY);
+	private final DefaultedList<ItemStack> pixelmonItemInventory = DefaultedList.ofSize(6, ItemStack.EMPTY);
 
 	@Override
 	public boolean shouldSyncWith(ServerPlayerEntity player) {
@@ -24,14 +24,14 @@ public class PartyComponent implements ComponentV3, AutoSyncedComponent {
 	public void readFromNbt(CompoundTag tag) {
 		CompoundTag inv = tag.getCompound("Inventory");
 		party.readFromTag(tag);
-		Inventories.fromTag(tag, pokemonItemInventory);
+		Inventories.fromTag(tag, pixelmonItemInventory);
 	}
 
 	@Override
 	public void writeToNbt(CompoundTag tag) {
 		party.writeToTag(tag);
 		CompoundTag inv = new CompoundTag();
-		Inventories.toTag(inv, pokemonItemInventory);
+		Inventories.toTag(inv, pixelmonItemInventory);
 		tag.put("Inventory", inv);
 	}
 
@@ -39,8 +39,8 @@ public class PartyComponent implements ComponentV3, AutoSyncedComponent {
 		return party;
 	}
 
-	public DefaultedList<ItemStack> getPokemonItemInventory() {
-		return pokemonItemInventory;
+	public DefaultedList<ItemStack> getpixelmonItemInventory() {
+		return pixelmonItemInventory;
 	}
 
 	@Override
@@ -48,11 +48,11 @@ public class PartyComponent implements ComponentV3, AutoSyncedComponent {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		PartyComponent that = (PartyComponent) o;
-		return Objects.equals(party, that.party) && Objects.equals(pokemonItemInventory.delegate, that.pokemonItemInventory.delegate);
+		return Objects.equals(party, that.party) && Objects.equals(pixelmonItemInventory.delegate, that.pixelmonItemInventory.delegate);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(party, pokemonItemInventory);
+		return Objects.hash(party, pixelmonItemInventory);
 	}
 }

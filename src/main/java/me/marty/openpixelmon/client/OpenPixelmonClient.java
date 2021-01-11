@@ -35,24 +35,24 @@ public class OpenPixelmonClient implements ClientModInitializer {
 	}
 
 	private void registerKeybindings() {
-		KeyBinding keyBinding = new KeyBinding("keybind.open_pixelmon.throw_pokemon", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "category.open_pixelmon.pixelmon");
+		KeyBinding keyBinding = new KeyBinding("keybind.open_pixelmon.throw_pixelmon", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "category.open_pixelmon.pixelmon");
 		KeyBindingHelper.registerKeyBinding(keyBinding);
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (keyBinding.wasPressed()) {
-				client.player.sendMessage(new LiteralText("This is meant to take out the first pokemon in the party :tiny_potato:"), false);
+				client.player.sendMessage(new LiteralText("This is meant to take out the first pixelmon in the party :tiny_potato:"), false);
 			}
 		});
 	}
 
 	private void registerS2CPackets() {
 //		ClientPlayNetworking.registerGlobalReceiver(Packets.SYNC_PIXELMON, (client, handler, buf, responseSender) -> {
-//			Identifier pokemonIdentifier = buf.readIdentifier();
+//			Identifier pixelmonIdentifier = buf.readIdentifier();
 //			PixelmonPlayer pixelmonPlayer = (PixelmonPlayer) MinecraftClient.getInstance().player;
 //			if (pixelmonPlayer == null) {
 //				throw new RuntimeException("The Client Player is null when syncing pixelmon");
 //			}
 //			PixelmonEntity pixelmon = new PixelmonEntity(
-//					PokeGeneration.getPixelmonById(pokemonIdentifier).type,
+//					PokeGeneration.getPixelmonById(pixelmonIdentifier).type,
 //					MinecraftClient.getInstance().world
 //			);
 //
