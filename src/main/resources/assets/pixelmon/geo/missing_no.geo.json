@@ -1,0 +1,24 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.missing_no",
+				"texture_width": 46,
+				"texture_height": 56,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 4.5,
+				"visible_bounds_offset": [0, 1.75, 0]
+			},
+			"bones": [
+				{
+					"name": "missingNo",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-10, 0, 0], "size": [22, 55, 1], "uv": [0, 0]}
+					]
+				}
+			]
+		}
+	]
+}

@@ -52,6 +52,9 @@ public class PokedexEntry {
 	public int minSpawnGroupSize;
 	public int maxSpawnGroupSize;
 
+	public float[] renderScale;
+	public float[] guiScale;
+
 	public int hoveringHeight;
 
 	public int eggCycles;

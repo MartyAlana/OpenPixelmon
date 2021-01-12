@@ -1,0 +1,91 @@
+{
+  "baseStats": {
+    "spDef": 0,
+    "spAtt": 0,
+    "speed": 0,
+    "defence": 0,
+    "attack": 0,
+    "hp": 100
+  },
+  "catchRate": 100,
+  "malePercent": 100,
+  "nationalPokedexNumber": -1,
+  "spawn": {
+    "spawnLevel": 0,
+    "spawnLevelRange": 0
+  },
+  "baseExp": 0,
+  "baseFriendship": 0,
+  "rarity": {
+    "day": 0,
+    "dawndusk": 0,
+    "night": 0
+  },
+  "type1": "grass",
+  "type2": "poison",
+  "height": 0,
+  "width": 0,
+  "length": 0,
+  "canFly": true,
+  "isRideable": false,
+  "preEvolutions": [],
+  "experienceGroup": "pixelmon:medium_slow",
+  "aggression": {
+    "timid": 80,
+    "passive": 0,
+    "aggressive": 20
+  },
+  "spawnLocations": [],
+  "evGain": {
+    "HP": 0,
+    "Attack": 0,
+    "Defence": 0,
+    "SpecialAttack": 0,
+    "SpecialDefence": 0,
+    "Speed": 0
+  },
+  "guiScale": [
+    1,
+    1,
+    1
+  ],
+  "renderScale": [
+    0.8,
+    0.8,
+    0.8
+  ],
+  "canSurf": false,
+  "maxGroupSize": 0,
+  "minGroupSize": 0,
+  "hoverHeight": 0.0,
+  "doesHover": true,
+  "weight": 0,
+  "abilities": [
+    null,
+    null,
+    null
+  ],
+  "eggGroups": [
+    null,
+    null
+  ],
+  "eggCycles": 0,
+  "evolution": [],
+  "legendary": true,
+  "levelMoves": {
+    "0": [
+      "pixelmon:struggle"
+    ]
+  },
+  "tutorMoves": {
+    "regular": [],
+    "transfer": []
+  },
+  "moves": {
+    "egg": [
+    ],
+    "evolution": [],
+    "tr": [
+    ]
+  }
+}

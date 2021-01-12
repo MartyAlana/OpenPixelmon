@@ -1,5 +1,6 @@
 package me.marty.openpixelmon.client.render.entity;
 
+import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
 import me.marty.openpixelmon.client.model.entity.PixelmonModel;
 import me.marty.openpixelmon.client.translate.OpenPixelmonTranslator;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
@@ -22,8 +23,8 @@ public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
 	@Override
 	public void render(PixelmonEntity entity, float entityYaw, float partialTicks, MatrixStack matrices, VertexConsumerProvider vertexConsumerProvider, int light) {
 		matrices.push();
-		float levelScale = (float) (0.01 * entity.getLevel());
-		matrices.scale(1 + levelScale, 1 + levelScale, 1 + levelScale);
+		PokedexEntry pokedexEntry = entity.getPokedexEntry();
+		matrices.scale(pokedexEntry.renderScale[0], pokedexEntry.renderScale[1], pokedexEntry.renderScale[2]);
 		super.render(entity, entityYaw, partialTicks, matrices, vertexConsumerProvider, light);
 		matrices.pop();
 		renderPixelmonInfo(entity, matrices, light, vertexConsumerProvider);
