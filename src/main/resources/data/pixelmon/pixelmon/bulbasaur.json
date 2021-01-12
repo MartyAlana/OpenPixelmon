@@ -71,6 +71,7 @@
       "level": 16
     }
   ],
+  "legendary": false,
   "levelMoves": {
     "1": [
       "Tackle",

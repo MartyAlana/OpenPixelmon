@@ -35,8 +35,6 @@ import java.util.UUID;
 @SuppressWarnings("EntityConstructor")
 public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
-	private final AnimationFactory factory = new AnimationFactory(this);
-	private final PokedexEntry pokedexEntry;
 	protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	protected static final TrackedData<Optional<UUID>> OWNER_UUID = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 	protected static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -44,12 +42,19 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	protected static final byte MALE_BYTE = (byte) Gender.MALE.ordinal();
 	protected static final byte FEMALE_BYTE = (byte) Gender.FEMALE.ordinal();
 	protected static final Gender[] GENDERS = Gender.values();
-	private final int hp;
+	private final AnimationFactory factory = new AnimationFactory(this);
+
+	private int hp;
+	private PokedexEntry pokedexEntry;
 
 	public PixelmonEntity(EntityType<? extends AnimalEntity> entityType, World world) {
 		super(entityType, world);
-		this.pokedexEntry = null;//PokeGeneration.getPixelmonById(Registry.ENTITY_TYPE.getId(getType()));
 		this.hp = getMaxHp();
+	}
+
+	public void initializeFromPokedexEntry(PokedexEntry entry) {
+		pokedexEntry = entry;
+		hp = 69;
 	}
 
 	protected void initDataTracker() {
@@ -139,7 +144,9 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	@Nullable
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-		return new PixelmonEntity(getType(), world);
+		PixelmonEntity pixelmonEntity = new PixelmonEntity(getType(), world);
+		pixelmonEntity.initializeFromPokedexEntry(pokedexEntry);
+		return pixelmonEntity;
 	}
 
 	@Override
@@ -157,7 +164,6 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		if (source.getAttacker() instanceof PlayerEntity) {
 			return false;
 		}
-
 		return super.damage(source, amount);
 	}
 
@@ -171,7 +177,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	}
 
 	public String getNickname() {
-		return "No";
+		return ""; //TODO:
 //		return OpenPixelmonTranslator.createTranslation(pokedexEntry.name).getString();
 	}
 

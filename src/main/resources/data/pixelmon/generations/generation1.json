@@ -2,6 +2,6 @@
   "id": "generation_1",
   "displayName": "Gen I",
   "pixelmon": [
-    "bulbasaur"
+    "open_pixelmon:bulbasaur"
   ]
 }

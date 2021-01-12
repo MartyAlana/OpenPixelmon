@@ -74,6 +74,7 @@ public class PokedexEntry {
 	public boolean canSurf;
 	public boolean doesHover;
 	public boolean isRideable;
+	public boolean legendary;
 
 	public String expGainSpeed;
 }

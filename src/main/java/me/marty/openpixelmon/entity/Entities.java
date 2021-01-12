@@ -1,9 +1,11 @@
 package me.marty.openpixelmon.entity;
 
 import me.marty.openpixelmon.OpenPixelmon;
+import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import me.marty.openpixelmon.entity.pokeball.AbstractPokeballEntity;
 import me.marty.openpixelmon.entity.pokeball.GreatballEntity;
 import me.marty.openpixelmon.entity.pokeball.PokeballEntity;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -12,47 +14,15 @@ import net.minecraft.util.registry.Registry;
 
 public class Entities {
 
-//	/**
-//	 * Pixelmon Generations
-//	 */
-//	private static final PokeGeneration GENERATION_1 = new PokeGeneration.Builder(OpenPixelmon.id("generation_1"))
-//			.addPixelmon(new PokedexEntry(
-//					EntityDimensions.fixed(1, 1),
-//					"bulbasaur",
-//					88,
-//					new PokeType[]{PokeType.GRASS, PokeType.POISON},
-//					45,
-//					new EggGroup[]{EggGroup.MONSTER, EggGroup.GRASS},
-//					3855,
-//					0.7D,
-//					6.9,
-//					0xAAFFFFFF,
-//					70,
-//					16,
-//					false,
-//					false))
-//			.build();
-//
-//	private static final PokeGeneration GENERATION_2 = new PokeGeneration.Builder(OpenPixelmon.id("generation_2"))
-//			.build();
-//
-//	private static final PokeGeneration GENERATION_3 = new PokeGeneration.Builder(OpenPixelmon.id("generation_3"))
-//			.addPixelmon(new PokedexEntry(
-//					EntityDimensions.fixed(1, 1),
-//					"seedot",
-//					50,
-//					new PokeType[]{PokeType.GRASS},
-//					42,
-//					new EggGroup[]{EggGroup.FIELD, EggGroup.GRASS},
-//					3855,
-//					0.5D,
-//					4,
-//					0xAAFFFFFF,
-//					70,
-//					18,
-//					false,
-//					false))
-//			.build();
+	/**
+	 * Misc Entities
+	 */
+	public static final EntityType<PixelmonEntity> PIXELMON = Registry.register(
+			Registry.ENTITY_TYPE,
+			OpenPixelmon.id("pixelmon"),
+			FabricEntityTypeBuilder.create(SpawnGroup.MISC, PixelmonEntity::new)
+			.dimensions(EntityDimensions.changing(1, 1))
+			.build());
 
 	/**
 	 * Pokeball Entities
@@ -86,8 +56,6 @@ public class Entities {
 					.build());
 
 	public static void initialize() {
-//		for (PokedexEntry pokedexEntry : GENERATION_3.getAllPixelmon()) {
-//			FabricDefaultAttributeRegistry.register(pokedexEntry.type, PixelmonEntity.createPixelmonAttributes());
-//		}
+		FabricDefaultAttributeRegistry.register(PIXELMON, PixelmonEntity.createPixelmonAttributes());
 	}
 }

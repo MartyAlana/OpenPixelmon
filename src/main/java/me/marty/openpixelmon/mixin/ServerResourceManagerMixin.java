@@ -1,9 +1,6 @@
 package me.marty.openpixelmon.mixin;
 
-import me.marty.openpixelmon.data.PixelmonTypeManager;
-import me.marty.openpixelmon.data.GenerationManager;
-import me.marty.openpixelmon.data.MoveManager;
-import me.marty.openpixelmon.data.PixelmonManager;
+import me.marty.openpixelmon.data.DataLoaders;
 import net.minecraft.resource.ReloadableResourceManager;
 import net.minecraft.resource.ServerResourceManager;
 import net.minecraft.server.command.CommandManager;
@@ -22,9 +19,9 @@ public class ServerResourceManagerMixin {
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void loadPixelmonResources(DynamicRegistryManager dynamicRegistryManager, CommandManager.RegistrationEnvironment registrationEnvironment, int i, CallbackInfo ci){
-		this.resourceManager.registerListener(new PixelmonManager());
-		this.resourceManager.registerListener(new GenerationManager());
-		this.resourceManager.registerListener(new MoveManager());
-		this.resourceManager.registerListener(new PixelmonTypeManager());
+		this.resourceManager.registerListener(DataLoaders.GENERATION_MANAGER);
+		this.resourceManager.registerListener(DataLoaders.MOVE_MANAGER);
+		this.resourceManager.registerListener(DataLoaders.PIXELMON_MANAGER);
+		this.resourceManager.registerListener(DataLoaders.PIXELMON_TYPE_MANAGER);
 	}
 }

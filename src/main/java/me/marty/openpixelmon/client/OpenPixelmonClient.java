@@ -44,20 +44,6 @@ public class OpenPixelmonClient implements ClientModInitializer {
 	}
 
 	private void registerS2CPackets() {
-//		ClientPlayNetworking.registerGlobalReceiver(Packets.SYNC_PIXELMON, (client, handler, buf, responseSender) -> {
-//			Identifier pixelmonIdentifier = buf.readIdentifier();
-//			PixelmonPlayer pixelmonPlayer = (PixelmonPlayer) MinecraftClient.getInstance().player;
-//			if (pixelmonPlayer == null) {
-//				throw new RuntimeException("The Client Player is null when syncing pixelmon");
-//			}
-//			PixelmonEntity pixelmon = new PixelmonEntity(
-//					PokeGeneration.getPixelmonById(pixelmonIdentifier).type,
-//					MinecraftClient.getInstance().world
-//			);
-//
-//			pixelmon.setLevel(buf.readInt());
-//			pixelmonPlayer.givePixelmon(pixelmon);
-//		});
 	}
 
 	private void registerEntityRenderers() {
@@ -65,10 +51,6 @@ public class OpenPixelmonClient implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(Entities.ULTRABALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/ultraball")));
 		EntityRendererRegistry.INSTANCE.register(Entities.MASTERBALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/masterball")));
 		EntityRendererRegistry.INSTANCE.register(Entities.POKEBALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/pokeball")));
-
-//		// Pixelmon
-//		for (PokedexEntry pokedexEntry : PokeGeneration.getAllPixelmon()) {
-//			EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, ctx -> new PixelmonEntityRenderer(ctx));
-//		}
+		EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, PixelmonEntityRenderer::new);
 	}
 }
