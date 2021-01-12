@@ -4,6 +4,7 @@
   "package": "me.marty.openpixelmon.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "DynamicRegistryManagerMixin",
     "ServerPlayerEntityMixin",
     "ServerResourceManagerMixin",
     "TitleScreenMixin"
