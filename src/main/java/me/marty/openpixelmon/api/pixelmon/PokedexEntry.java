@@ -1,26 +1,8 @@
 package me.marty.openpixelmon.api.pixelmon;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import me.marty.openpixelmon.OpenPixelmon;
-import me.marty.openpixelmon.api.generation.PixelmonGeneration;
 import me.marty.openpixelmon.data.DataLoaders;
-import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
-import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.SpawnRestriction;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.Heightmap;
-import org.jetbrains.annotations.ApiStatus;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
