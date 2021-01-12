@@ -10,8 +10,4 @@ public class DataLoaders {
 	public static final MoveManager MOVE_MANAGER = new MoveManager();
 	public static final PixelmonManager PIXELMON_MANAGER = new PixelmonManager();
 	public static final PixelmonTypeManager PIXELMON_TYPE_MANAGER = new PixelmonTypeManager();
-
-	public Collection<PokedexEntry> getAllPokemon() {
-		return PIXELMON_MANAGER.getPixelmon().values();
-	}
 }
