@@ -35,5 +35,6 @@
   "block.pixelmon.black_acorn_bush": "Black Apricorn Bush",
 
   "entity.pixelmon.seedot": "Seedot",
-  "entity.pixelmon.bulbasaur": "Bulbasaur"
+  "entity.pixelmon.bulbasaur": "Bulbasaur",
+  "entity.pixelmon.missing_no": "Missing No."
 }
