@@ -13,13 +13,13 @@ public class PixelmonModel extends AnimatedGeoModel<PixelmonEntity> {
 
 	@Override
 	public Identifier getModelLocation(PixelmonEntity object) {
-		Identifier identifier = object.getPokedexEntry().getIdentifier();
-		return new Identifier(identifier.getNamespace(), "geo/pixelmon/" + identifier.getPath() + "/" + identifier.getPath() + ".geo.json");
+		Identifier identifier = object.getPokemonId();
+		return new Identifier(identifier.getNamespace(), "geo/" + identifier.getPath() + ".geo.json");
 	}
 
 	@Override
-	public Identifier getTextureLocation(PixelmonEntity object) {
-		Identifier identifier = object.getPokedexEntry().getIdentifier();
+	public Identifier getTextureLocation(PixelmonEntity pixelmon) {
+		Identifier identifier = pixelmon.getPokemonId();
 		return new Identifier(identifier.getNamespace(), "textures/entity/pixelmon/" + identifier.getPath() + "/" + identifier.getPath() + ".png");
 	}
 

@@ -1,6 +1,7 @@
 package me.marty.openpixelmon.entity.pixelmon;
 
 import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
+import me.marty.openpixelmon.data.DataLoaders;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -18,6 +19,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -35,25 +37,26 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	protected static final TrackedData<Optional<UUID>> OWNER_UUID = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 	protected static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	protected static final TrackedData<String> POKEMON_ID = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.STRING); //TODO: make an identifier tracked data handler registry
 	protected static final TrackedData<Boolean> IS_MALE = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	private final AnimationFactory factory = new AnimationFactory(this);
 
 	private int hp;
-	private PokedexEntry pokedexEntry;
 
 	public PixelmonEntity(EntityType<? extends AnimalEntity> entityType, World world) {
 		super(entityType, world);
 		this.hp = getMaxHp();
 	}
 
-	public void initializeFromPokedexEntry(PokedexEntry entry) {
-		pokedexEntry = entry;
+	public void initializePokemon(Identifier entry) {
+		this.setPokemonId(entry.toString());
 		hp = 69;
 	}
 
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(BOSS, false);
+		this.dataTracker.startTracking(POKEMON_ID, "missing_no");
 		this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
 		this.dataTracker.startTracking(LEVEL, 0);
 		this.dataTracker.startTracking(IS_MALE, true);
@@ -64,6 +67,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		super.writeCustomDataToTag(tag);
 
 		tag.putBoolean("boss", this.dataTracker.get(BOSS));
+		tag.putString("pokemonId", getPokemonId().toString());
 		if(this.dataTracker.get(OWNER_UUID).isPresent()){
 			tag.putUuid("ownerUuid", this.dataTracker.get(OWNER_UUID).get());
 		}
@@ -75,11 +79,16 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		super.readCustomDataFromTag(tag);
 		if (tag.getKeys().contains("level")) {
 			this.setBoss(tag.getBoolean("boss"));
+			this.setPokemonId(tag.getString("pokemonId"));
 			this.setLevel(tag.getInt("level"));
 		}
 		if(tag.getKeys().contains("ownerUuid")) {
 			this.setOwnerUuid(tag.getUuid("ownerUuid"));
 		}
+	}
+
+	private void setPokemonId(String pokemonId) {
+		this.dataTracker.set(POKEMON_ID, pokemonId);
 	}
 
 	private void setOwnerUuid(UUID uuid) {
@@ -139,7 +148,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
 		PixelmonEntity pixelmonEntity = new PixelmonEntity(getType(), world);
-		pixelmonEntity.initializeFromPokedexEntry(pokedexEntry);
+		pixelmonEntity.initializePokemon(getPokemonId());
 		return pixelmonEntity;
 	}
 
@@ -166,8 +175,12 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		return factory;
 	}
 
+	public Identifier getPokemonId() {
+		return new Identifier(this.dataTracker.get(POKEMON_ID));
+	}
+
 	public PokedexEntry getPokedexEntry() {
-		return pokedexEntry;
+		return DataLoaders.PIXELMON_MANAGER.getPixelmon().get(getPokemonId());
 	}
 
 	public String getNickname() {

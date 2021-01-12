@@ -67,7 +67,7 @@ public class Commands {
 						.requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(4))
 						.executes(context -> {
 							PixelmonEntity entity = Entities.PIXELMON.create(context.getSource().getWorld());
-							entity.initializeFromPokedexEntry(DataLoaders.PIXELMON_MANAGER.getPixelmon().get(OpenPixelmon.id("bulbasaur")));
+							entity.initializePokemon(OpenPixelmon.id("bulbasaur"));
 							EntityComponents.PARTY_COMPONENT.get(context.getSource().getPlayer()).getParty().add(
 									context.getSource().getPlayer(),
 									new PartyEntry(entity, (PokeballItem) OpenPixelmonItems.POKE_BALL));
@@ -98,7 +98,7 @@ public class Commands {
 			if (entity == null) {
 				throw FAILED_EXCEPTION.create();
 			} else {
-				entity.initializeFromPokedexEntry(Objects.requireNonNull(DataLoaders.PIXELMON_MANAGER.getPixelmon().get(type)));
+				entity.initializePokemon(type);
 
 				if (initialize) {
 					entity.initialize(source.getWorld(), source.getWorld().getLocalDifficulty(entity.getBlockPos()), SpawnReason.COMMAND, null, null);
