@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.generation.PixelmonGeneration;
+import me.marty.openpixelmon.data.DataLoaders;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
@@ -77,4 +78,8 @@ public class PokedexEntry {
 	public boolean legendary;
 
 	public String expGainSpeed;
+
+	public Identifier getIdentifier() {
+		return DataLoaders.PIXELMON_MANAGER.getPixelmon().inverse().get(this);
+	}
 }

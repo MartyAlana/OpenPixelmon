@@ -1,9 +1,7 @@
 package me.marty.openpixelmon.entity.data;
 
-import me.marty.openpixelmon.data.DataLoaders;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import me.marty.openpixelmon.item.pokeball.PokeballItem;
-import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
@@ -30,7 +28,7 @@ public class PartyEntry {
 	}
 
 	public PartyEntry(PixelmonEntity entity, PokeballItem pokeball) {
-		this(DataLoaders.getIdentifier(entity.getPokedexData()), entity.getHp(), entity.getMaxHp(), entity.getGender() , entity.getLevel(), pokeball);
+		this(entity.getPokedexEntry().getIdentifier(), entity.getHp(), entity.getMaxHp(), entity.getGender(), entity.getLevel(), pokeball);
 	}
 
 	public int getHp() {
@@ -71,21 +69,21 @@ public class PartyEntry {
 		return new PartyEntry(id, hp, 0, gender, level, pokeball);
 	}
 
-    public PacketByteBuf writeToPacketBuf(PacketByteBuf buf) {
-        buf.writeIdentifier(id);
-        buf.writeInt(hp);
-        buf.writeByte((byte) gender.ordinal());
-        buf.writeInt(level);
-        buf.writeVarInt(Registry.ITEM.getRawId(pokeball));
-        return buf;
-    }
+	public PacketByteBuf writeToPacketBuf(PacketByteBuf buf) {
+		buf.writeIdentifier(id);
+		buf.writeInt(hp);
+		buf.writeByte((byte) gender.ordinal());
+		buf.writeInt(level);
+		buf.writeVarInt(Registry.ITEM.getRawId(pokeball));
+		return buf;
+	}
 
-    public static PartyEntry readFromPacketBuf(PacketByteBuf buf) {
+	public static PartyEntry readFromPacketBuf(PacketByteBuf buf) {
 		Identifier id = buf.readIdentifier();
-        int hp = buf.readInt();
-        Gender gender = Gender.values()[buf.readByte()];
-        int level = buf.readInt();
-        PokeballItem pokeball = (PokeballItem) Registry.ITEM.get(buf.readVarInt());
-        return new PartyEntry(id, hp, 0, gender, level, pokeball);
-    }
+		int hp = buf.readInt();
+		Gender gender = Gender.values()[buf.readByte()];
+		int level = buf.readInt();
+		PokeballItem pokeball = (PokeballItem) Registry.ITEM.get(buf.readVarInt());
+		return new PartyEntry(id, hp, 0, gender, level, pokeball);
+	}
 }

@@ -1,7 +1,6 @@
 package me.marty.openpixelmon.client.render.entity;
 
-import me.marty.openpixelmon.OpenPixelmon;
-import me.marty.openpixelmon.client.model.entity.GeckolibModel;
+import me.marty.openpixelmon.client.model.entity.PixelmonModel;
 import me.marty.openpixelmon.client.translate.OpenPixelmonTranslator;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import net.minecraft.client.font.TextRenderer;
@@ -16,11 +15,8 @@ import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
 public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
 
-	private final Identifier pixelmonName;
-
 	public PixelmonEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, GeckolibModel.of("bulbasaur"));
-		this.pixelmonName = OpenPixelmon.id("bulbasaur");
+		super(context, PixelmonModel.INSTANCE);
 	}
 
 	@Override
@@ -34,16 +30,18 @@ public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
 	}
 
 	private void renderPixelmonInfo(PixelmonEntity pixelmon, MatrixStack matrices, int light, VertexConsumerProvider vertexConsumers) {
+		Identifier type = pixelmon.getPokedexEntry().getIdentifier();
+
 		matrices.push();
-		drawLabel(matrices, pixelmon, light, vertexConsumers, OpenPixelmonTranslator.createTranslation(pixelmonName), false);
+		drawLabel(matrices, pixelmon, light, vertexConsumers, OpenPixelmonTranslator.createTranslation(type), false);
 		matrices.scale(0.8f, 0.8f, 0.8f);
 		matrices.translate(0, 0.1, 0);
 		drawLabel(matrices, pixelmon, light, vertexConsumers, new LiteralText("Lv. " + pixelmon.getLevel()), false);
-		if(pixelmon.isBoss()) {
+		if (pixelmon.isBoss()) {
 			matrices.translate(0, 0.5, 0);
 			drawLabel(matrices, pixelmon, light, vertexConsumers, new LiteralText("Boss"), true);
 		}
-		if(!pixelmon.isWild() && pixelmon.getOwner() != null) {
+		if (!pixelmon.isWild() && pixelmon.getOwner() != null) {
 			matrices.translate(0, 0.5, 0);
 			drawLabel(matrices, pixelmon, light, vertexConsumers, pixelmon.getOwner().getDisplayName(), true);
 		}
@@ -60,7 +58,7 @@ public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
 			matrices.scale(-0.025F, -0.025F, 0.025F);
 			Matrix4f matrix4f = matrices.peek().getModel();
 			TextRenderer textRenderer = this.getFontRenderer();
-			float h = (float)(-textRenderer.getWidth(text) / 2);
+			float h = (float) (-textRenderer.getWidth(text) / 2);
 			textRenderer.draw(text, h, 0, important ? 0xfffdff59 : 0xffffffff, false, matrix4f, vertexConsumers, false, 0, light);
 			matrices.pop();
 		}

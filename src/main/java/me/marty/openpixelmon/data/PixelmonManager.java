@@ -1,8 +1,9 @@
 package me.marty.openpixelmon.data;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
 import net.minecraft.resource.JsonDataLoader;
@@ -15,7 +16,7 @@ import java.util.Map;
 public class PixelmonManager extends JsonDataLoader {
 
 	private static final Gson GSON = new Gson();
-	private final Map<Identifier, PokedexEntry> pixelmon = new Object2ObjectOpenHashMap<>();
+	private final BiMap<Identifier, PokedexEntry> pixelmon = HashBiMap.create();
 
 	public PixelmonManager() {
 		super(GSON, "pixelmon");
@@ -30,7 +31,7 @@ public class PixelmonManager extends JsonDataLoader {
 		OpenPixelmon.LOGGER.info("Loaded {} Pixelmon", pixelmon.size());
 	}
 
-	public Map<Identifier, PokedexEntry> getPixelmon() {
+	public BiMap<Identifier, PokedexEntry> getPixelmon() {
 		return pixelmon;
 	}
 }

@@ -172,7 +172,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		return factory;
 	}
 
-	public PokedexEntry getPokedexData() {
+	public PokedexEntry getPokedexEntry() {
 		return pokedexEntry;
 	}
 
