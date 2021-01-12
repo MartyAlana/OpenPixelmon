@@ -87,4 +87,8 @@ public class PartyEntry {
         PokeballItem pokeball = (PokeballItem) Registry.ITEM.get(buf.readVarInt());
         return new PartyEntry(id, hp, 0, isMale, level, pokeball);
     }
+
+	public String getName() {
+		return getIdentifier().getPath();
+	}
 }

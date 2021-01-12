@@ -50,14 +50,14 @@ public class Party {
 	public void add(ServerPlayerEntity player, PartyEntry partyEntry) {
 		boolean couldFitInpixelmon = false;
 		for (int i = 0; i < entries.length; i++) {
-			if(entries[i] == null && !couldFitInpixelmon) {
+			if (entries[i] == null && !couldFitInpixelmon) {
 				entries[i] = partyEntry;
-				player.sendMessage(new TranslatableText("text.pixelmon.caught").formatted(Formatting.GRAY, Formatting.ITALIC), false);
+				player.sendMessage(new TranslatableText("dialogue.pixelmon.caught", partyEntry.getName()).formatted(Formatting.GRAY, Formatting.ITALIC), false);
 				couldFitInpixelmon = true;
 			}
 		}
-		if(!couldFitInpixelmon) {
-			player.sendMessage(new TranslatableText("text.pixelmon.caught_pc").formatted(Formatting.GRAY, Formatting.ITALIC), false);
+		if (!couldFitInpixelmon) {
+			player.sendMessage(new TranslatableText("dialogue.pixelmon.sent_to_pc", partyEntry.getName()).formatted(Formatting.GRAY, Formatting.ITALIC), false);
 		}
 	}
 

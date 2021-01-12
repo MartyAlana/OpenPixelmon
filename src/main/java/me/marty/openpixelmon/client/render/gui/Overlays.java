@@ -26,10 +26,12 @@ public class Overlays extends DrawableHelper {
 
 	public static final Map<Identifier, PixelmonEntity> PIXELMON_ENTITY_CACHE = new Object2ObjectArrayMap<>();
 	private static final Identifier POKEBALL = OpenPixelmon.id("textures/gui/ingame/pixelmon.png");
-	private static final Identifier DEMO_BG = new Identifier("textures/gui/demo_background.png");
+	private static final Identifier DOCK_BG = OpenPixelmon.id("textures/gui/ingame/dock.png");
 
 	public static void renderPartyOverlay(MatrixStack matrices, MinecraftClient client, int scaledHeight) {
 		matrices.push();
+		client.getTextureManager().bindTexture(DOCK_BG);
+		drawTexture(matrices, 0, scaledHeight / 2 - (120 / 2), 0, 0, 61, 128, 61, 405);
 		int pokeballSpacing = 27;
 		client.getTextureManager().bindTexture(POKEBALL);
 		for (int i = 0; i < 6; i++) {
