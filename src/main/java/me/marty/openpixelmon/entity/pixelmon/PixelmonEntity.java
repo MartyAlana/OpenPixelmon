@@ -1,8 +1,6 @@
 package me.marty.openpixelmon.entity.pixelmon;
 
 import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
-import me.marty.openpixelmon.client.translate.OpenPixelmonTranslator;
-import me.marty.openpixelmon.entity.data.Gender;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -20,7 +18,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -38,10 +35,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	protected static final TrackedData<Optional<UUID>> OWNER_UUID = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 	protected static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
-	protected static final TrackedData<Byte> GENDER = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BYTE);
-	protected static final byte MALE_BYTE = (byte) Gender.MALE.ordinal();
-	protected static final byte FEMALE_BYTE = (byte) Gender.FEMALE.ordinal();
-	protected static final Gender[] GENDERS = Gender.values();
+	protected static final TrackedData<Boolean> IS_MALE = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	private final AnimationFactory factory = new AnimationFactory(this);
 
 	private int hp;
@@ -62,7 +56,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		this.dataTracker.startTracking(BOSS, false);
 		this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
 		this.dataTracker.startTracking(LEVEL, 0);
-		this.dataTracker.startTracking(GENDER, MALE_BYTE);
+		this.dataTracker.startTracking(IS_MALE, true);
 	}
 
 	@Override
@@ -125,12 +119,12 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		return this.dataTracker.get(LEVEL);
 	}
 
-	public void setGender(Gender gender) {
-		this.dataTracker.set(GENDER, (byte) gender.ordinal());
+	public void setMale(boolean isMale) {
+		this.dataTracker.set(IS_MALE, isMale);
 	}
 
-	public Gender getGender() {
-		return GENDERS[this.dataTracker.get(GENDER)];
+	public boolean isMale() {
+		return this.dataTracker.get(IS_MALE);
 	}
 
 	public void setLevel(int level) {
