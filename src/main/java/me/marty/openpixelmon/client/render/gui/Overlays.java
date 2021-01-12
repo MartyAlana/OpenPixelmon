@@ -31,7 +31,9 @@ public class Overlays extends DrawableHelper {
 	public static void renderPartyOverlay(MatrixStack matrices, MinecraftClient client, int scaledHeight) {
 		matrices.push();
 		client.getTextureManager().bindTexture(DOCK_BG);
-		drawTexture(matrices, 0, scaledHeight / 2 - (120 / 2), 0, 0, 61, 128, 61, 405);
+		RenderSystem.enableAlphaTest();
+		drawTexture(matrices, -8, scaledHeight / 2 - (165 / 2), 0, 0, 32, 176, 32, 176);
+		RenderSystem.disableAlphaTest();
 		int pokeballSpacing = 27;
 		client.getTextureManager().bindTexture(POKEBALL);
 		for (int i = 0; i < 6; i++) {
