@@ -32,7 +32,9 @@ public class Overlays extends DrawableHelper {
 		matrices.push();
 		client.getTextureManager().bindTexture(DOCK_BG);
 		RenderSystem.enableAlphaTest();
+		RenderSystem.color4f(255, 255, 255, 100);
 		drawTexture(matrices, -8, scaledHeight / 2 - (165 / 2), 0, 0, 32, 176, 32, 176);
+		RenderSystem.color4f(255, 255, 255, 255);
 		RenderSystem.disableAlphaTest();
 		int pokeballSpacing = 27;
 		client.getTextureManager().bindTexture(POKEBALL);
