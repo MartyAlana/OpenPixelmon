@@ -38,8 +38,8 @@ public class PokedexEntry {
 	public final int minSpawnGroupSize;
 	public final int maxSpawnGroupSize;
 
-	public final Float[] renderScale;
-	public final Float[] guiScale;
+	public final float[] renderScale;
+	public final float[] guiScale;
 
 	public final int hoveringHeight;
 
@@ -66,9 +66,9 @@ public class PokedexEntry {
 	public final boolean isRideable;
 	public final boolean legendary;
 
-	public final String expGainSpeed;
+	public final int expGainSpeed;
 
-	public PokedexEntry(int specialAttack, int specialDefense, int attack, int defense, int speed, int hp, int baseFriendship, int baseExp, int catchRate, int maleRatio, int pokedexId, float width, float height, float length, float weight, int minSpawnGroupSize, int maxSpawnGroupSize, Float[] renderScale, Float[] guiScale, int hoveringHeight, int eggCycles, Map<String, Integer> spawnInformation, Map<String, Integer> aggression, Map<String, Integer> evGain, Map<String, List<String>> levelMoves, Map<String, List<String>> moves, Map<String, List<String>> tutorMoves, List<Map<String, Integer>> evolutions, PokeType[] types, String[] previousEvolutions, String[] validSpawnLocations, String[] abilities, EggGroup[] eggGroups, boolean canFly, boolean canSurf, boolean doesHover, boolean isRideable, boolean legendary, String expGainSpeed) {
+	public PokedexEntry(int specialAttack, int specialDefense, int attack, int defense, int speed, int hp, int baseFriendship, int baseExp, int catchRate, int maleRatio, int pokedexId, float width, float height, float length, float weight, int minSpawnGroupSize, int maxSpawnGroupSize, float[] renderScale, float[] guiScale, int hoveringHeight, int eggCycles, Map<String, Integer> spawnInformation, Map<String, Integer> aggression, Map<String, Integer> evGain, Map<String, List<String>> levelMoves, Map<String, List<String>> moves, Map<String, List<String>> tutorMoves, List<Map<String, Integer>> evolutions, PokeType[] types, String[] previousEvolutions, String[] validSpawnLocations, String[] abilities, EggGroup[] eggGroups, boolean canFly, boolean canSurf, boolean doesHover, boolean isRideable, boolean legendary, int expGainSpeed) {
 		this.specialAttack = specialAttack;
 		this.specialDefense = specialDefense;
 		this.attack = attack;
