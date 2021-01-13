@@ -6,6 +6,7 @@ import me.marty.openpixelmon.block.OpenPixelmonBlocks;
 import me.marty.openpixelmon.command.Commands;
 import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.item.OpenPixelmonItems;
+import me.marty.openpixelmon.sound.Sounds;
 import net.devtech.arrp.api.RRPCallback;
 import net.devtech.arrp.api.RuntimeResourcePack;
 import net.fabricmc.api.ModInitializer;
@@ -26,6 +27,7 @@ public class OpenPixelmon implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("OpenPixelmon is Initializing");
+		Sounds.initialize();
 		Registries.register();
 		GeckoLib.initialize();
 		OpenPixelmonItems.initialize();

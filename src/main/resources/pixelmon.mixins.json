@@ -10,6 +10,7 @@
     "TitleScreenMixin"
   ],
   "client": [
+    "AmbientSoundPlayerMixin",
     "ClientPlayNetworkHandlerMixin",
     "InGameHudMixin"
   ],

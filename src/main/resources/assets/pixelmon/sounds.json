@@ -1,0 +1,13 @@
+{
+  "music.ambient_1": {
+    "sounds": [
+      "pixelmon:ambient_1"
+    ]
+  },
+  "music.battle_1": {
+    "sounds": [
+      "pixelmon:battle_1"
+    ]
+  }
+}
+
