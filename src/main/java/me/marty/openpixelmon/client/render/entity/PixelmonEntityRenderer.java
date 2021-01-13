@@ -22,12 +22,15 @@ public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
 
 	@Override
 	public void render(PixelmonEntity entity, float entityYaw, float partialTicks, MatrixStack matrices, VertexConsumerProvider vertexConsumerProvider, int light) {
-		matrices.push();
 		PokedexEntry pokedexEntry = entity.getPokedexEntry();
-		matrices.scale(pokedexEntry.renderScale[0], pokedexEntry.renderScale[1], pokedexEntry.renderScale[2]);
-		super.render(entity, entityYaw, partialTicks, matrices, vertexConsumerProvider, light);
-		matrices.pop();
-		renderPixelmonInfo(entity, matrices, light, vertexConsumerProvider);
+
+		if (pokedexEntry != null) {
+			matrices.push();
+			matrices.scale(pokedexEntry.renderScale[0], pokedexEntry.renderScale[1], pokedexEntry.renderScale[2]);
+			super.render(entity, entityYaw, partialTicks, matrices, vertexConsumerProvider, light);
+			matrices.pop();
+			renderPixelmonInfo(entity, matrices, light, vertexConsumerProvider);
+		}
 	}
 
 	private void renderPixelmonInfo(PixelmonEntity pixelmon, MatrixStack matrices, int light, VertexConsumerProvider vertexConsumers) {
