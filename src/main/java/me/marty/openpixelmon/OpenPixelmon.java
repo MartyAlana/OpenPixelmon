@@ -40,13 +40,4 @@ public class OpenPixelmon implements ModInitializer {
 	public static Identifier id(String path) {
 		return new Identifier("pixelmon", path);
 	}
-
-	public static Resource getResource(ResourceManager resourceManager, Identifier resourcePath) {
-		try {
-			resourceManager.getResource(resourcePath);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		throw new RuntimeException("Failed to retrieve resource " + resourcePath);
-	}
 }
