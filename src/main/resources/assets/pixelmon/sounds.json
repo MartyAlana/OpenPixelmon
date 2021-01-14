@@ -11,6 +11,12 @@
     ],
     "volume": 0.8
   },
+  "music.ambient_4": {
+    "sounds": [
+      "pixelmon:ambient_4"
+    ],
+    "volume": 0.8
+  },
   "music.menu": {
     "sounds": [
       "pixelmon:ambient_3"
