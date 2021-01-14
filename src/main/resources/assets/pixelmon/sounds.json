@@ -2,12 +2,20 @@
   "music.ambient_1": {
     "sounds": [
       "pixelmon:ambient_1"
-    ]
+    ],
+    "volume": 0.8
+  },
+  "music.ambient_2": {
+    "sounds": [
+      "pixelmon:ambient_2"
+    ],
+    "volume": 0.8
   },
   "music.battle_1": {
     "sounds": [
       "pixelmon:battle_1"
-    ]
+    ],
+    "volume": 0.8
   }
 }
 
