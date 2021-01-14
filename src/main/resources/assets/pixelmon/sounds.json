@@ -16,6 +16,12 @@
       "pixelmon:battle_1"
     ],
     "volume": 0.8
+  },
+  "music.battle_2": {
+    "sounds": [
+      "pixelmon:battle_2"
+    ],
+    "volume": 0.8
   }
 }
 
