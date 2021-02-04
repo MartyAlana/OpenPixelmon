@@ -24,7 +24,7 @@ public class PixelmonGenerationsCompatibility implements ModelCompatibility{
 
 	@Override
 	public InputStream getPixelmonModel(String name) {
-		return getAsset("assets/pixelmon/" + name);
+		return getAsset(name);
 	}
 
 	@Override
@@ -36,9 +36,9 @@ public class PixelmonGenerationsCompatibility implements ModelCompatibility{
 		return getAsset(infoFileLocation);
 	}
 
-	private InputStream getAsset(String asset) {
+	public InputStream getAsset(String asset) {
 		try {
-			return Files.newInputStream(root.getPath(asset));
+			return Files.newInputStream(root.getPath("assets/pixelmon/" + asset));
 		} catch (IOException e) {
 			return null;
 		}

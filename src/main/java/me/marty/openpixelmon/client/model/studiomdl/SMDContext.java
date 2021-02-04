@@ -9,11 +9,8 @@ import java.util.Map;
 public class SMDContext {
 	private List<Tri> tris;
 	private String path;
-	private Info smdInfo;
+	private final Info smdInfo;
 	private List<TrianglesBlock.Triangle> rawTris;
-
-	protected SMDContext() {
-	}
 
 	public SMDContext(String path, Info smdInfo) {
 		this.path = path;
