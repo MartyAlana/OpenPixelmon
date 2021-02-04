@@ -17,6 +17,11 @@ repositories {
 	}
 
 	maven {
+		name = "Jitpack"
+		url = uri("https://jitpack.io")
+	}
+
+	maven {
 		name = "SschrsRepo"
 		url = uri("https://maven.concern.i.ng/")
 	}
@@ -38,6 +43,8 @@ dependencies {
 	include(modImplementation("software.bernie.geckolib", "fabric-1.16.4-geckolib", "3.0.3", classifier = "dev"))
 	include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-base", "3.0.0-nightly.20w48a"))
 	include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-entity", "3.0.0-nightly.20w48a"))
+
+	implementation("com.github.thecodewarrior", "BinarySMD", "-SNAPSHOT")
 }
 
 base {
