@@ -1,7 +1,7 @@
 package me.marty.openpixelmon.client;
 
-import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
 import me.marty.openpixelmon.client.model.entity.GeckolibModel;
+import me.marty.openpixelmon.client.render.entity.GenerationsPixelmonRenderer;
 import me.marty.openpixelmon.client.render.entity.NonLivingGeckolibModelRenderer;
 import me.marty.openpixelmon.client.render.entity.PixelmonEntityRenderer;
 import me.marty.openpixelmon.client.render.gui.Overlays;
@@ -16,11 +16,9 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.impl.screenhandler.Networking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.LiteralText;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
@@ -51,10 +49,18 @@ public class OpenPixelmonClient implements ClientModInitializer {
 	}
 
 	private void registerEntityRenderers() {
+		if(useCompatModels()) {
+			EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, GenerationsPixelmonRenderer::new);
+		} else {
+			EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, PixelmonEntityRenderer::new);
+		}
 		EntityRendererRegistry.INSTANCE.register(Entities.GREATBALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/greatball")));
 		EntityRendererRegistry.INSTANCE.register(Entities.ULTRABALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/ultraball")));
 		EntityRendererRegistry.INSTANCE.register(Entities.MASTERBALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/masterball")));
 		EntityRendererRegistry.INSTANCE.register(Entities.POKEBALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/pokeball")));
-		EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, PixelmonEntityRenderer::new);
+	}
+
+	private boolean useCompatModels() {
+		return true; //TODO: currently forced due to us not having models for every pixelmon :pensive:
 	}
 }

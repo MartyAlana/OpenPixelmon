@@ -49,17 +49,17 @@ public class SMDContext {
 		return new Vertex(v.posX, v.posY, v.posZ, v.u, v.v);
 	}
 
-	public Info getInfo() {
-		return smdInfo;
-	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public List<Tri> getTris() {
-		return this.tris;
-	}
+//	public Info getInfo() {
+//		return smdInfo;
+//	}
+//
+//	public String getPath() {
+//		return path;
+//	}
+//
+//	public List<Tri> getTris() {
+//		return this.tris;
+//	}
 
 	public List<TrianglesBlock.Triangle> getRawTris() {
 		return this.rawTris;
