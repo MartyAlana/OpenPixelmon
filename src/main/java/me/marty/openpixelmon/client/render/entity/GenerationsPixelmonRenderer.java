@@ -38,7 +38,9 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 			if (ModelCompatibility.INSTANCE.getPixelmonModel("models/pokemon/" + pokemon + "/" + pokemon + ".pqc") == null) {
 				OpenPixelmon.LOGGER.warn(pokemon + " could not be loaded!");
 			} else {
-				rendererInfoMap.put(pokemon, new Pair<>(new Identifier("pixelmon", "textures/pokemon/" + pokemon + ".png"), SMDReader.createLazyModel("pokemon/" + pokemon)));
+				Identifier pixelmonTexture = new Identifier("pixelmon", "textures/pokemon/" + pokemon + ".png");
+				MinecraftClient.getInstance().getTextureManager().registerTexture(pixelmonTexture, ModelCompatibility.INSTANCE.load(pixelmonTexture));
+				rendererInfoMap.put(pokemon, new Pair<>(pixelmonTexture, SMDReader.createLazyModel("pokemon/" + pokemon)));
 			}
 		}
 	}
@@ -91,7 +93,7 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 				.color(r, g, b, a)
 				.texture(vertex.u, 1.0f - vertex.v)
 				.overlay(0, 0)
-				.light(light, light)
+				.light(0xFFFFFF, 0xFFFFFF)
 				.normal(vertex.normX, -vertex.normY, -vertex.normZ)
 				.next();
 	}
