@@ -35,7 +35,7 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 		super(ctx);
 		OpenPixelmon.LOGGER.info("Loading Pixelmon Generations Models");
 		for (String pokemon : loopAssetDir("assets/pixelmon/models/pokemon")) {
-			if(ModelCompatibility.INSTANCE.getPixelmonModel("models/pokemon/" + pokemon + "/" + pokemon + ".pqc") == null){
+			if (ModelCompatibility.INSTANCE.getPixelmonModel("models/pokemon/" + pokemon + "/" + pokemon + ".pqc") == null) {
 				OpenPixelmon.LOGGER.warn(pokemon + " could not be loaded!");
 			} else {
 				rendererInfoMap.put(pokemon, new Pair<>(new Identifier("pixelmon", "textures/pokemon/" + pokemon + ".png"), SMDReader.createLazyModel("pokemon/" + pokemon)));
@@ -47,6 +47,7 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 	public void render(PixelmonEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
 		super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
 		matrices.push();
+		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.pitch));
 		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
 		matrices.scale(0.02f, 0.02f, 0.02f);
 		Pair<Identifier, LazySMDContext> pair = rendererInfoMap.get(entity.getPixelmonId().getPath());
@@ -60,7 +61,7 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 		TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
 		textureManager.bindTexture(modelTexture);
 		List<TrianglesBlock.Triangle> tris = context.getRawTris();
-		if(tris == null){
+		if (tris == null) {
 			throw new RuntimeException("BROKEN POKEMON MODEL: missing triangles");
 		}
 		for (TrianglesBlock.Triangle triangle : tris) {
@@ -72,13 +73,19 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 	}
 
 	private void consumeVertex(MatrixStack matrices, VertexConsumer consumer, TrianglesBlock.Vertex vertex, int light) {
-		consumer.vertex(matrices.peek().getModel(), vertex.posX, vertex.posY, vertex.posZ);
-		consumer.color(160, 255, 255, 255);
-		consumer.texture(vertex.u, 1.0f - vertex.v);
-		consumer.overlay(0, 0);
-		consumer.light(light / 100000, light / 100000);
-		consumer.normal(vertex.normX, -vertex.normY, -vertex.normZ);
-		consumer.next();
+		int color = 0xFFFFFFFF;
+		int a = 255;
+		int r = color >> 16 & 255;
+		int g = color >> 8 & 255;
+		int b = color & 255;
+
+		consumer.vertex(matrices.peek().getModel(), vertex.posX, vertex.posY, vertex.posZ)
+				.color(r, g, b, a)
+				.texture(vertex.u, 1.0f - vertex.v)
+				.overlay(0, 0)
+				.light(light, light)
+				.normal(vertex.normX, -vertex.normY, -vertex.normZ)
+				.next();
 	}
 
 	@Override
