@@ -50,7 +50,7 @@ public class PixelmonGenerationsCompatibility implements ModelCompatibility {
 
 	@Override
 	public boolean isCompatibleMod(String modName) {
-		return true; //TODO: we currently assume pixelmon generations is the jar. this will cause issues in production.
+		return modName.contains("generations");
 	}
 
 	public AbstractTexture load(Identifier pixelmonTexture) {
