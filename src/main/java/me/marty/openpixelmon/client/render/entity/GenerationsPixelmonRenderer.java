@@ -47,8 +47,16 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 	public void render(PixelmonEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
 		super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
 		matrices.push();
-		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.pitch));
 		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
+//		if (entity.getRoll() != 0.0F) {
+//			matrices.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(entity.getRoll()));
+//		}
+//
+//		if (entity.yaw != 0.0F) {
+//			matrices.multiply(Vec3f.POSITIVE_Z.getRadialQuaternion(entity.yaw));
+//		}
+
+		matrices.multiply(Vec3f.POSITIVE_Z.getRadialQuaternion(entity.pitch));
 		matrices.scale(0.02f, 0.02f, 0.02f);
 		Pair<Identifier, LazySMDContext> pair = rendererInfoMap.get(entity.getPixelmonId().getPath());
 		LazySMDContext modelFile = pair.getRight();
