@@ -6,6 +6,7 @@ import dev.thecodewarrior.binarysmd.studiomdl.SMDFile;
 import dev.thecodewarrior.binarysmd.studiomdl.SMDFileBlock;
 import dev.thecodewarrior.binarysmd.studiomdl.SkeletonBlock;
 import me.marty.openpixelmon.OpenPixelmon;
+import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationData;
 import me.marty.openpixelmon.compatibility.OtherModCompat;
 import org.apache.commons.io.IOUtils;
 import org.msgpack.core.MessagePack;
@@ -21,9 +22,9 @@ public class SMDReader {
 		return new LazySMDContext(location);
 	}
 
-	public static SMDContext readPokemonMdl(String location) {
+	public static SmdModel readPokemonMdl(String location) {
 		try {
-			return new SMDContext("assets/generations/models/" + location, parseInfo(location));
+			return new SmdModel("assets/generations/models/" + location, parseInfo(location));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -40,18 +41,21 @@ public class SMDReader {
 		return null;
 	}
 
-	private static SMDContext.Info parseInfo(String location) throws IOException {
+	private static SmdModel.Info parseInfo(String location) throws IOException {
 		String[] slashSplit = location.split("/");
 		String infoFileLocation = "models/" + location + "/" + slashSplit[slashSplit.length - 1] + ".pqc"; //Returns pokemon name for example "pokemon/abra" returns "abra"
-		if(OtherModCompat.INSTANCE.getPixelmonInfo(infoFileLocation) == null){
+		if (OtherModCompat.INSTANCE.getPixelmonInfo(infoFileLocation) == null) {
 			OpenPixelmon.LOGGER.warn(location + " could not be loaded!");
 			return null;
 		}
 		String[] infoFileProperties = IOUtils.toString(OtherModCompat.INSTANCE.getPixelmonInfo(infoFileLocation), StandardCharsets.UTF_8).replace("$", "").replace("\r", "").replace("\t", "").split("\n");
 
+		return parseAnimationData(infoFileProperties, location);
+	}
+
+	private static SmdModel.Info parseAnimationData(String[] infoFileProperties, String location) {
+		Map<String, AnimationData> animationDataMap = new HashMap<>();
 		String bodyFileLocation = null;
-		String walkAnim = null;
-		String idleAnim = null;
 
 		for (String infoFileProperty : infoFileProperties) {
 			String[] split = infoFileProperty.split(" ");
@@ -60,37 +64,24 @@ public class SMDReader {
 			if (property.equals("body")) {
 				bodyFileLocation = value;
 			} else if (property.equals("anim")) {
-				if (value.equals("walk")) {
-					walkAnim = split[2];
-				} else if (value.equals("idle")) {
-					idleAnim = split[2];
-				} else {
-					OpenPixelmon.LOGGER.warn("Unknown animation type: " + value);
+				String animPath = split[2].replace(".smdx", "");
+				SMDFile animation = safeReadFile(location + "/" + animPath);
+				if (animation == null) {
+					throw new RuntimeException("Couldn't read animation!");
 				}
+				animationDataMap.put(animPath, getAnimData(animation));
 			}
 		}
-		return new SMDContext.Info(
+
+		return new SmdModel.Info(
 				safeReadFile(location + "/" + bodyFileLocation),
 				1,
-				parseAnimationData(location, walkAnim, idleAnim)
+				animationDataMap
 		);
 	}
 
-	private static Map<String, SMDContext.AnimationData> parseAnimationData(String location, String walkAnim, String idleAnim) {
-		Map<String, SMDContext.AnimationData> animationDataMap = new HashMap<>();
-		if(walkAnim != null){
-			SMDFile walkingAnimation = safeReadFile(location + "/" + walkAnim);
-			animationDataMap.put(walkAnim, getAnimData(walkingAnimation));
-		}
-		if(idleAnim != null){
-			SMDFile idleAnimation = safeReadFile(location + "/" + idleAnim);
-			animationDataMap.put(idleAnim, getAnimData(idleAnimation));
-		}
-		return animationDataMap;
-	}
-
-	private static SMDContext.AnimationData getAnimData(SMDFile animation) {
-		SMDContext.AnimationData data = new SMDContext.AnimationData();
+	private static AnimationData getAnimData(SMDFile animation) {
+		AnimationData data = new AnimationData();
 		for (SMDFileBlock block : animation.blocks) {
 			if (block instanceof NodesBlock) {
 				NodesBlock nodeBlock = (NodesBlock) block;

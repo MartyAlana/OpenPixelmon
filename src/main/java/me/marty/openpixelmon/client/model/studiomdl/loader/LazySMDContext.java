@@ -3,13 +3,13 @@ package me.marty.openpixelmon.client.model.studiomdl.loader;
 public class LazySMDContext {
 
 	private final String location;
-	private SMDContext context;
+	private SmdModel context;
 
 	protected LazySMDContext(String location) {
 		this.location = location;
 	}
 
-	public SMDContext getContext(){
+	public SmdModel getContext(){
 		if(context == null){
 			context = SMDReader.readPokemonMdl(location);
 		}

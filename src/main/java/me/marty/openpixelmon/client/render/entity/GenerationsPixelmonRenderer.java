@@ -1,22 +1,17 @@
 package me.marty.openpixelmon.client.render.entity;
 
-import dev.thecodewarrior.binarysmd.studiomdl.TrianglesBlock;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import me.marty.openpixelmon.OpenPixelmon;
-import me.marty.openpixelmon.client.model.studiomdl.Tri;
-import me.marty.openpixelmon.client.model.studiomdl.Vertex;
 import me.marty.openpixelmon.client.model.studiomdl.loader.LazySMDContext;
-import me.marty.openpixelmon.client.model.studiomdl.loader.SMDContext;
 import me.marty.openpixelmon.client.model.studiomdl.loader.SMDReader;
+import me.marty.openpixelmon.client.model.studiomdl.loader.SmdModel;
 import me.marty.openpixelmon.compatibility.OtherModCompat;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -49,49 +44,16 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 
 	@Override
 	public void render(PixelmonEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-		super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
-		matrices.push();
-		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
-
-		matrices.multiply(Vec3f.POSITIVE_Z.getRadialQuaternion(entity.pitch));
-		matrices.scale(0.02f, 0.02f, 0.02f);
 		Pair<Identifier, LazySMDContext> pair = rendererInfoMap.get(entity.getPixelmonId().getPath());
 		LazySMDContext modelFile = pair.getRight();
 		Identifier modelTexture = pair.getLeft();
-		renderInstance(matrices, modelFile.getContext(), modelTexture, vertexConsumers.getBuffer(RenderLayer.getEntitySolid(modelTexture)), light);
+
+		matrices.push();
+		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
+		matrices.scale(0.02f, 0.02f, 0.02f);
+		SmdModel.render(matrices, modelFile.getContext(), modelTexture, vertexConsumers.getBuffer(RenderLayer.getEntitySolid(modelTexture)));
 		matrices.pop();
 		PixelmonEntityRenderer.renderPixelmonInfo(entity, getFontRenderer(), dispatcher, matrices, light, vertexConsumers);
-	}
-
-	private void renderInstance(MatrixStack matrices, SMDContext context, Identifier modelTexture, VertexConsumer consumer, int light) {
-		TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
-		textureManager.bindTexture(modelTexture);
-		List<Tri> tris = context.triangles;
-		if (tris == null) {
-			throw new RuntimeException("Broken pixelmon model: missing tris");
-		}
-		for (Tri triangle : tris) {
-			consumeVertex(matrices, consumer, triangle.v1, light);
-			consumeVertex(matrices, consumer, triangle.v2, light);
-			consumeVertex(matrices, consumer, triangle.v3, light);
-			consumeVertex(matrices, consumer, triangle.v3, light);
-		}
-	}
-
-	private void consumeVertex(MatrixStack matrices, VertexConsumer consumer, Vertex vertex, int light) {
-		int color = 0xFFFFFFFF;
-		int a = 255;
-		int r = color >> 16 & 255;
-		int g = color >> 8 & 255;
-		int b = color & 255;
-
-		consumer.vertex(matrices.peek().getModel(), vertex.x, vertex.y, vertex.z)
-				.color(r, g, b, a)
-				.texture(vertex.u, 1.0f - vertex.v)
-				.overlay(0, 0)
-				.light(0xAA, 0xAA)
-				.normal(-vertex.nx, vertex.ny, vertex.nz)
-				.next();
 	}
 
 	@Override
