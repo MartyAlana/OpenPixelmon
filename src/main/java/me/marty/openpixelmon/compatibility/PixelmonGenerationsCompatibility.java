@@ -13,7 +13,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class PixelmonGenerationsCompatibility implements ModelCompatibility {
+public class PixelmonGenerationsCompatibility implements OtherModCompat {
 
 	public FileSystem root;
 

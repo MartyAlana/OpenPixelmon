@@ -29,8 +29,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-import java.util.Objects;
-
 import static net.minecraft.server.command.CommandManager.literal;
 
 public class Commands {
@@ -81,7 +79,12 @@ public class Commands {
 	private static final SimpleCommandExceptionType INVALID_POSITION_EXCEPTION = new SimpleCommandExceptionType(new TranslatableText("commands.summon.invalidPosition"));
 
 	private static int execute(ServerCommandSource source, Identifier type, Vec3d pos, CompoundTag nbt, boolean initialize) throws CommandSyntaxException {
+		Identifier realType = OpenPixelmon.id(type.getPath());
 		BlockPos blockPos = new BlockPos(pos);
+
+		if (!DataLoaders.PIXELMON_MANAGER.getPixelmon().containsKey(realType)) {
+			return 0;
+		}
 
 		if (!World.isValid(blockPos)) {
 			throw INVALID_POSITION_EXCEPTION.create();
@@ -98,7 +101,7 @@ public class Commands {
 			if (entity == null) {
 				throw FAILED_EXCEPTION.create();
 			} else {
-				entity.initialize(type);
+				entity.initialize(realType);
 
 				if (initialize) {
 					entity.initialize(source.getWorld(), source.getWorld().getLocalDifficulty(entity.getBlockPos()), SpawnReason.COMMAND, null, null);

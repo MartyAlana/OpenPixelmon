@@ -6,6 +6,7 @@ import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import me.marty.openpixelmon.item.OpenPixelmonItems;
 import me.marty.openpixelmon.item.pokeball.PokeballItem;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -35,6 +36,8 @@ public abstract class AbstractPokeballEntity extends ThrownEntity implements IAn
 	private final AnimationFactory factory = new AnimationFactory(this);
 	private boolean catchingPixelmon;
 
+	public boolean sendingOut;
+
 	public AbstractPokeballEntity(EntityType<? extends ThrownEntity> entityType, World world) {
 		super(entityType, world);
 	}
@@ -51,6 +54,10 @@ public abstract class AbstractPokeballEntity extends ThrownEntity implements IAn
 
 	@Override
 	protected void onBlockHit(BlockHitResult blockHitResult) {
+		if(sendingOut) {
+			PlayerEntity player = (PlayerEntity) getOwner();
+			System.out.println("Send out pokemon of " + player);
+		}
 		if(!catchingPixelmon) {
 			BlockPos pos = blockHitResult.getBlockPos();
 			kill();
@@ -60,6 +67,7 @@ public abstract class AbstractPokeballEntity extends ThrownEntity implements IAn
 
 	@Override
 	protected void onEntityHit(EntityHitResult entityHitResult) {
+		if(sendingOut) return;
 		if(entityHitResult.getEntity() instanceof PixelmonEntity) {
 			this.catchingPixelmon = true;
 			setNoGravity(true);

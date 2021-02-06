@@ -6,7 +6,7 @@ import dev.thecodewarrior.binarysmd.studiomdl.SMDFile;
 import dev.thecodewarrior.binarysmd.studiomdl.SMDFileBlock;
 import dev.thecodewarrior.binarysmd.studiomdl.SkeletonBlock;
 import me.marty.openpixelmon.OpenPixelmon;
-import me.marty.openpixelmon.compatibility.ModelCompatibility;
+import me.marty.openpixelmon.compatibility.OtherModCompat;
 import org.apache.commons.io.IOUtils;
 import org.msgpack.core.MessagePack;
 import org.msgpack.core.MessageUnpacker;
@@ -31,7 +31,7 @@ public class SMDReader {
 	}
 
 	private static SMDFile safeReadFile(String location) {
-		try (MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(ModelCompatibility.INSTANCE.getPixelmonModel("models/" + location))) {
+		try (MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(OtherModCompat.INSTANCE.getPixelmonModel("models/" + location))) {
 			return new SMDBinaryReader().read(unpacker);
 		} catch (IOException e) {
 			OpenPixelmon.LOGGER.fatal("Unable to read model!");
@@ -43,11 +43,11 @@ public class SMDReader {
 	private static SMDContext.Info parseInfo(String location) throws IOException {
 		String[] slashSplit = location.split("/");
 		String infoFileLocation = "models/" + location + "/" + slashSplit[slashSplit.length - 1] + ".pqc"; //Returns pokemon name for example "pokemon/abra" returns "abra"
-		if(ModelCompatibility.INSTANCE.getPixelmonInfo(infoFileLocation) == null){
+		if(OtherModCompat.INSTANCE.getPixelmonInfo(infoFileLocation) == null){
 			OpenPixelmon.LOGGER.warn(location + " could not be loaded!");
 			return null;
 		}
-		String[] infoFileProperties = IOUtils.toString(ModelCompatibility.INSTANCE.getPixelmonInfo(infoFileLocation), StandardCharsets.UTF_8).replace("$", "").replace("\r", "").replace("\t", "").split("\n");
+		String[] infoFileProperties = IOUtils.toString(OtherModCompat.INSTANCE.getPixelmonInfo(infoFileLocation), StandardCharsets.UTF_8).replace("$", "").replace("\r", "").replace("\t", "").split("\n");
 
 		String bodyFileLocation = null;
 		String walkAnim = null;

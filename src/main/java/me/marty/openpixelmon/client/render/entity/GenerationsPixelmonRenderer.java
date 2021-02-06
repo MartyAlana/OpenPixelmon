@@ -6,7 +6,7 @@ import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.client.model.studiomdl.LazySMDContext;
 import me.marty.openpixelmon.client.model.studiomdl.SMDContext;
 import me.marty.openpixelmon.client.model.studiomdl.SMDReader;
-import me.marty.openpixelmon.compatibility.ModelCompatibility;
+import me.marty.openpixelmon.compatibility.OtherModCompat;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
@@ -35,11 +35,11 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 		super(ctx);
 		OpenPixelmon.LOGGER.info("Loading Pixelmon Generations Models");
 		for (String pokemon : loopAssetDir("assets/pixelmon/models/pokemon")) {
-			if (ModelCompatibility.INSTANCE.getPixelmonModel("models/pokemon/" + pokemon + "/" + pokemon + ".pqc") == null) {
+			if (OtherModCompat.INSTANCE.getPixelmonModel("models/pokemon/" + pokemon + "/" + pokemon + ".pqc") == null) {
 				OpenPixelmon.LOGGER.warn(pokemon + " could not be loaded!");
 			} else {
 				Identifier pixelmonTexture = new Identifier("pixelmon", "textures/pokemon/" + pokemon + ".png");
-				MinecraftClient.getInstance().getTextureManager().registerTexture(pixelmonTexture, ModelCompatibility.INSTANCE.load(pixelmonTexture));
+				MinecraftClient.getInstance().getTextureManager().registerTexture(pixelmonTexture, OtherModCompat.INSTANCE.load(pixelmonTexture));
 				rendererInfoMap.put(pokemon, new Pair<>(pixelmonTexture, SMDReader.createLazyModel("pokemon/" + pokemon)));
 			}
 		}
@@ -50,13 +50,6 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 		super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
 		matrices.push();
 		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
-//		if (entity.getRoll() != 0.0F) {
-//			matrices.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(entity.getRoll()));
-//		}
-//
-//		if (entity.yaw != 0.0F) {
-//			matrices.multiply(Vec3f.POSITIVE_Z.getRadialQuaternion(entity.yaw));
-//		}
 
 		matrices.multiply(Vec3f.POSITIVE_Z.getRadialQuaternion(entity.pitch));
 		matrices.scale(0.02f, 0.02f, 0.02f);
@@ -65,6 +58,7 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 		Identifier modelTexture = pair.getLeft();
 		renderInstance(matrices, modelFile.getContext(), modelTexture, vertexConsumers.getBuffer(RenderLayer.getEntitySolid(modelTexture)), light);
 		matrices.pop();
+		PixelmonEntityRenderer.renderPixelmonInfo(entity, getFontRenderer(), dispatcher, matrices, light, vertexConsumers);
 	}
 
 	private void renderInstance(MatrixStack matrices, SMDContext context, Identifier modelTexture, VertexConsumer consumer, int light) {
@@ -72,7 +66,7 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 		textureManager.bindTexture(modelTexture);
 		List<TrianglesBlock.Triangle> tris = context.getRawTris();
 		if (tris == null) {
-			throw new RuntimeException("BROKEN POKEMON MODEL: missing triangles");
+			throw new RuntimeException("Broken pixelmon model: missing tris");
 		}
 		for (TrianglesBlock.Triangle triangle : tris) {
 			consumeVertex(matrices, consumer, triangle.v1, light);
@@ -93,8 +87,8 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 				.color(r, g, b, a)
 				.texture(vertex.u, 1.0f - vertex.v)
 				.overlay(0, 0)
-				.light(0xFFFFFF, 0xFFFFFF)
-				.normal(vertex.normX, -vertex.normY, -vertex.normZ)
+				.light(0xAA, 0xAA)
+				.normal(-vertex.normX, vertex.normY, vertex.normZ)
 				.next();
 	}
 
@@ -104,7 +98,7 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 	}
 
 	public static List<String> loopAssetDir(String rootDir) {
-		Path root = ModelCompatibility.INSTANCE.root.getPath("/" + rootDir);
+		Path root = OtherModCompat.INSTANCE.root.getPath("/" + rootDir);
 		try {
 			return Files.list(root).map(path -> root.relativize(path).toString()).collect(Collectors.toList());
 		} catch (IOException e) {

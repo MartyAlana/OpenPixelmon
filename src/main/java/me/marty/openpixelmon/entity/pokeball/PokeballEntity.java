@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.item.Item;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 
 @SuppressWarnings("EntityConstructor")
@@ -21,6 +22,13 @@ public class PokeballEntity extends AbstractPokeballEntity {
 	}
 	public PokeballEntity(double x, double y, double z, ClientWorld world) {
 		super(Entities.POKEBALL_ENTITY, x, y, z, world);
+	}
+
+	public PokeballEntity(EntityType<AbstractPokeballEntity> type, ServerPlayerEntity player) {
+		super(type, player.getServerWorld());
+		this.setPos(player.getX(), player.getY(), player.getZ());
+		setOwner(player);
+		this.sendingOut = true;
 	}
 
 	@Override
