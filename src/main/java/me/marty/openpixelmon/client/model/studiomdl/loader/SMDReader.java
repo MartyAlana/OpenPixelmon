@@ -1,4 +1,4 @@
-package me.marty.openpixelmon.client.model.studiomdl;
+package me.marty.openpixelmon.client.model.studiomdl.loader;
 
 import dev.thecodewarrior.binarysmd.formats.SMDBinaryReader;
 import dev.thecodewarrior.binarysmd.studiomdl.NodesBlock;

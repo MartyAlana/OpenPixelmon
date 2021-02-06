@@ -3,9 +3,11 @@ package me.marty.openpixelmon.client.render.entity;
 import dev.thecodewarrior.binarysmd.studiomdl.TrianglesBlock;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import me.marty.openpixelmon.OpenPixelmon;
-import me.marty.openpixelmon.client.model.studiomdl.LazySMDContext;
-import me.marty.openpixelmon.client.model.studiomdl.SMDContext;
-import me.marty.openpixelmon.client.model.studiomdl.SMDReader;
+import me.marty.openpixelmon.client.model.studiomdl.Tri;
+import me.marty.openpixelmon.client.model.studiomdl.Vertex;
+import me.marty.openpixelmon.client.model.studiomdl.loader.LazySMDContext;
+import me.marty.openpixelmon.client.model.studiomdl.loader.SMDContext;
+import me.marty.openpixelmon.client.model.studiomdl.loader.SMDReader;
 import me.marty.openpixelmon.compatibility.OtherModCompat;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import net.minecraft.client.MinecraftClient;
@@ -64,11 +66,11 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 	private void renderInstance(MatrixStack matrices, SMDContext context, Identifier modelTexture, VertexConsumer consumer, int light) {
 		TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
 		textureManager.bindTexture(modelTexture);
-		List<TrianglesBlock.Triangle> tris = context.getRawTris();
+		List<Tri> tris = context.triangles;
 		if (tris == null) {
 			throw new RuntimeException("Broken pixelmon model: missing tris");
 		}
-		for (TrianglesBlock.Triangle triangle : tris) {
+		for (Tri triangle : tris) {
 			consumeVertex(matrices, consumer, triangle.v1, light);
 			consumeVertex(matrices, consumer, triangle.v2, light);
 			consumeVertex(matrices, consumer, triangle.v3, light);
@@ -76,19 +78,19 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 		}
 	}
 
-	private void consumeVertex(MatrixStack matrices, VertexConsumer consumer, TrianglesBlock.Vertex vertex, int light) {
+	private void consumeVertex(MatrixStack matrices, VertexConsumer consumer, Vertex vertex, int light) {
 		int color = 0xFFFFFFFF;
 		int a = 255;
 		int r = color >> 16 & 255;
 		int g = color >> 8 & 255;
 		int b = color & 255;
 
-		consumer.vertex(matrices.peek().getModel(), vertex.posX, vertex.posY, vertex.posZ)
+		consumer.vertex(matrices.peek().getModel(), vertex.x, vertex.y, vertex.z)
 				.color(r, g, b, a)
 				.texture(vertex.u, 1.0f - vertex.v)
 				.overlay(0, 0)
 				.light(0xAA, 0xAA)
-				.normal(-vertex.normX, vertex.normY, vertex.normZ)
+				.normal(-vertex.nx, vertex.ny, vertex.nz)
 				.next();
 	}
 
