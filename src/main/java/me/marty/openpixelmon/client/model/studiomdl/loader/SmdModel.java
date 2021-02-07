@@ -9,6 +9,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,9 @@ public class SmdModel {
 	}
 
 	public static void render(MatrixStack matrices, SmdModel context, Identifier modelTexture, VertexConsumer consumer) {
+		matrices.push();
+		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
+		matrices.scale(context.smdInfo.scale, context.smdInfo.scale, context.smdInfo.scale);
 		TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
 		textureManager.bindTexture(modelTexture);
 		List<Tri> tris = context.triangles;
@@ -46,6 +50,7 @@ public class SmdModel {
 			consumeVertex(matrices, consumer, triangle.v3);
 			consumeVertex(matrices, consumer, triangle.v3);
 		}
+		matrices.pop();
 	}
 
 	public static void consumeVertex(MatrixStack matrices, VertexConsumer consumer, Vertex vertex) {

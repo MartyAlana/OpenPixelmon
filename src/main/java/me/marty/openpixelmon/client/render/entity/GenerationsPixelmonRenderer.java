@@ -2,8 +2,7 @@ package me.marty.openpixelmon.client.render.entity;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import me.marty.openpixelmon.OpenPixelmon;
-import me.marty.openpixelmon.client.model.studiomdl.loader.LazySMDContext;
-import me.marty.openpixelmon.client.model.studiomdl.loader.SMDReader;
+import me.marty.openpixelmon.client.model.studiomdl.loader.SmdReader;
 import me.marty.openpixelmon.client.model.studiomdl.loader.SmdModel;
 import me.marty.openpixelmon.compatibility.OtherModCompat;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
@@ -13,9 +12,11 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Lazy;
 import net.minecraft.util.Pair;
-import net.minecraft.util.math.Vec3f;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,7 +27,9 @@ import java.util.stream.Collectors;
 
 public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> {
 
-	public Map<String, Pair<Identifier, LazySMDContext>> rendererInfoMap = new Object2ObjectOpenHashMap<>();
+	public Map<String, Pair<Identifier, Lazy<SmdModel>>> rendererInfoMap = new Object2ObjectOpenHashMap<>();
+
+	public boolean errored;
 
 	public GenerationsPixelmonRenderer(EntityRendererFactory.Context ctx) {
 		super(ctx);
@@ -37,22 +40,23 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 			} else {
 				Identifier pixelmonTexture = new Identifier("pixelmon", "textures/pokemon/" + pokemon + ".png");
 				MinecraftClient.getInstance().getTextureManager().registerTexture(pixelmonTexture, OtherModCompat.INSTANCE.load(pixelmonTexture));
-				rendererInfoMap.put(pokemon, new Pair<>(pixelmonTexture, SMDReader.createLazyModel("pokemon/" + pokemon)));
+				rendererInfoMap.put(pokemon, new Pair<>(pixelmonTexture, SmdReader.createLazyModel("pokemon/" + pokemon)));
 			}
 		}
 	}
 
 	@Override
 	public void render(PixelmonEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-		Pair<Identifier, LazySMDContext> pair = rendererInfoMap.get(entity.getPixelmonId().getPath());
-		LazySMDContext modelFile = pair.getRight();
+		Pair<Identifier, Lazy<SmdModel>> pair = rendererInfoMap.get(entity.getPixelmonId().getPath());
+		if(pair == null && !errored) {
+			errored = true;
+			MinecraftClient.getInstance().player.sendMessage(new LiteralText("There is a corrupt pixelmon in your world! please report this error").formatted(Formatting.YELLOW, Formatting.ITALIC), true);
+			return;
+		}
+		Lazy<SmdModel> modelFile = pair.getRight();
 		Identifier modelTexture = pair.getLeft();
 
-		matrices.push();
-		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
-		matrices.scale(0.02f, 0.02f, 0.02f);
-		SmdModel.render(matrices, modelFile.getContext(), modelTexture, vertexConsumers.getBuffer(RenderLayer.getEntitySolid(modelTexture)));
-		matrices.pop();
+		SmdModel.render(matrices, modelFile.get(), modelTexture, vertexConsumers.getBuffer(RenderLayer.getEntitySolid(modelTexture)));
 		PixelmonEntityRenderer.renderPixelmonInfo(entity, getFontRenderer(), dispatcher, matrices, light, vertexConsumers);
 	}
 
