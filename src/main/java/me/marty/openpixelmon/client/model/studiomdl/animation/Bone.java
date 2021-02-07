@@ -1,6 +1,9 @@
 package me.marty.openpixelmon.client.model.studiomdl.animation;
 
 import dev.thecodewarrior.binarysmd.studiomdl.NodesBlock;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class Bone {
 

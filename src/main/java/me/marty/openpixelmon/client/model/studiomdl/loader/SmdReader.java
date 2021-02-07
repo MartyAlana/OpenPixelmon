@@ -7,6 +7,8 @@ import dev.thecodewarrior.binarysmd.studiomdl.SMDFileBlock;
 import dev.thecodewarrior.binarysmd.studiomdl.SkeletonBlock;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationData;
+import me.marty.openpixelmon.client.model.studiomdl.animation.Bone;
+import me.marty.openpixelmon.client.model.studiomdl.animation.Keyframe;
 import me.marty.openpixelmon.compatibility.OtherModCompat;
 import net.minecraft.util.Lazy;
 import org.apache.commons.io.IOUtils;
@@ -15,6 +17,7 @@ import org.msgpack.core.MessageUnpacker;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,11 +98,19 @@ public class SmdReader {
 		for (SMDFileBlock block : animation.blocks) {
 			if (block instanceof NodesBlock) {
 				NodesBlock nodeBlock = (NodesBlock) block;
-				data.bones = nodeBlock.bones;
+				data.bones = new ArrayList<>();
+				data.boneMap = new HashMap<>();
+				data.keyframes = new ArrayList<>();
+				for (NodesBlock.Bone bone : nodeBlock.bones) {
+					data.boneMap.put(bone.name, bone.id);
+					data.bones.set(bone.id, new Bone(bone));
+				}
 			}
 			if (block instanceof SkeletonBlock) {
 				SkeletonBlock nodeBlock = (SkeletonBlock) block;
-				data.keyframes = nodeBlock.keyframes;
+				for (SkeletonBlock.Keyframe keyframe : nodeBlock.keyframes) {
+					data.keyframes.add(new Keyframe(keyframe));
+				}
 			}
 		}
 		return data;
