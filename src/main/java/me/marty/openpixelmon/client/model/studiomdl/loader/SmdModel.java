@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SmdModel {
-	private static boolean renderBones = true;
+	private static final boolean renderBones = true;
 
 	public List<Tri> triangles;
 	public String path;
