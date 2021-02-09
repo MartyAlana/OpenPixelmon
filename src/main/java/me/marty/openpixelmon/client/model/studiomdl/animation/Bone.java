@@ -11,6 +11,9 @@ public class Bone {
 	public String name;
 	public int parent;
 
+	public float x, y, z;
+	public float rotX, rotY, rotZ;
+
 	public Bone(NodesBlock.Bone bone) {
 		this.id = bone.id;
 		this.name = bone.name;

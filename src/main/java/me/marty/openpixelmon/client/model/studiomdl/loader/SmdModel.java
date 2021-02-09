@@ -4,8 +4,12 @@ import dev.thecodewarrior.binarysmd.studiomdl.*;
 import me.marty.openpixelmon.client.model.studiomdl.Tri;
 import me.marty.openpixelmon.client.model.studiomdl.Vertex;
 import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationData;
+import me.marty.openpixelmon.client.model.studiomdl.animation.Bone;
+import net.fabricmc.loader.util.sat4j.core.Vec;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
@@ -16,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 public class SmdModel {
+	private static boolean renderBones = true;
+
 	public List<Tri> triangles;
 	public String path;
 	public final Info smdInfo;
@@ -34,11 +40,41 @@ public class SmdModel {
 		}
 	}
 
-	public static void render(MatrixStack matrices, SmdModel context, Identifier modelTexture, VertexConsumer consumer) {
-		context.updateAnimation();
+	public void tick() {
+		AnimationData animation = smdInfo.animationMap.get("idle.smdx");
+		animation.tick(MinecraftClient.getInstance().getTickDelta());
+	}
+
+	public static void render(MatrixStack matrices, SmdModel context, Identifier modelTexture, VertexConsumerProvider consumers) {
+		context.tick();
 		matrices.push();
-		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
 		matrices.scale(context.smdInfo.scale, context.smdInfo.scale, context.smdInfo.scale);
+		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
+		if (renderBones) {
+			matrices.push();
+			matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-90));
+			matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90));
+			VertexConsumer consumer = consumers.getBuffer(RenderLayer.getLines());
+			AnimationData animation = context.smdInfo.animationMap.get("idle.smdx");
+			for (Bone bone : animation.bones) {
+				if (bone.parent != -1) {
+					Bone parentBone = animation.bones.get(bone.parent);
+					if (parentBone != null) {
+						float cursed = 3f;
+						consumer
+								.vertex(matrices.peek().getModel(), bone.x * cursed, bone.y * cursed, bone.z * cursed)
+								.color(255, 255, 255, 255)
+								.next();
+						consumer
+								.vertex(matrices.peek().getModel(), parentBone.x * cursed, parentBone.y * cursed, parentBone.z * cursed)
+								.color(255, 255, 255, 255)
+								.next();
+					}
+				}
+			}
+			matrices.pop();
+		}
+		VertexConsumer consumer = consumers.getBuffer(RenderLayer.getEntitySolid(modelTexture));
 		TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
 		textureManager.bindTexture(modelTexture);
 		List<Tri> tris = context.triangles;
@@ -52,10 +88,6 @@ public class SmdModel {
 			consumeVertex(matrices, consumer, triangle.v3);
 		}
 		matrices.pop();
-	}
-
-	private void updateAnimation() {
-
 	}
 
 	public static void consumeVertex(MatrixStack matrices, VertexConsumer consumer, Vertex vertex) {

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SmdReader {
@@ -103,6 +104,7 @@ public class SmdReader {
 				data.keyframes = new ArrayList<>();
 				for (NodesBlock.Bone bone : nodeBlock.bones) {
 					data.boneMap.put(bone.name, bone.id);
+					doCursedListWorkaround(data.bones, bone.id);
 					data.bones.set(bone.id, new Bone(bone));
 				}
 			}
@@ -114,5 +116,11 @@ public class SmdReader {
 			}
 		}
 		return data;
+	}
+
+	private static void doCursedListWorkaround(List<Bone> bones, int i) {
+		while (bones.size() <= i) {
+			bones.add(null);
+		}
 	}
 }
