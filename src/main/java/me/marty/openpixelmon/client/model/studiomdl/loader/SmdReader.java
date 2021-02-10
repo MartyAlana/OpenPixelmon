@@ -1,15 +1,10 @@
 package me.marty.openpixelmon.client.model.studiomdl.loader;
 
 import dev.thecodewarrior.binarysmd.formats.SMDBinaryReader;
-import dev.thecodewarrior.binarysmd.studiomdl.NodesBlock;
 import dev.thecodewarrior.binarysmd.studiomdl.SMDFile;
-import dev.thecodewarrior.binarysmd.studiomdl.SMDFileBlock;
-import dev.thecodewarrior.binarysmd.studiomdl.SkeletonBlock;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationData;
-import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationManager;
-import me.marty.openpixelmon.client.model.studiomdl.animation.Bone;
-import me.marty.openpixelmon.client.model.studiomdl.animation.Keyframe;
+import me.marty.openpixelmon.client.model.studiomdl.animation.Animator;
 import me.marty.openpixelmon.compatibility.OtherModCompat;
 import net.minecraft.util.Lazy;
 import org.apache.commons.io.IOUtils;
@@ -18,9 +13,7 @@ import org.msgpack.core.MessageUnpacker;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SmdReader {
@@ -78,7 +71,7 @@ public class SmdReader {
 					if (animation == null) {
 						throw new RuntimeException("Couldn't read animation!");
 					}
-					animationDataMap.put(animPath, AnimationManager.getAnimData(animation));
+					animationDataMap.put(animPath, Animator.getAnimData(animation));
 					break;
 				case "scale":
 					scale = Float.parseFloat(value);

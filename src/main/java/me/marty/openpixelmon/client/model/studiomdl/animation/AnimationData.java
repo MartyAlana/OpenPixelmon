@@ -1,5 +1,7 @@
 package me.marty.openpixelmon.client.model.studiomdl.animation;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +9,14 @@ public class AnimationData {
 	public List<Bone> bones;
 	public Map<String, Integer> boneMap;
 	public List<Keyframe> keyframes;
+
+	public Bone root;
+
+	public AnimationData() {
+		this.bones = new ArrayList<>();
+		this.boneMap = new HashMap<>();
+		this.keyframes = new ArrayList<>();
+	}
 
 	public void tick(float tickDelta) {
 		Keyframe keyframe = keyframes.get(0);

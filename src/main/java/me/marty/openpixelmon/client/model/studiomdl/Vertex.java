@@ -3,6 +3,7 @@ package me.marty.openpixelmon.client.model.studiomdl;
 import dev.thecodewarrior.binarysmd.studiomdl.TrianglesBlock;
 
 public class Vertex {
+
 	public float x;
 	public float y;
 	public float z;
