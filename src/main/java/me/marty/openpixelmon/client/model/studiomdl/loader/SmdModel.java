@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class SmdModel {
 
-	public List<Tri> faces;
+	public List<Tri> faces = new ArrayList<>();
 	public String path;
 	public final Info smdInfo;
 	private AnimationData idleAnimation;
@@ -36,7 +36,7 @@ public class SmdModel {
 		for (SMDFileBlock block : smdInfo.body.blocks) {
 			if (block instanceof TrianglesBlock) {
 				TrianglesBlock vertBlock = (TrianglesBlock) block;
-				faces = parseTris(vertBlock.triangles);
+				parseTris(vertBlock.triangles);
 			}
 		}
 	}
@@ -71,8 +71,7 @@ public class SmdModel {
 				.next();
 	}
 
-	private List<Tri> parseTris(List<TrianglesBlock.Triangle> triangles) {
-		List<Tri> tris = new ArrayList<>();
+	private void parseTris(List<TrianglesBlock.Triangle> triangles) {
 		for (TrianglesBlock.Triangle triangle : triangles) {
 			Vertex v1 = getOrDefaultVertex(new Vertex(triangle.v1));
 			Vertex v2 = getOrDefaultVertex(new Vertex(triangle.v2));
@@ -80,9 +79,8 @@ public class SmdModel {
 			calculateBoneWeights(triangle.v1.links, v1);
 			calculateBoneWeights(triangle.v2.links, v2);
 			calculateBoneWeights(triangle.v3.links, v3);
-			tris.add(new Tri(v1, v2, v3));
+			faces.add(new Tri(v1, v2, v3));
 		}
-		return tris;
 	}
 
 	private void calculateBoneWeights(List<TrianglesBlock.Link> values, Vertex vertex) {

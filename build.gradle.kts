@@ -33,11 +33,11 @@ repositories {
 }
 
 dependencies {
-	minecraft("net.minecraft", "minecraft", "20w51a")
-	mappings("net.fabricmc", "yarn", "20w51a+build.29", classifier = "v2")
+	minecraft("net.minecraft", "minecraft", "21w06a")
+	mappings("net.fabricmc", "yarn", "21w06a+build.7", classifier = "v2")
 
 	modImplementation("net.fabricmc", "fabric-loader", "0.11.0")
-	modImplementation("net.fabricmc.fabric-api", "fabric-api", "0.29.3+1.17")
+	modImplementation("net.fabricmc.fabric-api", "fabric-api", "0.30.2+1.17")
 
 	include(modImplementation("net.devtech", "arrp", "0.3.2"))
 	include(modImplementation("software.bernie.geckolib", "fabric-1.16.4-geckolib", "3.0.3", classifier = "dev"))
