@@ -3,7 +3,6 @@ package me.marty.openpixelmon.item;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.block.OpenPixelmonBlocks;
 import me.marty.openpixelmon.item.plant.ApricornBlockItem;
-import me.marty.openpixelmon.item.pokeball.GreatballItem;
 import me.marty.openpixelmon.item.pokeball.PokeballItem;
 import net.devtech.arrp.json.models.JModel;
 import net.devtech.arrp.json.models.JTextures;
@@ -16,7 +15,7 @@ public class OpenPixelmonItems {
 	 * Pokeballs
 	 */
 	public static final Item POKE_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "poke_ball");
-	public static final Item GREAT_BALL = generate(new GreatballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "great_ball");
+	public static final Item GREAT_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "great_ball");
 	public static final Item ULTRA_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "ultra_ball");
 	public static final Item MASTER_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "master_ball");
 	public static final Item SAFARI_BALL = generate(new PokeballItem(new Item.Settings().maxCount(16).group(ItemGroups.POKEBALLS)), "safari_ball");

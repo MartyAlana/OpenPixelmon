@@ -36,10 +36,7 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 		new Thread(() -> {
 			int i = 0;
 			List<String> pixelmons = loopModels();
-			OpenPixelmon.maxPixelmon = pixelmons.size();
 			for (String pixelmon : pixelmons) {
-				OpenPixelmon.loadingPixelmon = pixelmon;
-				OpenPixelmon.currentPixelmon = i++;
 				if (OtherModCompat.INSTANCE.getPixelmonModel("models/pokemon/" + pixelmon + "/" + pixelmon + ".pqc") == null) {
 					OpenPixelmon.LOGGER.warn(pixelmon + " could not be loaded!");
 				} else {

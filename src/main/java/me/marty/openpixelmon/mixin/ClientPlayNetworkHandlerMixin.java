@@ -1,8 +1,6 @@
 package me.marty.openpixelmon.mixin;
 
 import me.marty.openpixelmon.entity.Entities;
-import me.marty.openpixelmon.entity.pokeball.AbstractPokeballEntity;
-import me.marty.openpixelmon.entity.pokeball.GreatballEntity;
 import me.marty.openpixelmon.entity.pokeball.PokeballEntity;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.world.ClientWorld;
@@ -27,13 +25,9 @@ public class ClientPlayNetworkHandlerMixin {
 		double z = packet.getZ();
 		EntityType<?> entityType = packet.getEntityTypeId();
 
-		AbstractPokeballEntity pokeball = null;
+		PokeballEntity pokeball = null;
 		if (entityType == Entities.POKEBALL_ENTITY) {
 			pokeball = new PokeballEntity(x, y, z, world);
-		}
-
-		if (entityType == Entities.GREATBALL_ENTITY) {
-			pokeball = new GreatballEntity(x, y, z, world);
 		}
 
 		if(pokeball != null) {

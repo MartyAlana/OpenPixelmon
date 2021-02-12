@@ -32,11 +32,6 @@ public class OpenPixelmon implements ModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger("OpenPixelmon");
 	public static final RuntimeResourcePack RESOURCE_PACK = RuntimeResourcePack.create("pixelmon");
 
-	// Used for rendering to the splash info on what we are loading
-	public static String loadingPixelmon;
-	public static int maxPixelmon;
-	public static int currentPixelmon;
-
 	@Override
 	public void onInitialize() {
 		LOGGER.info("OpenPixelmon is Initializing");

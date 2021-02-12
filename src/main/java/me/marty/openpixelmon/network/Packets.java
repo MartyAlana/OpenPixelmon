@@ -7,6 +7,7 @@ import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.entity.data.PartyEntry;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import me.marty.openpixelmon.entity.pokeball.PokeballEntity;
+import me.marty.openpixelmon.item.OpenPixelmonItems;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
@@ -27,7 +28,7 @@ public class Packets {
 			}
 			if(importantPokemon.getHp() != 0){
 				player.sendMessage(new TranslatableText("text.pixelmon.send.success", importantPokemon.getName()), false);
-				player.getServerWorld().spawnEntity(new PokeballEntity(Entities.POKEBALL_ENTITY, player));
+				player.getServerWorld().spawnEntity(new PokeballEntity(player, OpenPixelmonItems.POKE_BALL));
 			}
 		});
 	}
