@@ -51,9 +51,11 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 	@Override
 	public void render(PixelmonEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
 		Pair<Identifier, Lazy<SmdModel>> pair = rendererInfoMap.get(entity.getPixelmonId().getPath());
-		if (pair == null && !errored) {
-			errored = true;
-			MinecraftClient.getInstance().player.sendMessage(new LiteralText("There is a corrupt pixelmon in your world! please report this error").formatted(Formatting.YELLOW, Formatting.ITALIC), true);
+		if (pair == null) {
+			if(!errored) {
+				errored = true;
+				MinecraftClient.getInstance().player.sendMessage(new LiteralText("There is a corrupt pixelmon in your world! please report this error").formatted(Formatting.YELLOW, Formatting.ITALIC), true);
+			}
 			return;
 		}
 		Lazy<SmdModel> modelFile = pair.getRight();
