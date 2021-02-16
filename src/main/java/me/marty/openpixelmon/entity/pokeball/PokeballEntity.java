@@ -37,7 +37,7 @@ public class PokeballEntity extends ThrownEntity implements IAnimatable {
 	private boolean catchingPixelmon;
 
 	public boolean sendingOut;
-	private Item item;
+	private final Item item;
 
 	public PokeballEntity(EntityType<? extends ThrownEntity> entityType, World world) {
 		super(entityType, world);
