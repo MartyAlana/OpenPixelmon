@@ -39,9 +39,9 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	protected static final TrackedData<Optional<UUID>> OWNER_UUID = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 	protected static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
-	protected static final TrackedData<Identifier> PIXELMON_ID = DataTracker.registerData(PixelmonEntity.class, CustomDataTrackers.IDENTIFIER); //TODO: make an identifier tracked data handler registry
+	protected static final TrackedData<Identifier> PIXELMON_ID = DataTracker.registerData(PixelmonEntity.class, CustomDataTrackers.IDENTIFIER);
 	protected static final TrackedData<Boolean> IS_MALE = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-	private final AnimationFactory factory = new AnimationFactory(this);
+	protected final AnimationFactory factory = new AnimationFactory(this);
 
 	private int hp;
 
@@ -49,8 +49,6 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		super(entityType, world);
 		this.hp = getMaxHp();
 	}
-
-
 
 	public void initialize(Identifier entry) {
 		this.setPixelmonId(entry);
