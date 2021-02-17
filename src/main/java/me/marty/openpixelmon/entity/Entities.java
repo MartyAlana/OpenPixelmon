@@ -18,7 +18,7 @@ public class Entities {
 	public static final EntityType<PixelmonEntity> PIXELMON = Registry.register(
 			Registry.ENTITY_TYPE,
 			OpenPixelmon.id("pixelmon"),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, PixelmonEntity::new)
+			FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, PixelmonEntity::new)
 			.dimensions(EntityDimensions.changing(1, 1))
 			.build());
 
