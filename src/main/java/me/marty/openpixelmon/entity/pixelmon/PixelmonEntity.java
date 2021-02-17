@@ -1,5 +1,6 @@
 package me.marty.openpixelmon.entity.pixelmon;
 
+import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
 import me.marty.openpixelmon.data.DataLoaders;
 import net.minecraft.entity.EntityData;
@@ -12,11 +13,13 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -34,10 +37,24 @@ import java.util.UUID;
 @SuppressWarnings("EntityConstructor")
 public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
+	public static final TrackedDataHandler<Identifier> IDENTIFIER = new TrackedDataHandler<Identifier>() {
+		public void write(PacketByteBuf packetByteBuf, Identifier id) {
+			packetByteBuf.writeIdentifier(id);
+		}
+
+		public Identifier read(PacketByteBuf packetByteBuf) {
+			return packetByteBuf.readIdentifier();
+		}
+
+		public Identifier copy(Identifier id) {
+			return id;
+		}
+	};
+
 	protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	protected static final TrackedData<Optional<UUID>> OWNER_UUID = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 	protected static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
-	protected static final TrackedData<String> PIXELMON_ID = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.STRING); //TODO: make an identifier tracked data handler registry
+	protected static final TrackedData<Identifier> PIXELMON_ID = DataTracker.registerData(PixelmonEntity.class, IDENTIFIER); //TODO: make an identifier tracked data handler registry
 	protected static final TrackedData<Boolean> IS_MALE = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	private final AnimationFactory factory = new AnimationFactory(this);
 
@@ -48,15 +65,17 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		this.hp = getMaxHp();
 	}
 
+
+
 	public void initialize(Identifier entry) {
-		this.setPixelmonId(entry.toString());
-		hp = 69;
+		this.setPixelmonId(entry);
+		hp = 0;
 	}
 
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(BOSS, false);
-		this.dataTracker.startTracking(PIXELMON_ID, "missing_no");
+		this.dataTracker.startTracking(PIXELMON_ID, OpenPixelmon.id("missing_no"));
 		this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
 		this.dataTracker.startTracking(LEVEL, 0);
 		this.dataTracker.startTracking(IS_MALE, true);
@@ -79,7 +98,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		super.readCustomDataFromTag(tag);
 		if (tag.getKeys().contains("level")) {
 			this.setBoss(tag.getBoolean("boss"));
-			this.setPixelmonId(tag.getString("pixelmonId"));
+			this.setPixelmonId(new Identifier(tag.getString("pixelmonId")));
 			this.setLevel(tag.getInt("level"));
 		}
 		if(tag.getKeys().contains("ownerUuid")) {
@@ -87,7 +106,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 		}
 	}
 
-	private void setPixelmonId(String pixelmonId) {
+	private void setPixelmonId(Identifier pixelmonId) {
 		this.dataTracker.set(PIXELMON_ID, pixelmonId);
 	}
 
@@ -176,7 +195,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	}
 
 	public Identifier getPixelmonId() {
-		return new Identifier(this.dataTracker.get(PIXELMON_ID));
+		return this.dataTracker.get(PIXELMON_ID);
 	}
 
 	public PokedexEntry getPokedexEntry() {
@@ -184,7 +203,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	}
 
 	public String getNickname() {
-		return ""; //TODO:
+		return "nickname"; //TODO:
 //		return OpenPixelmonTranslator.createTranslation(pokedexEntry.name).getString();
 	}
 
