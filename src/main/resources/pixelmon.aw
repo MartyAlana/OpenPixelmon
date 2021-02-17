@@ -5,3 +5,4 @@ accessible	method	net/minecraft/util/registry/DynamicRegistryManager	register	(L
 accessible	method	net/minecraft/util/registry/BuiltinRegistries	addRegistry	(Lnet/minecraft/util/registry/RegistryKey;Ljava/util/function/Supplier;)Lnet/minecraft/util/registry/Registry;
 accessible	method	net/minecraft/entity/SpawnRestriction	register	(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/SpawnRestriction$Location;Lnet/minecraft/world/Heightmap$Type;Lnet/minecraft/entity/SpawnRestriction$SpawnPredicate;)V
 accessible	field	net/minecraft/util/collection/DefaultedList	delegate	Ljava/util/List;
+accessible	field	net/minecraft/entity/data/TrackedDataHandlerRegistry	DATA_HANDLERS	Lnet/minecraft/util/collection/Int2ObjectBiMap;

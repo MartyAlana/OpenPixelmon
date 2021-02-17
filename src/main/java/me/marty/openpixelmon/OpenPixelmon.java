@@ -4,6 +4,7 @@ import me.marty.openpixelmon.api.Registries;
 import me.marty.openpixelmon.biome.Biomes;
 import me.marty.openpixelmon.block.OpenPixelmonBlocks;
 import me.marty.openpixelmon.command.Commands;
+import me.marty.openpixelmon.entity.CustomDataTrackers;
 import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.item.OpenPixelmonItems;
 import me.marty.openpixelmon.network.Packets;
@@ -44,6 +45,7 @@ public class OpenPixelmon implements ModInitializer {
 		Entities.initialize();
 		Biomes.initialize();
 		Commands.initialize();
+		CustomDataTrackers.initialize();
 		RRPCallback.EVENT.register(resources -> resources.add(RESOURCE_PACK));
 
 		LOGGER.info("OpenPixelmon Initialization successful!");
