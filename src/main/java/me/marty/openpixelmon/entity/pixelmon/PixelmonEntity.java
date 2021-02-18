@@ -3,8 +3,8 @@ package me.marty.openpixelmon.entity.pixelmon;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
 import me.marty.openpixelmon.data.DataLoaders;
-import net.minecraft.entity.EntityData;
 import me.marty.openpixelmon.entity.CustomDataTrackers;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
@@ -22,6 +22,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -36,6 +37,7 @@ import java.util.UUID;
 @SuppressWarnings("EntityConstructor")
 public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
+	public static final Identifier MISSING_NO = OpenPixelmon.id("missing_no");
 	protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	protected static final TrackedData<Optional<UUID>> OWNER_UUID = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 	protected static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -45,20 +47,24 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
 	private int hp;
 
-	public PixelmonEntity(EntityType<? extends AnimalEntity> entityType, World world) {
+	public PixelmonEntity(EntityType<PixelmonEntity> entityType, World world) {
 		super(entityType, world);
 		this.hp = getMaxHp();
+		BlockPos pos = this.getBlockPos();
+		System.out.println(world);
+		System.out.println(pos);
+		this.initialize(MISSING_NO);
 	}
 
 	public void initialize(Identifier entry) {
 		this.setPixelmonId(entry);
-		hp = 0;
+		hp = 10;
 	}
 
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(BOSS, false);
-		this.dataTracker.startTracking(PIXELMON_ID, OpenPixelmon.id("missing_no"));
+		this.dataTracker.startTracking(PIXELMON_ID, MISSING_NO);
 		this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
 		this.dataTracker.startTracking(LEVEL, 0);
 		this.dataTracker.startTracking(IS_MALE, true);
