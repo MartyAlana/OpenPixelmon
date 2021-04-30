@@ -110,7 +110,9 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
         setLevel(69420);
 
         BlockPos pos = this.getBlockPos();
-        this.setup(MISSING);
+        if(this.getPixelmonId() == null) {
+            this.setup(MISSING);
+        }
         return entityData;
     }
 

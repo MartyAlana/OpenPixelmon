@@ -35,7 +35,6 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
     public GenerationsPixelmonRenderer(EntityRendererFactory.Context ctx) {
         super(ctx);
         new Thread(() -> {
-            int i = 0;
             List<String> pixelmons = loopModels();
             for (String pixelmon : pixelmons) {
                 if (OtherModCompat.INSTANCE.getPixelmonModel("models/pokemon/" + pixelmon + "/" + pixelmon + ".pqc") == null) {
@@ -53,11 +52,7 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
     public void render(PixelmonEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         Pair<Identifier, Lazy<SmdModel>> pair = rendererInfoMap.get(entity.getPixelmonId().getPath());
         if (pair == null) {
-            if(!errored) {
-                errored = true;
-                MinecraftClient.getInstance().player.sendMessage(new LiteralText("There is a corrupt pixelmon in your world! please report this error").formatted(Formatting.YELLOW, Formatting.ITALIC), true);
-            }
-            return;
+            throw new RuntimeException("There is a corrupt pixelmon in your world! please report this error");
         }
         Lazy<SmdModel> modelFile = pair.getRight();
         Identifier modelTexture = pair.getLeft();
