@@ -18,7 +18,7 @@ import net.minecraft.command.argument.NbtCompoundTagArgumentType;
 import net.minecraft.command.argument.Vec3ArgumentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
@@ -49,15 +49,15 @@ public class Commands {
 									return builder.buildFuture();
 								})
 								.executes(commandContext -> {
-									return execute(commandContext.getSource(), IdentifierArgumentType.getIdentifier(commandContext, "type"), commandContext.getSource().getPosition(), new CompoundTag(), true);
+									return execute(commandContext.getSource(), IdentifierArgumentType.getIdentifier(commandContext, "type"), commandContext.getSource().getPosition(), new NbtCompound(), true);
 								})
 								.then(CommandManager.argument("pos", Vec3ArgumentType.vec3())
 										.executes(commandContext -> {
-											return execute(commandContext.getSource(), IdentifierArgumentType.getIdentifier(commandContext, "type"), Vec3ArgumentType.getVec3(commandContext, "pos"), new CompoundTag(), true);
+											return execute(commandContext.getSource(), IdentifierArgumentType.getIdentifier(commandContext, "type"), Vec3ArgumentType.getVec3(commandContext, "pos"), new NbtCompound(), true);
 										})
 										.then(CommandManager.argument("nbt", NbtCompoundTagArgumentType.nbtCompound())
 												.executes(commandContext -> {
-													return execute(commandContext.getSource(), IdentifierArgumentType.getIdentifier(commandContext, "type"), Vec3ArgumentType.getVec3(commandContext, "pos"), NbtCompoundTagArgumentType.getCompoundTag(commandContext, "nbt"), false);
+													return execute(commandContext.getSource(), IdentifierArgumentType.getIdentifier(commandContext, "type"), Vec3ArgumentType.getVec3(commandContext, "pos"), NbtCompoundTagArgumentType.getNbtCompound(commandContext, "nbt"), false);
 												}))))));
 
 		dispatcher.register(
@@ -65,7 +65,7 @@ public class Commands {
 						.requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(4))
 						.executes(context -> {
 							PixelmonEntity entity = Entities.PIXELMON.create(context.getSource().getWorld());
-							entity.initialize(OpenPixelmon.id("bulbasaur"));
+							entity.setup(OpenPixelmon.id("bulbasaur"));
 							EntityComponents.PARTY_COMPONENT.get(context.getSource().getPlayer()).getParty().add(
 									context.getSource().getPlayer(),
 									new PartyEntry(entity, (PokeballItem) OpenPixelmonItems.POKE_BALL));
@@ -78,7 +78,7 @@ public class Commands {
 	private static final SimpleCommandExceptionType DUPLICATE_UUID = new SimpleCommandExceptionType(new TranslatableText("commands.summon.failed.uuid"));
 	private static final SimpleCommandExceptionType INVALID_POSITION_EXCEPTION = new SimpleCommandExceptionType(new TranslatableText("commands.summon.invalidPosition"));
 
-	private static int execute(ServerCommandSource source, Identifier type, Vec3d pos, CompoundTag nbt, boolean initialize) throws CommandSyntaxException {
+	private static int execute(ServerCommandSource source, Identifier type, Vec3d pos, NbtCompound nbt, boolean initialize) throws CommandSyntaxException {
 		Identifier realType = OpenPixelmon.id(type.getPath());
 		BlockPos blockPos = new BlockPos(pos);
 
@@ -89,11 +89,11 @@ public class Commands {
 		if (!World.isValid(blockPos)) {
 			throw INVALID_POSITION_EXCEPTION.create();
 		} else {
-			CompoundTag compoundTag = nbt.copy();
-			compoundTag.putString("id", Registry.ENTITY_TYPE.getId(Entities.PIXELMON).toString());
+			NbtCompound NbtCompound = nbt.copy();
+			NbtCompound.putString("id", Registry.ENTITY_TYPE.getId(Entities.PIXELMON).toString());
 			ServerWorld serverWorld = source.getWorld();
 
-			PixelmonEntity entity = (PixelmonEntity) EntityType.loadEntityWithPassengers(compoundTag, serverWorld, e -> {
+			PixelmonEntity entity = (PixelmonEntity) EntityType.loadEntityWithPassengers(NbtCompound, serverWorld, e -> {
 				e.refreshPositionAndAngles(pos.x, pos.y, pos.z, e.yaw, e.pitch);
 				return e;
 			});
@@ -101,7 +101,7 @@ public class Commands {
 			if (entity == null) {
 				throw FAILED_EXCEPTION.create();
 			} else {
-				entity.initialize(realType);
+				entity.setup(realType);
 
 				if (initialize) {
 					entity.initialize(source.getWorld(), source.getWorld().getLocalDifficulty(entity.getBlockPos()), SpawnReason.COMMAND, null, null);

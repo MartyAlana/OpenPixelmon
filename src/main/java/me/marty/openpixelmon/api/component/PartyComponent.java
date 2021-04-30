@@ -5,7 +5,7 @@ import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import me.marty.openpixelmon.entity.data.Party;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.collection.DefaultedList;
 
@@ -21,26 +21,21 @@ public class PartyComponent implements ComponentV3, AutoSyncedComponent {
 	}
 
 	@Override
-	public void readFromNbt(CompoundTag tag) {
-		CompoundTag inv = tag.getCompound("Inventory");
+	public void readFromNbt(NbtCompound tag) {
 		party.readFromTag(tag);
-		Inventories.fromTag(tag, pixelmonItemInventory);
+		Inventories.readNbt(tag, pixelmonItemInventory);
 	}
 
 	@Override
-	public void writeToNbt(CompoundTag tag) {
+	public void writeToNbt(NbtCompound tag) {
 		party.writeToTag(tag);
-		CompoundTag inv = new CompoundTag();
-		Inventories.toTag(inv, pixelmonItemInventory);
+		NbtCompound inv = new NbtCompound();
+		Inventories.writeNbt(inv, pixelmonItemInventory);
 		tag.put("Inventory", inv);
 	}
 
 	public Party getParty() {
 		return party;
-	}
-
-	public DefaultedList<ItemStack> getpixelmonItemInventory() {
-		return pixelmonItemInventory;
 	}
 
 	@Override

@@ -18,7 +18,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -34,10 +34,9 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import java.util.Optional;
 import java.util.UUID;
 
-@SuppressWarnings("EntityConstructor")
 public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
-	public static final Identifier MISSING_NO = OpenPixelmon.id("missing_no");
+	public static final Identifier MISSING = OpenPixelmon.id("pichu");
 	protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	protected static final TrackedData<Optional<UUID>> OWNER_UUID = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 	protected static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -50,29 +49,25 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	public PixelmonEntity(EntityType<PixelmonEntity> entityType, World world) {
 		super(entityType, world);
 		this.hp = getMaxHp();
-		BlockPos pos = this.getBlockPos();
-		System.out.println(world);
-		System.out.println(pos);
-		this.initialize(MISSING_NO);
 	}
 
-	public void initialize(Identifier entry) {
+	public void setup(Identifier entry) {
 		this.setPixelmonId(entry);
-		hp = 10;
+		hp = 69420;
 	}
 
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(BOSS, false);
-		this.dataTracker.startTracking(PIXELMON_ID, MISSING_NO);
+		this.dataTracker.startTracking(PIXELMON_ID, MISSING);
 		this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
 		this.dataTracker.startTracking(LEVEL, 0);
 		this.dataTracker.startTracking(IS_MALE, true);
 	}
 
 	@Override
-	public void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
 
 		tag.putBoolean("boss", this.dataTracker.get(BOSS));
 		tag.putString("pixelmonId", getPixelmonId().toString());
@@ -83,8 +78,8 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	}
 
 	@Override
-	public void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		if (tag.getKeys().contains("level")) {
 			this.setBoss(tag.getBoolean("boss"));
 			this.setPixelmonId(new Identifier(tag.getString("pixelmonId")));
@@ -108,11 +103,14 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	}
 
 	@Override
-	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
 		entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 
 		setBoss(getLevel() >= 20 && random.nextFloat() < 0.05F);
-		setLevel(0);//pokedexEntry.minLevel + random.nextInt(pokedexEntry.evolutionLevel / 2));
+		setLevel(69420);
+
+		BlockPos pos = this.getBlockPos();
+		this.setup(MISSING);
 		return entityData;
 	}
 
@@ -156,7 +154,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
 		PixelmonEntity pixelmonEntity = new PixelmonEntity(getType(), world);
-		pixelmonEntity.initialize(getPixelmonId());
+		pixelmonEntity.setup(getPixelmonId());
 		return pixelmonEntity;
 	}
 

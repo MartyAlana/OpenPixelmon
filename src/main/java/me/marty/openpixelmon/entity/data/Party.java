@@ -1,9 +1,9 @@
 package me.marty.openpixelmon.entity.data;
 
 import net.fabricmc.fabric.api.util.NbtType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -13,32 +13,32 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Party {
-	private static final CompoundTag NULL_TAG = Util.make(new CompoundTag(), tag -> tag.putBoolean("Null", true));
+	private static final NbtCompound NULL_TAG = Util.make(new NbtCompound(), tag -> tag.putBoolean("Null", true));
 	private final PartyEntry[] entries = new PartyEntry[6];
 
 	public PartyEntry[] getEntries() {
 		return entries;
 	}
 
-	public void writeToTag(CompoundTag tag) {
-		ListTag list = new ListTag();
+	public void writeToTag(NbtCompound tag) {
+	    NbtList list = new NbtList();
 		for (PartyEntry entry : entries) {
 			if (entry == null) {
 				list.add(NULL_TAG);
 			} else {
-				list.add(entry.writeToTag(new CompoundTag()));
+				list.add(entry.writeToTag(new NbtCompound()));
 			}
 		}
 		tag.put("Party", list);
 	}
 
-	public void readFromTag(CompoundTag tag) {
-		ListTag list = tag.getList("Party", NbtType.COMPOUND);
+	public void readFromTag(NbtCompound tag) {
+        NbtList list = tag.getList("Party", NbtType.COMPOUND);
 		for (int i = 0; i < list.size(); i++) {
-			Tag t = list.get(i);
-			CompoundTag compoundTag = (CompoundTag) t;
-			if (!compoundTag.equals(NULL_TAG)) {
-				this.entries[i] = PartyEntry.readFromTag(compoundTag);
+            NbtElement t = list.get(i);
+			NbtCompound NbtCompound = (NbtCompound) t;
+			if (!NbtCompound.equals(NULL_TAG)) {
+				this.entries[i] = PartyEntry.readFromTag(NbtCompound);
 			}
 		}
 	}

@@ -3,7 +3,7 @@ package me.marty.openpixelmon.entity.data;
 import me.marty.openpixelmon.data.DataLoaders;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import me.marty.openpixelmon.item.pokeball.PokeballItem;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -52,7 +52,7 @@ public class PartyEntry {
 		return id;
 	}
 
-	public CompoundTag writeToTag(CompoundTag tag) {
+	public NbtCompound writeToTag(NbtCompound tag) {
 		tag.putString("id", id.toString());
 		tag.putInt("hp", hp);
 		tag.putBoolean("isMale", isMale);
@@ -61,7 +61,7 @@ public class PartyEntry {
 		return tag;
 	}
 
-	public static PartyEntry readFromTag(CompoundTag tag) {
+	public static PartyEntry readFromTag(NbtCompound tag) {
 		Identifier id = new Identifier(tag.getString("id"));
 		int hp = tag.getInt("hp");
 		boolean isMale = tag.getBoolean("isMale");

@@ -12,21 +12,10 @@ import me.marty.openpixelmon.sound.Sounds;
 import net.devtech.arrp.api.RRPCallback;
 import net.devtech.arrp.api.RuntimeResourcePack;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.resource.ReloadableResourceManager;
-import net.minecraft.resource.Resource;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.resource.ResourceReloadListener;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.profiler.Profiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
-
-import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 public class OpenPixelmon implements ModInitializer {
 

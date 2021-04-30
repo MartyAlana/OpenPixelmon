@@ -24,7 +24,6 @@ public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
 	@Override
 	public void render(PixelmonEntity entity, float entityYaw, float partialTicks, MatrixStack matrices, VertexConsumerProvider vertexConsumerProvider, int light) {
 		PokedexEntry pokedexEntry = entity.getPokedexEntry();
-
 		if (pokedexEntry != null) {
 			matrices.push();
 			matrices.scale(pokedexEntry.renderScale[0], pokedexEntry.renderScale[1], pokedexEntry.renderScale[2]);

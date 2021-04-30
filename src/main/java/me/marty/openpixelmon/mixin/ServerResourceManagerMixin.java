@@ -19,8 +19,8 @@ public class ServerResourceManagerMixin {
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void loadPixelmonResources(DynamicRegistryManager dynamicRegistryManager, CommandManager.RegistrationEnvironment registrationEnvironment, int i, CallbackInfo ci){
-		this.resourceManager.registerListener(DataLoaders.MOVE_MANAGER);
-		this.resourceManager.registerListener(DataLoaders.PIXELMON_MANAGER);
-		this.resourceManager.registerListener(DataLoaders.PIXELMON_TYPE_MANAGER);
+		this.resourceManager.registerReloader(DataLoaders.MOVE_MANAGER);
+		this.resourceManager.registerReloader(DataLoaders.PIXELMON_MANAGER);
+		this.resourceManager.registerReloader(DataLoaders.PIXELMON_TYPE_MANAGER);
 	}
 }
