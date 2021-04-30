@@ -11,14 +11,14 @@ import java.util.Map;
 
 public class PixelmonTypeManager extends JsonDataLoader {
 
-	private static final Gson GSON = new Gson();
+    private static final Gson GSON = new Gson();
 
-	public PixelmonTypeManager() {
-		super(GSON, "elements");
-	}
+    public PixelmonTypeManager() {
+        super(GSON, "elements");
+    }
 
-	@Override
-	protected void apply(Map<Identifier, JsonElement> loader, ResourceManager manager, Profiler profiler) {
+    @Override
+    protected void apply(Map<Identifier, JsonElement> loader, ResourceManager manager, Profiler profiler) {
 
-	}
+    }
 }

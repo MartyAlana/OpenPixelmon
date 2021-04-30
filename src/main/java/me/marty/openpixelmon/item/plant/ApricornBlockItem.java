@@ -5,12 +5,12 @@ import net.minecraft.item.BlockItem;
 
 public class ApricornBlockItem extends BlockItem {
 
-	public ApricornBlockItem(Block block, Settings settings) {
-		super(block, settings);
-	}
+    public ApricornBlockItem(Block block, Settings settings) {
+        super(block, settings);
+    }
 
-	@Override
-	public String getTranslationKey() {
-		return super.getOrCreateTranslationKey();
-	}
+    @Override
+    public String getTranslationKey() {
+        return super.getOrCreateTranslationKey();
+    }
 }

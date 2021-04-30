@@ -6,7 +6,7 @@ import net.minecraft.entity.SpawnGroup;
 
 public class Biomes {
 
-	public static void initialize() {
-		BiomeModifications.addSpawn(biomeSelectionContext -> true, SpawnGroup.AMBIENT, Entities.PIXELMON, 1, 1, 2);
-	}
+    public static void initialize() {
+        BiomeModifications.addSpawn(biomeSelectionContext -> true, SpawnGroup.AMBIENT, Entities.PIXELMON, 1, 1, 2);
+    }
 }

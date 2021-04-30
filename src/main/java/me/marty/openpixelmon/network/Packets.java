@@ -16,20 +16,20 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 public class Packets {
-	public static final Identifier SEND_OUT = OpenPixelmon.id("send_out_pixelmon");
+    public static final Identifier SEND_OUT = OpenPixelmon.id("send_out_pixelmon");
 
-	public static void initialize() {
-		ServerPlayNetworking.registerGlobalReceiver(SEND_OUT, (server, player, handler, buf, responseSender) -> {
-			PartyComponent party = EntityComponents.PARTY_COMPONENT.get(player);
-			PartyEntry importantPokemon = party.getParty().getEntries()[0];
-			if(importantPokemon == null) {
-				player.sendMessage(new TranslatableText("text.pixelmon.send.fail"), false);
-				return;
-			}
-			if(importantPokemon.getHp() != 0){
-				player.sendMessage(new TranslatableText("text.pixelmon.send.success", importantPokemon.getName()), false);
-				player.getServerWorld().spawnEntity(new PokeballEntity(player, OpenPixelmonItems.POKE_BALL));
-			}
-		});
-	}
+    public static void initialize() {
+        ServerPlayNetworking.registerGlobalReceiver(SEND_OUT, (server, player, handler, buf, responseSender) -> {
+            PartyComponent party = EntityComponents.PARTY_COMPONENT.get(player);
+            PartyEntry importantPokemon = party.getParty().getEntries()[0];
+            if(importantPokemon == null) {
+                player.sendMessage(new TranslatableText("text.pixelmon.send.fail"), false);
+                return;
+            }
+            if(importantPokemon.getHp() != 0){
+                player.sendMessage(new TranslatableText("text.pixelmon.send.success", importantPokemon.getName()), false);
+                player.getServerWorld().spawnEntity(new PokeballEntity(player, OpenPixelmonItems.POKE_BALL));
+            }
+        });
+    }
 }

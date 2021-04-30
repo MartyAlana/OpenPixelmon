@@ -8,17 +8,17 @@ import net.minecraft.util.registry.RegistryKey;
 
 public class DynamicRegistryBuilder {
 
-	private final ImmutableMap.Builder<RegistryKey<? extends Registry<?>>, DynamicRegistryManager.Info<?>> builder;
+    private final ImmutableMap.Builder<RegistryKey<? extends Registry<?>>, DynamicRegistryManager.Info<?>> builder;
 
-	public DynamicRegistryBuilder(ImmutableMap.Builder<RegistryKey<? extends Registry<?>>, DynamicRegistryManager.Info<?>> builder) {
-		this.builder = builder;
-	}
+    public DynamicRegistryBuilder(ImmutableMap.Builder<RegistryKey<? extends Registry<?>>, DynamicRegistryManager.Info<?>> builder) {
+        this.builder = builder;
+    }
 
-	public <E> void register(RegistryKey<? extends Registry<E>> registryRef, Codec<E> entryCodec) {
-		register(registryRef, entryCodec, null);
-	}
+    public <E> void register(RegistryKey<? extends Registry<E>> registryRef, Codec<E> entryCodec) {
+        register(registryRef, entryCodec, null);
+    }
 
-	public <E> void register(RegistryKey<? extends Registry<E>> registryRef, Codec<E> entryCodec, Codec<E> networkEntryCodec) {
-		DynamicRegistryManager.register(builder, registryRef, entryCodec, networkEntryCodec);
-	}
+    public <E> void register(RegistryKey<? extends Registry<E>> registryRef, Codec<E> entryCodec, Codec<E> networkEntryCodec) {
+        DynamicRegistryManager.register(builder, registryRef, entryCodec, networkEntryCodec);
+    }
 }

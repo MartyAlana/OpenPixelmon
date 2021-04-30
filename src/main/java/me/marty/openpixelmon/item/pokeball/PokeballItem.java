@@ -13,20 +13,20 @@ import net.minecraft.world.World;
 
 public class PokeballItem extends Item {
 
-	public PokeballItem(Settings settings) {
-		super(settings);
-	}
+    public PokeballItem(Settings settings) {
+        super(settings);
+    }
 
-	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.6F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
-		if (!world.isClient()) {
-			PokeballEntity pokeball = new PokeballEntity(user, world, this);
-			pokeball.setProperties(user, user.pitch, user.yaw, 0.0F, 1.5F, 1.0F);
-			world.spawnEntity(pokeball);
-			user.getStackInHand(hand).decrement(1);
-			return TypedActionResult.success(user.getStackInHand(hand));
-		}
-		return super.use(world, user, hand);
-	}
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.6F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
+        if (!world.isClient()) {
+            PokeballEntity pokeball = new PokeballEntity(user, world, this);
+            pokeball.setProperties(user, user.pitch, user.yaw, 0.0F, 1.5F, 1.0F);
+            world.spawnEntity(pokeball);
+            user.getStackInHand(hand).decrement(1);
+            return TypedActionResult.success(user.getStackInHand(hand));
+        }
+        return super.use(world, user, hand);
+    }
 }

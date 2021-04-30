@@ -17,74 +17,74 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SmdReader {
-	public static Lazy<SmdModel> createLazyModel(String location) {
-		return new Lazy<>(() -> SmdReader.readPokemonMdl(location));
-	}
+    public static Lazy<SmdModel> createLazyModel(String location) {
+        return new Lazy<>(() -> SmdReader.readPokemonMdl(location));
+    }
 
-	private static SmdModel readPokemonMdl(String location) {
-		try {
-			return new SmdModel("assets/generations/models/" + location, parseInfo(location));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    private static SmdModel readPokemonMdl(String location) {
+        try {
+            return new SmdModel("assets/generations/models/" + location, parseInfo(location));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	private static SMDFile safeReadFile(String location) {
-		try (MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(OtherModCompat.INSTANCE.getPixelmonModel("models/" + location))) {
-			return new SMDBinaryReader().read(unpacker);
-		} catch (IOException e) {
-			OpenPixelmon.LOGGER.fatal("Unable to read model!");
-			e.printStackTrace();
-		}
-		return null;
-	}
+    private static SMDFile safeReadFile(String location) {
+        try (MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(OtherModCompat.INSTANCE.getPixelmonModel("models/" + location))) {
+            return new SMDBinaryReader().read(unpacker);
+        } catch (IOException e) {
+            OpenPixelmon.LOGGER.fatal("Unable to read model!");
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	private static SmdModel.Info parseInfo(String location) throws IOException {
-		String[] slashSplit = location.split("/");
-		String infoFileLocation = "models/" + location + "/" + slashSplit[slashSplit.length - 1] + ".pqc"; //Returns pokemon name for example "pokemon/abra" returns "abra"
-		if (OtherModCompat.INSTANCE.getPixelmonInfo(infoFileLocation) == null) {
-			OpenPixelmon.LOGGER.warn(location + " could not be loaded!");
-			return null;
-		}
-		String[] infoFileProperties = IOUtils.toString(OtherModCompat.INSTANCE.getPixelmonInfo(infoFileLocation), StandardCharsets.UTF_8).replace("$", "").replace("\r", "").replace("\t", "").split("\n");
+    private static SmdModel.Info parseInfo(String location) throws IOException {
+        String[] slashSplit = location.split("/");
+        String infoFileLocation = "models/" + location + "/" + slashSplit[slashSplit.length - 1] + ".pqc"; //Returns pokemon name for example "pokemon/abra" returns "abra"
+        if (OtherModCompat.INSTANCE.getPixelmonInfo(infoFileLocation) == null) {
+            OpenPixelmon.LOGGER.warn(location + " could not be loaded!");
+            return null;
+        }
+        String[] infoFileProperties = IOUtils.toString(OtherModCompat.INSTANCE.getPixelmonInfo(infoFileLocation), StandardCharsets.UTF_8).replace("$", "").replace("\r", "").replace("\t", "").split("\n");
 
-		return parseAnimationData(infoFileProperties, location);
-	}
+        return parseAnimationData(infoFileProperties, location);
+    }
 
-	private static SmdModel.Info parseAnimationData(String[] infoFileProperties, String location) {
-		Map<String, AnimationData> animationDataMap = new HashMap<>();
-		String bodyFileLocation = null;
-		float scale = 0.02f;
+    private static SmdModel.Info parseAnimationData(String[] infoFileProperties, String location) {
+        Map<String, AnimationData> animationDataMap = new HashMap<>();
+        String bodyFileLocation = null;
+        float scale = 0.02f;
 
-		for (String infoFileProperty : infoFileProperties) {
-			String[] split = infoFileProperty.split(" ");
-			String property = split[0];
-			String value = split[1];
-			switch (property) {
-				case "body":
-					bodyFileLocation = value;
-					break;
-				case "anim":
-					String animPath = split[2];
-					SMDFile animation = safeReadFile(location + "/" + animPath);
-					if (animation == null) {
-						throw new RuntimeException("Couldn't read animation!");
-					}
-					animationDataMap.put(animPath, Animator.getAnimData(animation));
-					break;
-				case "scale":
-					scale = Float.parseFloat(value);
-					break;
-				default:
-					OpenPixelmon.LOGGER.warn("We dont know how to handle the property: " + property);
-			}
-		}
+        for (String infoFileProperty : infoFileProperties) {
+            String[] split = infoFileProperty.split(" ");
+            String property = split[0];
+            String value = split[1];
+            switch (property) {
+                case "body":
+                    bodyFileLocation = value;
+                    break;
+                case "anim":
+                    String animPath = split[2];
+                    SMDFile animation = safeReadFile(location + "/" + animPath);
+                    if (animation == null) {
+                        throw new RuntimeException("Couldn't read animation!");
+                    }
+                    animationDataMap.put(animPath, Animator.getAnimData(animation));
+                    break;
+                case "scale":
+                    scale = Float.parseFloat(value);
+                    break;
+                default:
+                    OpenPixelmon.LOGGER.warn("We dont know how to handle the property: " + property);
+            }
+        }
 
-		return new SmdModel.Info(
-				safeReadFile(location + "/" + bodyFileLocation),
-				scale / 10,
-				animationDataMap
-		);
-	}
+        return new SmdModel.Info(
+                safeReadFile(location + "/" + bodyFileLocation),
+                scale / 10,
+                animationDataMap
+        );
+    }
 }

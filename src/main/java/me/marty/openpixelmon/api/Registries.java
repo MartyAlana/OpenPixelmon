@@ -12,23 +12,23 @@ import net.minecraft.util.registry.RegistryKey;
 
 public class Registries {
 
-	public static final RegistryKey<Registry<PokedexEntry>> PIXELMON_REGISTRY = RegistryKey.ofRegistry(OpenPixelmon.id("pixelmon"));
-	public static final RegistryKey<Registry<Move>> MOVE_REGISTRY = RegistryKey.ofRegistry(OpenPixelmon.id("move"));
+    public static final RegistryKey<Registry<PokedexEntry>> PIXELMON_REGISTRY = RegistryKey.ofRegistry(OpenPixelmon.id("pixelmon"));
+    public static final RegistryKey<Registry<Move>> MOVE_REGISTRY = RegistryKey.ofRegistry(OpenPixelmon.id("move"));
 
-	public static void register() {
-		BuiltinRegistries.addRegistry(PIXELMON_REGISTRY, () -> null);
-		BuiltinRegistries.addRegistry(MOVE_REGISTRY, () -> null);
+    public static void register() {
+        BuiltinRegistries.addRegistry(PIXELMON_REGISTRY, () -> null);
+        BuiltinRegistries.addRegistry(MOVE_REGISTRY, () -> null);
 
-		DynamicRegistryBuilderCallback.EVENT.register(builder -> {
-			builder.register(PIXELMON_REGISTRY, PokedexEntry.CODEC);
-			builder.register(MOVE_REGISTRY, Move.CODEC);
-		});
+        DynamicRegistryBuilderCallback.EVENT.register(builder -> {
+            builder.register(PIXELMON_REGISTRY, PokedexEntry.CODEC);
+            builder.register(MOVE_REGISTRY, Move.CODEC);
+        });
 
-		DynamicRegistrySetupCallback.EVENT.register(registryManager -> {
-			Registry<PokedexEntry> pokedexRegistry = registryManager.get(PIXELMON_REGISTRY);
-			RegistryEntryAddedCallback.event(pokedexRegistry).register((rawId, id, object) -> {
-				System.out.println("Do i sync here?");
-			});
-		});
-	}
+        DynamicRegistrySetupCallback.EVENT.register(registryManager -> {
+            Registry<PokedexEntry> pokedexRegistry = registryManager.get(PIXELMON_REGISTRY);
+            RegistryEntryAddedCallback.event(pokedexRegistry).register((rawId, id, object) -> {
+                System.out.println("Do i sync here?");
+            });
+        });
+    }
 }

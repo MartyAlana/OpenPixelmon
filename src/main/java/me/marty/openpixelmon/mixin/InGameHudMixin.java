@@ -15,12 +15,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InGameHud.class)
 public class InGameHudMixin extends DrawableHelper {
 
-	@Shadow private int scaledHeight;
+    @Shadow private int scaledHeight;
 
-	@Shadow @Final private MinecraftClient client;
+    @Shadow @Final private MinecraftClient client;
 
-	@Inject(method = "renderHotbar", at = @At("HEAD"))
-	private void renderPixelmonParty(float tickDelta, MatrixStack matrices, CallbackInfo ci) {
-		Overlays.renderPartyOverlay(matrices, client, scaledHeight);
-	}
+    @Inject(method = "renderHotbar", at = @At("HEAD"))
+    private void renderPixelmonParty(float tickDelta, MatrixStack matrices, CallbackInfo ci) {
+        Overlays.renderPartyOverlay(matrices, client, scaledHeight);
+    }
 }

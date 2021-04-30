@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(DynamicRegistryManager.class)
 public class DynamicRegistryManagerMixin {
 
-	@Inject(method = "method_30531", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/ImmutableMap$Builder;build()Lcom/google/common/collect/ImmutableMap;"), locals = LocalCapture.CAPTURE_FAILHARD)
-	private static void onInfosCreation(CallbackInfoReturnable<ImmutableMap<RegistryKey<? extends Registry<?>>, DynamicRegistryManager.Info<?>>> callbackInfoReturnable, ImmutableMap.Builder<RegistryKey<? extends Registry<?>>, DynamicRegistryManager.Info<?>> builder) {
-		DynamicRegistryBuilderCallback.EVENT.invoker().register(new DynamicRegistryBuilder(builder));
-	}
+    @Inject(method = "method_30531", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/ImmutableMap$Builder;build()Lcom/google/common/collect/ImmutableMap;"), locals = LocalCapture.CAPTURE_FAILHARD)
+    private static void onInfosCreation(CallbackInfoReturnable<ImmutableMap<RegistryKey<? extends Registry<?>>, DynamicRegistryManager.Info<?>>> callbackInfoReturnable, ImmutableMap.Builder<RegistryKey<? extends Registry<?>>, DynamicRegistryManager.Info<?>> builder) {
+        DynamicRegistryBuilderCallback.EVENT.invoker().register(new DynamicRegistryBuilder(builder));
+    }
 }

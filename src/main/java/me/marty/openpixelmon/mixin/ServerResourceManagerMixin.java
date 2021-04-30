@@ -15,12 +15,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerResourceManager.class)
 public class ServerResourceManagerMixin {
 
-	@Shadow @Final private ReloadableResourceManager resourceManager;
+    @Shadow @Final private ReloadableResourceManager resourceManager;
 
-	@Inject(method = "<init>", at = @At("TAIL"))
-	private void loadPixelmonResources(DynamicRegistryManager dynamicRegistryManager, CommandManager.RegistrationEnvironment registrationEnvironment, int i, CallbackInfo ci){
-		this.resourceManager.registerReloader(DataLoaders.MOVE_MANAGER);
-		this.resourceManager.registerReloader(DataLoaders.PIXELMON_MANAGER);
-		this.resourceManager.registerReloader(DataLoaders.PIXELMON_TYPE_MANAGER);
-	}
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void loadPixelmonResources(DynamicRegistryManager dynamicRegistryManager, CommandManager.RegistrationEnvironment registrationEnvironment, int i, CallbackInfo ci){
+        this.resourceManager.registerReloader(DataLoaders.MOVE_MANAGER);
+        this.resourceManager.registerReloader(DataLoaders.PIXELMON_MANAGER);
+        this.resourceManager.registerReloader(DataLoaders.PIXELMON_TYPE_MANAGER);
+    }
 }

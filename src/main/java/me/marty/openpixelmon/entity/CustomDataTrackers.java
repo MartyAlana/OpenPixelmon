@@ -7,21 +7,21 @@ import net.minecraft.util.Identifier;
 
 public class CustomDataTrackers {
 
-	public static final TrackedDataHandler<Identifier> IDENTIFIER = new TrackedDataHandler<Identifier>() {
-		public void write(PacketByteBuf packetByteBuf, Identifier id) {
-			packetByteBuf.writeIdentifier(id);
-		}
+    public static final TrackedDataHandler<Identifier> IDENTIFIER = new TrackedDataHandler<Identifier>() {
+        public void write(PacketByteBuf packetByteBuf, Identifier id) {
+            packetByteBuf.writeIdentifier(id);
+        }
 
-		public Identifier read(PacketByteBuf packetByteBuf) {
-			return packetByteBuf.readIdentifier();
-		}
+        public Identifier read(PacketByteBuf packetByteBuf) {
+            return packetByteBuf.readIdentifier();
+        }
 
-		public Identifier copy(Identifier id) {
-			return id;
-		}
-	};
+        public Identifier copy(Identifier id) {
+            return id;
+        }
+    };
 
-	public static void initialize() {
-		TrackedDataHandlerRegistry.DATA_HANDLERS.add(IDENTIFIER);
-	}
+    public static void initialize() {
+        TrackedDataHandlerRegistry.DATA_HANDLERS.add(IDENTIFIER);
+    }
 }

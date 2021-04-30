@@ -1,35 +1,35 @@
 {
-	"format_version": "1.8.0",
-	"animations": {
-		"animation.pixelmon.idle": {
-			"loop": true,
-			"animation_length": 4.16,
-			"bones": {
-				"missingNo": {
-					"position": {
-						"0.0": {
-							"vector": [5, 3, 0]
-						},
-						"1.04": {
-							"vector": [0, 0, 0],
-							"easing": "easeInQuad"
-						},
-						"2.08": {
-							"vector": [-3, 3, 0],
-							"easing": "easeInQuad"
-						},
-						"3.12": {
-							"vector": [0, 0, 0],
-							"easing": "easeInQuad"
-						},
-						"4.16": {
-							"vector": [5, 3, 0],
-							"easing": "easeInQuad"
-						}
-					}
-				}
-			}
-		}
-	},
-	"geckolib_format_version": 2
+    "format_version": "1.8.0",
+    "animations": {
+        "animation.pixelmon.idle": {
+            "loop": true,
+            "animation_length": 4.16,
+            "bones": {
+                "missingNo": {
+                    "position": {
+                        "0.0": {
+                            "vector": [5, 3, 0]
+                        },
+                        "1.04": {
+                            "vector": [0, 0, 0],
+                            "easing": "easeInQuad"
+                        },
+                        "2.08": {
+                            "vector": [-3, 3, 0],
+                            "easing": "easeInQuad"
+                        },
+                        "3.12": {
+                            "vector": [0, 0, 0],
+                            "easing": "easeInQuad"
+                        },
+                        "4.16": {
+                            "vector": [5, 3, 0],
+                            "easing": "easeInQuad"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "geckolib_format_version": 2
 }

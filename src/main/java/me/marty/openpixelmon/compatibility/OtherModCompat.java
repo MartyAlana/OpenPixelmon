@@ -7,15 +7,15 @@ import java.io.InputStream;
  */
 public interface OtherModCompat {
 
-	PixelmonGenerationsCompatibility INSTANCE = new PixelmonGenerationsCompatibility();
+    PixelmonGenerationsCompatibility INSTANCE = new PixelmonGenerationsCompatibility();
 
-	InputStream getPixelmonModel(String name);
-	InputStream getPixelmonTexture(String name);
+    InputStream getPixelmonModel(String name);
+    InputStream getPixelmonTexture(String name);
 
-	/**
-	 * Used to check if the jar in the compatibility
-	 * @param modName the name of the jar we are currently checking
-	 * @return if we can provide compatibility
-	 */
-	boolean isCompatibleMod(String modName);
+    /**
+     * Used to check if the jar in the compatibility
+     * @param modName the name of the jar we are currently checking
+     * @return if we can provide compatibility
+     */
+    boolean isCompatibleMod(String modName);
 }

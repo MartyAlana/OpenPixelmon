@@ -28,55 +28,55 @@ import java.util.stream.Collectors;
 
 public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> {
 
-	public static Map<String, Pair<Identifier, Lazy<SmdModel>>> rendererInfoMap = new Object2ObjectOpenHashMap<>();
+    public static Map<String, Pair<Identifier, Lazy<SmdModel>>> rendererInfoMap = new Object2ObjectOpenHashMap<>();
 
-	public boolean errored;
+    public boolean errored;
 
-	public GenerationsPixelmonRenderer(EntityRendererFactory.Context ctx) {
-		super(ctx);
-		new Thread(() -> {
-			int i = 0;
-			List<String> pixelmons = loopModels();
-			for (String pixelmon : pixelmons) {
-				if (OtherModCompat.INSTANCE.getPixelmonModel("models/pokemon/" + pixelmon + "/" + pixelmon + ".pqc") == null) {
-					OpenPixelmon.LOGGER.warn(pixelmon + " could not be loaded!");
-				} else {
-					Identifier pixelmonTexture = new Identifier("pixelmon", "textures/pokemon/" + pixelmon + ".png");
-					MinecraftClient.getInstance().getTextureManager().registerTexture(pixelmonTexture, OtherModCompat.INSTANCE.load(pixelmonTexture));
-					GenerationsPixelmonRenderer.rendererInfoMap.put(pixelmon, new Pair<>(pixelmonTexture, SmdReader.createLazyModel("pokemon/" + pixelmon)));
-				}
-			}
-		}).start();
-	}
+    public GenerationsPixelmonRenderer(EntityRendererFactory.Context ctx) {
+        super(ctx);
+        new Thread(() -> {
+            int i = 0;
+            List<String> pixelmons = loopModels();
+            for (String pixelmon : pixelmons) {
+                if (OtherModCompat.INSTANCE.getPixelmonModel("models/pokemon/" + pixelmon + "/" + pixelmon + ".pqc") == null) {
+                    OpenPixelmon.LOGGER.warn(pixelmon + " could not be loaded!");
+                } else {
+                    Identifier pixelmonTexture = new Identifier("pixelmon", "textures/pokemon/" + pixelmon + ".png");
+                    MinecraftClient.getInstance().getTextureManager().registerTexture(pixelmonTexture, OtherModCompat.INSTANCE.load(pixelmonTexture));
+                    GenerationsPixelmonRenderer.rendererInfoMap.put(pixelmon, new Pair<>(pixelmonTexture, SmdReader.createLazyModel("pokemon/" + pixelmon)));
+                }
+            }
+        }).start();
+    }
 
-	@Override
-	public void render(PixelmonEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-		Pair<Identifier, Lazy<SmdModel>> pair = rendererInfoMap.get(entity.getPixelmonId().getPath());
-		if (pair == null) {
-			if(!errored) {
-				errored = true;
-				MinecraftClient.getInstance().player.sendMessage(new LiteralText("There is a corrupt pixelmon in your world! please report this error").formatted(Formatting.YELLOW, Formatting.ITALIC), true);
-			}
-			return;
-		}
-		Lazy<SmdModel> modelFile = pair.getRight();
-		Identifier modelTexture = pair.getLeft();
+    @Override
+    public void render(PixelmonEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+        Pair<Identifier, Lazy<SmdModel>> pair = rendererInfoMap.get(entity.getPixelmonId().getPath());
+        if (pair == null) {
+            if(!errored) {
+                errored = true;
+                MinecraftClient.getInstance().player.sendMessage(new LiteralText("There is a corrupt pixelmon in your world! please report this error").formatted(Formatting.YELLOW, Formatting.ITALIC), true);
+            }
+            return;
+        }
+        Lazy<SmdModel> modelFile = pair.getRight();
+        Identifier modelTexture = pair.getLeft();
 
-		SmdModel.render(matrices, modelFile.get(), modelTexture, vertexConsumers);
-		PixelmonEntityRenderer.renderPixelmonInfo(entity, getFontRenderer(), dispatcher, matrices, light, vertexConsumers);
-	}
+        SmdModel.render(matrices, modelFile.get(), modelTexture, vertexConsumers);
+        PixelmonEntityRenderer.renderPixelmonInfo(entity, getFontRenderer(), dispatcher, matrices, light, vertexConsumers);
+    }
 
-	@Override
-	public Identifier getTexture(PixelmonEntity entity) {
-		return rendererInfoMap.get(entity.getPixelmonId().getPath()).getLeft();
-	}
+    @Override
+    public Identifier getTexture(PixelmonEntity entity) {
+        return rendererInfoMap.get(entity.getPixelmonId().getPath()).getLeft();
+    }
 
-	private static List<String> loopModels() {
-		Path root = OtherModCompat.INSTANCE.root.getPath("assets/pixelmon/models/pokemon");
-		try {
-			return Files.list(root).map(path -> root.relativize(path).toString()).collect(Collectors.toList());
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    private static List<String> loopModels() {
+        Path root = OtherModCompat.INSTANCE.root.getPath("assets/pixelmon/models/pokemon");
+        try {
+            return Files.list(root).map(path -> root.relativize(path).toString()).collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

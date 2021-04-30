@@ -23,41 +23,41 @@ import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public class OpenPixelmonClient implements ClientModInitializer {
-	@Override
-	public void onInitializeClient() {
-		registerEntityRenderers();
-		registerS2CPackets();
-		registerKeybindings();
-		registerHudRenderers();
-	}
+    @Override
+    public void onInitializeClient() {
+        registerEntityRenderers();
+        registerS2CPackets();
+        registerKeybindings();
+        registerHudRenderers();
+    }
 
-	private void registerHudRenderers() {
-		HudRenderCallback.EVENT.register((matrices, tickDelta) -> Overlays.renderPartyOverlay(matrices, MinecraftClient.getInstance(), MinecraftClient.getInstance().getWindow().getScaledHeight()));
-	}
+    private void registerHudRenderers() {
+        HudRenderCallback.EVENT.register((matrices, tickDelta) -> Overlays.renderPartyOverlay(matrices, MinecraftClient.getInstance(), MinecraftClient.getInstance().getWindow().getScaledHeight()));
+    }
 
-	private void registerKeybindings() {
-		KeyBinding keyBinding = new KeyBinding("keybind.pixelmon.throw_pixelmon", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "category.pixelmon.pixelmon");
-		KeyBindingHelper.registerKeyBinding(keyBinding);
-		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			while (keyBinding.wasPressed()) {
-				ClientPlayNetworking.send(Packets.SEND_OUT, PacketByteBufs.create());
-			}
-		});
-	}
+    private void registerKeybindings() {
+        KeyBinding keyBinding = new KeyBinding("keybind.pixelmon.throw_pixelmon", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "category.pixelmon.pixelmon");
+        KeyBindingHelper.registerKeyBinding(keyBinding);
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            while (keyBinding.wasPressed()) {
+                ClientPlayNetworking.send(Packets.SEND_OUT, PacketByteBufs.create());
+            }
+        });
+    }
 
-	private void registerS2CPackets() {
-	}
+    private void registerS2CPackets() {
+    }
 
-	private void registerEntityRenderers() {
-		if(useCompatModels()) {
-			EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, GenerationsPixelmonRenderer::new);
-		} else {
-			EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, PixelmonEntityRenderer::new);
-		}
-		EntityRendererRegistry.INSTANCE.register(Entities.POKEBALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/pokeball")));
-	}
+    private void registerEntityRenderers() {
+        if(useCompatModels()) {
+            EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, GenerationsPixelmonRenderer::new);
+        } else {
+            EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, PixelmonEntityRenderer::new);
+        }
+        EntityRendererRegistry.INSTANCE.register(Entities.POKEBALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/pokeball")));
+    }
 
-	private boolean useCompatModels() {
-		return true; //TODO: currently forced due to us not having models for every pixelmon :pensive:
-	}
+    private boolean useCompatModels() {
+        return true; //TODO: currently forced due to us not having models for every pixelmon :pensive:
+    }
 }

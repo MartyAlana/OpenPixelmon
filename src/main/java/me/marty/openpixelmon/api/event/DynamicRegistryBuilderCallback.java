@@ -6,11 +6,11 @@ import net.fabricmc.fabric.api.event.EventFactory;
 
 public interface DynamicRegistryBuilderCallback {
 
-	Event<DynamicRegistryBuilderCallback> EVENT = EventFactory.createArrayBacked(DynamicRegistryBuilderCallback.class, (callbacks) -> (builder) -> {
-		for (DynamicRegistryBuilderCallback callback : callbacks) {
-			callback.register(builder);
-		}
-	});
+    Event<DynamicRegistryBuilderCallback> EVENT = EventFactory.createArrayBacked(DynamicRegistryBuilderCallback.class, (callbacks) -> (builder) -> {
+        for (DynamicRegistryBuilderCallback callback : callbacks) {
+            callback.register(builder);
+        }
+    });
 
-	void register(DynamicRegistryBuilder builder);
+    void register(DynamicRegistryBuilder builder);
 }

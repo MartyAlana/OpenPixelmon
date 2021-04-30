@@ -11,14 +11,14 @@ import java.util.Map;
 
 public class MoveManager extends JsonDataLoader {
 
-	private static final Gson GSON = new Gson();
+    private static final Gson GSON = new Gson();
 
-	public MoveManager() {
-		super(GSON, "moves");
-	}
+    public MoveManager() {
+        super(GSON, "moves");
+    }
 
-	@Override
-	protected void apply(Map<Identifier, JsonElement> loader, ResourceManager manager, Profiler profiler) {
+    @Override
+    protected void apply(Map<Identifier, JsonElement> loader, ResourceManager manager, Profiler profiler) {
 
-	}
+    }
 }

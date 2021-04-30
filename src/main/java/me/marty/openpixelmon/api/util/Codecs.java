@@ -5,9 +5,9 @@ import com.mojang.serialization.Codec;
 
 public class Codecs {
 
-	private static final Gson GSON = new Gson();
+    private static final Gson GSON = new Gson();
 
-	public static <A> Codec<A> withGson(Class<A> clazz) {
-		return Codec.STRING.xmap(string -> GSON.fromJson(string, clazz), GSON::toJson);
-	}
+    public static <A> Codec<A> withGson(Class<A> clazz) {
+        return Codec.STRING.xmap(string -> GSON.fromJson(string, clazz), GSON::toJson);
+    }
 }

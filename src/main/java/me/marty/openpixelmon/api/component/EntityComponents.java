@@ -8,10 +8,10 @@ import dev.onyxstudios.cca.api.v3.entity.RespawnCopyStrategy;
 import me.marty.openpixelmon.OpenPixelmon;
 
 public class EntityComponents implements EntityComponentInitializer {
-	public static final ComponentKey<PartyComponent> PARTY_COMPONENT = ComponentRegistryV3.INSTANCE.getOrCreate(OpenPixelmon.id("pixelmon_party"), PartyComponent.class);
+    public static final ComponentKey<PartyComponent> PARTY_COMPONENT = ComponentRegistryV3.INSTANCE.getOrCreate(OpenPixelmon.id("pixelmon_party"), PartyComponent.class);
 
-	@Override
-	public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-		registry.registerForPlayers(PARTY_COMPONENT, player -> new PartyComponent(), RespawnCopyStrategy.ALWAYS_COPY);
-	}
+    @Override
+    public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
+        registry.registerForPlayers(PARTY_COMPONENT, player -> new PartyComponent(), RespawnCopyStrategy.ALWAYS_COPY);
+    }
 }

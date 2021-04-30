@@ -1,13 +1,13 @@
 rootProject.name = "OpenPixelmon"
 
 pluginManagement {
-	repositories {
-		gradlePluginPortal()
-		jcenter()
+    repositories {
+        gradlePluginPortal()
+        jcenter()
 
-		maven {
-			name = "Fabric"
-			url = uri("https://maven.fabricmc.net/")
-		}
-	}
+        maven {
+            name = "Fabric"
+            url = uri("https://maven.fabricmc.net/")
+        }
+    }
 }

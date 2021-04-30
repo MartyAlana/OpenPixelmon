@@ -13,12 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(TitleScreen.class)
 public class TitleScreenMixin extends Screen {
 
-	protected TitleScreenMixin(Text title) {
-		super(title);
-	}
+    protected TitleScreenMixin(Text title) {
+        super(title);
+    }
 
-	@Inject(method = "render", at = @At("TAIL"))
-	private void pleaseDontSueMe(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-		Overlays.renderLegalOverlay(matrices, this.client, this.height, this.width);
-	}
+    @Inject(method = "render", at = @At("TAIL"))
+    private void pleaseDontSueMe(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        Overlays.renderLegalOverlay(matrices, this.client, this.height, this.width);
+    }
 }

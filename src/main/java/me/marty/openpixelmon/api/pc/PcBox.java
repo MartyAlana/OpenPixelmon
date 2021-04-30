@@ -7,10 +7,10 @@ import java.util.List;
 
 public class PcBox {
 
-	public final String displayName;
-	public final List<PixelmonEntity> pixelmon = new ArrayList<>();
+    public final String displayName;
+    public final List<PixelmonEntity> pixelmon = new ArrayList<>();
 
-	public PcBox(String displayName) {
-		this.displayName = displayName;
-	}
+    public PcBox(String displayName) {
+        this.displayName = displayName;
+    }
 }
