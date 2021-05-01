@@ -15,7 +15,7 @@ public class MinecraftClientMixin {
     @Inject(method = "getMusicType", at = @At("RETURN"), cancellable = true)
     private void getPixelmonMusicType(CallbackInfoReturnable<MusicSound> cir) {
         if (cir.getReturnValue().getSound() == SoundEvents.MUSIC_GAME) {
-            cir.setReturnValue(Sounds.AMBIENT_1_LOOP);
+            cir.setReturnValue(Sounds.AMBIENT_2_LOOP);
         } else if (cir.getReturnValue().getSound() == SoundEvents.MUSIC_MENU) {
             cir.setReturnValue(Sounds.MENU_LOOP);
         }

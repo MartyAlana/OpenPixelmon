@@ -11,23 +11,11 @@
     ],
     "volume": 0.8
   },
-  "music.ambient_4": {
-    "sounds": [
-      "pixelmon:ambient_4"
-    ],
-    "volume": 0.8
-  },
   "music.menu": {
     "sounds": [
-      "pixelmon:ambient_3"
+      "pixelmon:ambient_1"
     ],
     "volume": 0.4
-  },
-  "music.battle_1": {
-    "sounds": [
-      "pixelmon:battle_1"
-    ],
-    "volume": 0.8
   },
   "music.battle_2": {
     "sounds": [
