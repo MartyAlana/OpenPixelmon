@@ -3,6 +3,7 @@ package me.marty.openpixelmon.entity;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import me.marty.openpixelmon.entity.pokeball.PokeballEntity;
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
@@ -10,7 +11,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.registry.Registry;
 
-public class Entities {
+public class Entities implements ModInitializer {
 
     /**
      * Misc Entities
@@ -32,7 +33,8 @@ public class Entities {
                     .dimensions(EntityDimensions.fixed(0.25f, 0.25f))
                     .build());
 
-    public static void initialize() {
+    @Override
+    public void onInitialize() {
         FabricDefaultAttributeRegistry.register(PIXELMON, PixelmonEntity.createPixelmonAttributes());
     }
 }

@@ -54,7 +54,7 @@ public class PixelmonGenerationsCompatibility implements OtherModCompat {
     }
 
     public AbstractTexture load(Identifier pixelmonTexture) {
-        // Due to the original pixelmon dev's and some generation devs possibly being the shittiest devs in the world, i have to do some guess work into figuring out what the texture's name is
+        // Due to the original pixelmon dev's and possibly some generation devs being the shittiest devs in the world, i have to do some guess work into figuring out what the texture's name is
         // Sorry if the original comment here had offended anyone not directly responsible for it. dont use giant hardcoded enum's next time :)
 
         InputStream stream = doSomeGuesswork(pixelmonTexture.getPath());

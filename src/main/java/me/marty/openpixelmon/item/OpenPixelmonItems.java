@@ -6,11 +6,12 @@ import me.marty.openpixelmon.item.plant.ApricornBlockItem;
 import me.marty.openpixelmon.item.pokeball.PokeballItem;
 import net.devtech.arrp.json.models.JModel;
 import net.devtech.arrp.json.models.JTextures;
+import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class OpenPixelmonItems {
+public class OpenPixelmonItems implements ModInitializer {
     /**
      * Pokeballs
      */
@@ -61,9 +62,6 @@ public class OpenPixelmonItems {
     public static final Item BAKED_RED_APRICORN = generate(new Item(new Item.Settings().group(ItemGroups.ORGANIC)), "baked_red_apricorn");
     public static final Item BAKED_BLACK_APRICORN = generate(new Item(new Item.Settings().group(ItemGroups.ORGANIC)), "baked_black_apricorn");
 
-    public static void initialize() {
-    }
-
     /**
      * Used to generate a basic item model
      *
@@ -82,4 +80,7 @@ public class OpenPixelmonItems {
         Registry.register(Registry.ITEM, identifier, item);
         return item;
     }
+
+    @Override
+    public void onInitialize() {}
 }

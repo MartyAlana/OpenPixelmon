@@ -3,22 +3,19 @@ package me.marty.openpixelmon.network;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.component.EntityComponents;
 import me.marty.openpixelmon.api.component.PartyComponent;
-import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.entity.data.PartyEntry;
-import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import me.marty.openpixelmon.entity.pokeball.PokeballEntity;
 import me.marty.openpixelmon.item.OpenPixelmonItems;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
-public class Packets {
+public class Packets implements ModInitializer {
     public static final Identifier SEND_OUT = OpenPixelmon.id("send_out_pixelmon");
 
-    public static void initialize() {
+    @Override
+    public void onInitialize() {
         ServerPlayNetworking.registerGlobalReceiver(SEND_OUT, (server, player, handler, buf, responseSender) -> {
             PartyComponent party = EntityComponents.PARTY_COMPONENT.get(player);
             PartyEntry importantPokemon = party.getParty().getEntries()[0];

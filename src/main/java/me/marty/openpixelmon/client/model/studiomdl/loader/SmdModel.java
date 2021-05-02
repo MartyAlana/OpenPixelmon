@@ -3,10 +3,12 @@ package me.marty.openpixelmon.client.model.studiomdl.loader;
 import dev.thecodewarrior.binarysmd.studiomdl.SMDFile;
 import dev.thecodewarrior.binarysmd.studiomdl.SMDFileBlock;
 import dev.thecodewarrior.binarysmd.studiomdl.TrianglesBlock;
+import me.marty.openpixelmon.client.OpenPixelmonClient;
 import me.marty.openpixelmon.client.model.studiomdl.Tri;
 import me.marty.openpixelmon.client.model.studiomdl.Vertex;
 import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationData;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -41,33 +43,31 @@ public class SmdModel {
         }
     }
 
-    public static void render(MatrixStack matrices, SmdModel context, Identifier modelTexture, VertexConsumerProvider consumers) {
+    public static void render(MatrixStack matrices, SmdModel context, Identifier modelTexture, VertexConsumerProvider consumers, int light) {
         matrices.push();
         matrices.scale(context.smdInfo.scale, context.smdInfo.scale, context.smdInfo.scale);
         matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
         VertexConsumer consumer = consumers.getBuffer(RenderLayer.getEntitySolid(modelTexture));
-        TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
-        textureManager.bindTexture(modelTexture);
         List<Tri> tris = context.faces;
         if (tris == null) {
             throw new RuntimeException("Broken pixelmon model: missing triangles!");
         }
         for (Tri triangle : tris) {
-            consumeVertex(matrices, consumer, triangle.v1);
-            consumeVertex(matrices, consumer, triangle.v2);
-            consumeVertex(matrices, consumer, triangle.v3);
-            consumeVertex(matrices, consumer, triangle.v3);
+            consumeVertex(matrices, consumer, triangle.v1, light);
+            consumeVertex(matrices, consumer, triangle.v2, light);
+            consumeVertex(matrices, consumer, triangle.v3, light);
+            consumeVertex(matrices, consumer, triangle.v3, light);
         }
         matrices.pop();
     }
 
-    public static void consumeVertex(MatrixStack matrices, VertexConsumer consumer, Vertex vertex) {
+    public static void consumeVertex(MatrixStack matrices, VertexConsumer consumer, Vertex vertex, int light) {
         consumer.vertex(matrices.peek().getModel(), vertex.x, vertex.y, vertex.z)
                 .color(255, 255, 255, 255)
                 .texture(vertex.u, 1.0f - vertex.v)
-                .overlay(0, 0)
+                .overlay(OverlayTexture.DEFAULT_UV)
                 .light(0xAA, 0xAA)
-                .normal(-vertex.nx, vertex.ny, vertex.nz)
+                .normal(vertex.nx, vertex.ny, vertex.nz)
                 .next();
     }
 

@@ -8,11 +8,12 @@ import net.devtech.arrp.json.blockstate.JState;
 import net.devtech.arrp.json.blockstate.JVariant;
 import net.devtech.arrp.json.models.JModel;
 import net.devtech.arrp.json.models.JTextures;
+import net.fabricmc.api.ModInitializer;
 import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class OpenPixelmonBlocks {
+public class OpenPixelmonBlocks implements ModInitializer {
 
     public static final Block RED_APRICORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_APRICORN), "red_acorn_bush");
     public static final Block WHITE_APRICORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_APRICORN), "white_acorn_bush");
@@ -21,9 +22,6 @@ public class OpenPixelmonBlocks {
     public static final Block GREEN_APRICORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_APRICORN), "green_acorn_bush");
     public static final Block PINK_APRICORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_APRICORN), "pink_acorn_bush");
     public static final Block BLACK_APRICORN_BUSH = generateAcornBush(new AcornBush(OpenPixelmonItems.RED_APRICORN), "black_acorn_bush");
-
-    public static void initialize(){
-    }
 
     private static Block generateAcornBush(AcornBush block, String id) {
         Registry.register(Registry.BLOCK, OpenPixelmon.id(id), block);
@@ -43,4 +41,7 @@ public class OpenPixelmonBlocks {
                 .textures(new JTextures().var("0", growingIdentifier.toString())), growingIdentifier);
         return block;
     }
+
+    @Override
+    public void onInitialize() {}
 }

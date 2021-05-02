@@ -1,13 +1,14 @@
 package me.marty.openpixelmon.sound;
 
 import me.marty.openpixelmon.OpenPixelmon;
+import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.sound.MusicType;
 import net.minecraft.sound.MusicSound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class Sounds {
+public class Sounds implements ModInitializer {
 
     public static final SoundEvent BATTLE_1 = registerSound("music.battle_1");
     public static final SoundEvent BATTLE_2 = registerSound("music.battle_2");
@@ -32,6 +33,6 @@ public class Sounds {
         return Registry.register(Registry.SOUND_EVENT, identifier, new SoundEvent(identifier));
     }
 
-    public static void initialize() {
-    }
+    @Override
+    public void onInitialize() {}
 }

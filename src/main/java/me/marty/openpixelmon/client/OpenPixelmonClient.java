@@ -18,11 +18,17 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderPhase;
+import net.minecraft.client.render.VertexFormat;
+import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public class OpenPixelmonClient implements ClientModInitializer {
+
     @Override
     public void onInitializeClient() {
         registerEntityRenderers();
@@ -49,7 +55,7 @@ public class OpenPixelmonClient implements ClientModInitializer {
     }
 
     private void registerEntityRenderers() {
-        if(useCompatModels()) {
+        if (useCompatModels()) {
             EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, GenerationsPixelmonRenderer::new);
         } else {
             EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, PixelmonEntityRenderer::new);
@@ -59,5 +65,15 @@ public class OpenPixelmonClient implements ClientModInitializer {
 
     private boolean useCompatModels() {
         return true; //TODO: currently forced due to us not having models for every pixelmon :pensive:
+    }
+
+    public static RenderLayer getPixelmonLayer(Identifier texture) {
+        RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
+                .shader(RenderPhase.ENTITY_SOLID_SHADER)
+                .texture(new RenderPhase.Texture(texture, false, false))
+                .transparency(RenderPhase.NO_TRANSPARENCY).lightmap(RenderPhase.ENABLE_LIGHTMAP)
+                .overlay(RenderPhase.DISABLE_OVERLAY_COLOR)
+                .build(true);
+        return RenderLayer.of("pixelmon", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, true, false, multiPhaseParameters);
     }
 }

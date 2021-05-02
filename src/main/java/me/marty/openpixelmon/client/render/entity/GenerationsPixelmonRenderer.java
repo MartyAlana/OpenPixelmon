@@ -57,7 +57,7 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
         Lazy<SmdModel> modelFile = pair.getRight();
         Identifier modelTexture = pair.getLeft();
 
-        SmdModel.render(matrices, modelFile.get(), modelTexture, vertexConsumers);
+        SmdModel.render(matrices, modelFile.get(), modelTexture, vertexConsumers, light);
         PixelmonEntityRenderer.renderPixelmonInfo(entity, getFontRenderer(), dispatcher, matrices, light, vertexConsumers);
     }
 

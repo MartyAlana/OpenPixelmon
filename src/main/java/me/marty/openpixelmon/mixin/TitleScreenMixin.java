@@ -18,7 +18,7 @@ public class TitleScreenMixin extends Screen {
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void pleaseDontSueMe(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    private void youCantSueMe(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         Overlays.renderLegalOverlay(matrices, this.client, this.height, this.width);
     }
 }

@@ -1,6 +1,7 @@
 package me.marty.openpixelmon.entity.pixelmon;
 
 import me.marty.openpixelmon.OpenPixelmon;
+import me.marty.openpixelmon.api.Registries;
 import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
 import me.marty.openpixelmon.data.DataLoaders;
 import me.marty.openpixelmon.entity.CustomDataTrackers;
@@ -26,6 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -110,7 +112,17 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
         setLevel(69420);
 
         BlockPos pos = this.getBlockPos();
-        if(this.getPixelmonId() == null) {
+        Biome biome = world.getBiome(pos);
+
+
+        if(this.getPixelmonId() == MISSING) {
+            for (Identifier pokedex : DataLoaders.PIXELMON_MANAGER.getPixelmon().keySet()) {
+                // FIXME: temporarily randomise pixelmon spawns
+                if(random.nextInt(10) == 5) {
+                    this.setup(pokedex);
+                    return entityData;
+                }
+            }
             this.setup(MISSING);
         }
         return entityData;
