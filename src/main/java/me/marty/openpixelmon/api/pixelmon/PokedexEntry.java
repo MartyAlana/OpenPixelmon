@@ -3,6 +3,7 @@ package me.marty.openpixelmon.api.pixelmon;
 import com.mojang.serialization.Codec;
 import me.marty.openpixelmon.api.util.Codecs;
 import me.marty.openpixelmon.data.DataLoaders;
+import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class PokedexEntry {
     public final Map<String, List<String>> moves;
     public final Map<String, List<String>> tutorMoves;
 
-    public final List<Map<String, Integer>> evolutions;
+    public final List<Evolution> evolutions;
 
     public final PokeType[] types;
     public final String[] previousEvolutions;
@@ -68,7 +69,7 @@ public class PokedexEntry {
 
     public final int expGainSpeed;
 
-    public PokedexEntry(int specialAttack, int specialDefense, int attack, int defense, int speed, int hp, int baseFriendship, int baseExp, int catchRate, int maleRatio, int pokedexId, float width, float height, float length, float weight, int minSpawnGroupSize, int maxSpawnGroupSize, float[] renderScale, float[] guiScale, int hoveringHeight, int eggCycles, Map<String, Integer> spawnInformation, Map<String, Integer> aggression, Map<String, Integer> evGain, Map<String, List<String>> levelMoves, Map<String, List<String>> moves, Map<String, List<String>> tutorMoves, List<Map<String, Integer>> evolutions, PokeType[] types, String[] previousEvolutions, String[] validSpawnLocations, String[] abilities, EggGroup[] eggGroups, boolean canFly, boolean canSurf, boolean doesHover, boolean isRideable, boolean legendary, int expGainSpeed) {
+    public PokedexEntry(int specialAttack, int specialDefense, int attack, int defense, int speed, int hp, int baseFriendship, int baseExp, int catchRate, int maleRatio, int pokedexId, float width, float height, float length, float weight, int minSpawnGroupSize, int maxSpawnGroupSize, float[] renderScale, float[] guiScale, int hoveringHeight, int eggCycles, Map<String, Integer> spawnInformation, Map<String, Integer> aggression, Map<String, Integer> evGain, Map<String, List<String>> levelMoves, Map<String, List<String>> moves, Map<String, List<String>> tutorMoves, List<Evolution> evolutions, PokeType[] types, String[] previousEvolutions, String[] validSpawnLocations, String[] abilities, EggGroup[] eggGroups, boolean canFly, boolean canSurf, boolean doesHover, boolean isRideable, boolean legendary, int expGainSpeed) {
         this.specialAttack = specialAttack;
         this.specialDefense = specialDefense;
         this.attack = attack;
@@ -112,5 +113,35 @@ public class PokedexEntry {
 
     public Identifier getIdentifier() {
         return DataLoaders.PIXELMON_MANAGER.getPixelmon().inverse().get(this);
+    }
+
+    public static class Evolution {
+        public String from;
+        public String to;
+        public List<EvolutionCondition> conditions;
+
+        public Evolution(String from, String to, List<EvolutionCondition> conditions) {
+            this.from = from;
+            this.to = to;
+            this.conditions = conditions;
+        }
+
+        public boolean canEvolve(PixelmonEntity pixelmon) {
+            for (EvolutionCondition condition : conditions) {
+                if(!condition.canEvolve(pixelmon)){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public boolean tryEvolve(PixelmonEntity pixelmon) {
+            if(canEvolve(pixelmon)) {
+                // TODO
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 }
