@@ -28,7 +28,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -54,6 +53,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
     protected static final TrackedData<Identifier> PIXELMON_ID = DataTracker.registerData(PixelmonEntity.class, PixelmonDataTrackers.IDENTIFIER);
 
     protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    protected static final TrackedData<Float> HP = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.FLOAT);
     protected static final TrackedData<Integer> MAX_HP = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
     protected static final TrackedData<Integer> NATURE = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
     protected static final TrackedData<Integer> PSEUDO_NATURE = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -98,7 +98,9 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
         int lvlVariation = PixelmonUtils.randBetween(-5, 5);
         set(LEVEL, MathHelper.clamp(levelBase + lvlVariation, 1, OpenPixelmonConfig.maxLevelByDistance));
 
-        setHealth((float) (Math.floor(0.01 * (2 * getPokedexEntry().hp + get(IV_STORAGE).hp + Math.floor(0.25 * get(EV_STORAGE).hp)) * getLevel()) + getLevel() + 10));
+//        setHealth((get(IV_STORAGE).hp + 2.0F * (float) getPokedexEntry().hp + (float) get(EV_STORAGE).hp / 4.0F + 100.0F) * (float) getLevel() / 100.0F + 10.0F); old pixelmon method. not entirely sure why it's differnet
+        set(MAX_HP, getPokedexEntry().hp);
+        set(HP, (float) (Math.floor(0.01 * (2 * getPokedexEntry().hp + get(IV_STORAGE).hp + Math.floor(0.25 * get(EV_STORAGE).hp)) * getLevel()) + getLevel() + 10));
     }
 
     private BlockPos getWorldSpawn(World world) {
@@ -113,6 +115,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
         this.dataTracker.startTracking(PIXELMON_ID, MISSING);
         this.dataTracker.startTracking(LEVEL, 0);
         this.dataTracker.startTracking(MALE, true);
+        this.dataTracker.startTracking(HP, -1f);
         this.dataTracker.startTracking(MAX_HP, -1);
         this.dataTracker.startTracking(NATURE, -1);
         this.dataTracker.startTracking(PSEUDO_NATURE, -1);
@@ -253,12 +256,14 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 //        return OpenPixelmonTranslator.createTranslation(pokedexEntry.name).getString();
     }
 
+
+
     public boolean isWild() {
         return this.dataTracker.get(OWNER_UUID).isPresent();
     }
 
     public int getHp() {
-        return (int) getHealth();
+        return get(HP).intValue();
     }
 
     public ServerPlayerEntity getOwner() {

@@ -5,6 +5,7 @@ import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.client.model.studiomdl.loader.SmdModel;
 import me.marty.openpixelmon.client.model.studiomdl.loader.SmdReader;
 import me.marty.openpixelmon.compatibility.OtherModCompat;
+import me.marty.openpixelmon.config.OpenPixelmonConfig;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
@@ -50,15 +51,17 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 
     @Override
     public void render(PixelmonEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-        Pair<Identifier, Lazy<SmdModel>> pair = rendererInfoMap.get(entity.getPixelmonId().getPath());
-        if (pair == null) {
-            throw new RuntimeException("There is a corrupt pixelmon in your world! please report this error");
-        }
-        Lazy<SmdModel> modelFile = pair.getRight();
-        Identifier modelTexture = pair.getLeft();
+        if(MinecraftClient.getInstance().cameraEntity.getBlockPos().isWithinDistance(entity.getBlockPos(), OpenPixelmonConfig.pixelmonRenderDistance)) {
+            Pair<Identifier, Lazy<SmdModel>> pair = rendererInfoMap.get(entity.getPixelmonId().getPath());
+            if (pair == null) {
+                throw new RuntimeException("There is a corrupt pixelmon in your world! please report this error");
+            }
+            Lazy<SmdModel> modelFile = pair.getRight();
+            Identifier modelTexture = pair.getLeft();
 
-        SmdModel.render(matrices, modelFile.get(), modelTexture, vertexConsumers, light);
-        PixelmonEntityRenderer.renderPixelmonInfo(entity, getFontRenderer(), dispatcher, matrices, light, vertexConsumers);
+            SmdModel.render(matrices, modelFile.get(), modelTexture, vertexConsumers, light);
+            PixelmonEntityRenderer.renderPixelmonInfo(entity, getFontRenderer(), dispatcher, matrices, light, vertexConsumers);
+        }
     }
 
     @Override
