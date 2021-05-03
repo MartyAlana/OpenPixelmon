@@ -1,7 +1,7 @@
 package me.marty.openpixelmon;
 
 import me.marty.openpixelmon.command.Commands;
-import me.marty.openpixelmon.entity.CustomDataTrackers;
+import me.marty.openpixelmon.entity.PixelmonDataTrackers;
 import net.devtech.arrp.api.RRPCallback;
 import net.devtech.arrp.api.RuntimeResourcePack;
 import net.fabricmc.api.ModInitializer;
@@ -20,7 +20,7 @@ public class OpenPixelmon implements ModInitializer {
         LOGGER.info("OpenPixelmon is Initializing");
         GeckoLib.initialize();
         Commands.initialize();
-        CustomDataTrackers.initialize();
+        PixelmonDataTrackers.initialize();
         RRPCallback.EVENT.register(resources -> resources.add(RESOURCE_PACK));
     }
 

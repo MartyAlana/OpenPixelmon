@@ -17,6 +17,9 @@ public class PokedexEntry {
 
     public static final Codec<PokedexEntry> CODEC = Codecs.withGson(PokedexEntry.class);
 
+    /**
+     * Base Values
+     */
     public final int specialAttack;
     public final int specialDefense;
     public final int attack;
@@ -26,6 +29,10 @@ public class PokedexEntry {
 
     public final int baseFriendship;
     public final int baseExp;
+
+    /**
+     * Other things
+     */
 
     public final int catchRate;
     public final int maleRatio;

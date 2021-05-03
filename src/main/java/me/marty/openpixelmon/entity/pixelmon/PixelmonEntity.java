@@ -1,10 +1,11 @@
 package me.marty.openpixelmon.entity.pixelmon;
 
 import me.marty.openpixelmon.OpenPixelmon;
-import me.marty.openpixelmon.api.Registries;
+import me.marty.openpixelmon.api.pixelmon.EvStorage;
+import me.marty.openpixelmon.api.pixelmon.IvStorage;
 import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
 import me.marty.openpixelmon.data.DataLoaders;
-import me.marty.openpixelmon.entity.CustomDataTrackers;
+import me.marty.openpixelmon.entity.PixelmonDataTrackers;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -36,59 +37,106 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * The class which represents a living pixelmon inside the world.
+ * If you want to do pokedex related things, see {@link PokedexEntry}
+ */
 public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
     public static final Identifier MISSING = OpenPixelmon.id("pichu");
-    protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    protected static final TrackedData<Optional<UUID>> OWNER_UUID = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
-    protected static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    protected static final TrackedData<Identifier> PIXELMON_ID = DataTracker.registerData(PixelmonEntity.class, CustomDataTrackers.IDENTIFIER);
-    protected static final TrackedData<Boolean> IS_MALE = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    protected final AnimationFactory factory = new AnimationFactory(this);
 
-    private int hp;
+    protected static final TrackedData<Optional<UUID>> OWNER_UUID = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+    protected static final TrackedData<Identifier> PIXELMON_ID = DataTracker.registerData(PixelmonEntity.class, PixelmonDataTrackers.IDENTIFIER);
+
+    protected static final TrackedData<Boolean> BOSS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    protected static final TrackedData<Integer> MAX_HP = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> NATURE = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> PSEUDO_NATURE = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> GROWTH = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> INTERACTION_COUNT = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> FORM = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Boolean> MALE = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    protected static final TrackedData<Integer> LEVEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> DYNAMAX_LEXEL = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> TRANSFORMATION = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> SPAWN_LOC = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> BREEDING_LEVELS = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Boolean> SHINY = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    protected static final TrackedData<IvStorage> IV_STORAGE = DataTracker.registerData(PixelmonEntity.class, PixelmonDataTrackers.IVS);
+    protected static final TrackedData<EvStorage> EV_STORAGE = DataTracker.registerData(PixelmonEntity.class, PixelmonDataTrackers.EVS);
+
+    protected final AnimationFactory factory = new AnimationFactory(this);
 
     public PixelmonEntity(EntityType<PixelmonEntity> entityType, World world) {
         super(entityType, world);
-        this.hp = getMaxHp();
+        this.setHealth(get(MAX_HP));
     }
 
     public void setup(Identifier entry) {
         this.setPixelmonId(entry);
-        hp = 69420;
+        setHealth(69420);
+
+        calculateStats();
+    }
+
+    /**
+     * Calculates things like health, etc for a pixelmon.
+     * Here are formula's from the wiki:
+     * <p>
+     * HP = floor(0.01 x (2 x Base + IV + floor(0.25 x EV)) x Level) + Level + 10
+     */
+    private void calculateStats() {
+//        int hpIV = !this.bottleCapIVs.contains(StatsType.HP) ? this.IVs.HP : 31;
+//        return (int)(((float)hpIV + 2.0F * (float)baseStats.hp + (float)this.EVs.HP / 4.0F + 100.0F) * (float)level / 100.0F + 10.0F);
+//        setHealth(Math.floor(0.01 * (2 * getPokedexEntry().hp + getPokedexEntry().)));
     }
 
     protected void initDataTracker() {
         super.initDataTracker();
+        this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
+
         this.dataTracker.startTracking(BOSS, false);
         this.dataTracker.startTracking(PIXELMON_ID, MISSING);
-        this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
         this.dataTracker.startTracking(LEVEL, 0);
-        this.dataTracker.startTracking(IS_MALE, true);
+        this.dataTracker.startTracking(MALE, true);
+        this.dataTracker.startTracking(MAX_HP, -1);
+        this.dataTracker.startTracking(NATURE, -1);
+        this.dataTracker.startTracking(PSEUDO_NATURE, -1);
+        this.dataTracker.startTracking(GROWTH, -1);
+        this.dataTracker.startTracking(INTERACTION_COUNT, -1);
+        this.dataTracker.startTracking(FORM, -1);
+        this.dataTracker.startTracking(DYNAMAX_LEXEL, -1);
+        this.dataTracker.startTracking(TRANSFORMATION, -1);
+        this.dataTracker.startTracking(SPAWN_LOC, -1);
+        this.dataTracker.startTracking(BREEDING_LEVELS, -1);
+        this.dataTracker.startTracking(SHINY, false);
+        this.dataTracker.startTracking(IV_STORAGE, new IvStorage());
+        this.dataTracker.startTracking(EV_STORAGE, new EvStorage());
     }
 
     @Override
     public void writeCustomDataToNbt(NbtCompound tag) {
         super.writeCustomDataToNbt(tag);
-
-        tag.putBoolean("boss", this.dataTracker.get(BOSS));
-        tag.putString("pixelmonId", getPixelmonId().toString());
-        if(this.dataTracker.get(OWNER_UUID).isPresent()){
+        if (this.dataTracker.get(OWNER_UUID).isPresent()) {
             tag.putUuid("ownerUuid", this.dataTracker.get(OWNER_UUID).get());
         }
-        tag.putInt("level", this.dataTracker.get(LEVEL));
+
+        tag.putBoolean("boss", get(BOSS));
+        tag.putString("pixelmonId", getPixelmonId().toString());
+        tag.putInt("level", get(LEVEL));
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound tag) {
         super.readCustomDataFromNbt(tag);
-        if (tag.getKeys().contains("level")) {
-            this.setBoss(tag.getBoolean("boss"));
-            this.setPixelmonId(new Identifier(tag.getString("pixelmonId")));
-            this.setLevel(tag.getInt("level"));
-        }
-        if(tag.getKeys().contains("ownerUuid")) {
+        if (tag.getKeys().contains("ownerUuid")) {
             this.setOwnerUuid(tag.getUuid("ownerUuid"));
+        }
+
+        if (tag.getKeys().contains("level")) {
+            set(BOSS, tag.getBoolean("boss"));
+            set(PIXELMON_ID, new Identifier(tag.getString("pixelmonId")));
+            set(LEVEL, tag.getInt("level"));
         }
     }
 
@@ -97,9 +145,9 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
     }
 
     private void setOwnerUuid(UUID uuid) {
-        if(uuid != null){
+        if (uuid != null) {
             this.dataTracker.set(OWNER_UUID, Optional.of(uuid));
-        }else {
+        } else {
             this.dataTracker.set(OWNER_UUID, Optional.empty());
         }
     }
@@ -108,17 +156,17 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
         entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 
-        setBoss(getLevel() >= 20 && random.nextFloat() < 0.05F);
-        setLevel(69420);
+        set(BOSS, getLevel() >= 20 && random.nextFloat() < 0.05F);
+        set(LEVEL, 69420);
 
         BlockPos pos = this.getBlockPos();
         Biome biome = world.getBiome(pos);
 
 
-        if(this.getPixelmonId() == MISSING) {
+        if (this.getPixelmonId() == MISSING) {
             for (Identifier pokedex : DataLoaders.PIXELMON_MANAGER.getPixelmon().keySet()) {
                 // FIXME: temporarily randomise pixelmon spawns
-                if(random.nextInt(10) == 5) {
+                if (random.nextInt(10) == 5) {
                     this.setup(pokedex);
                     return entityData;
                 }
@@ -136,32 +184,16 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
         this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 4));
     }
 
-    public boolean isBoss() {
-        return this.dataTracker.get(BOSS);
-    }
-
-    public void setBoss(boolean boss) {
-        this.dataTracker.set(BOSS, boss);
-    }
-
-    public int getLevel() {
-        return this.dataTracker.get(LEVEL);
-    }
-
-    public void setMale(boolean isMale) {
-        this.dataTracker.set(IS_MALE, isMale);
-    }
-
-    public boolean isMale() {
-        return this.dataTracker.get(IS_MALE);
-    }
-
-    public void setLevel(int level) {
-        this.dataTracker.set(LEVEL, level);
-    }
-
     public static DefaultAttributeContainer.Builder createPixelmonAttributes() { //TODO: finish
         return createMobAttributes();
+    }
+
+    private <T> T get(TrackedData<T> trackedData) {
+        return this.getDataTracker().get(trackedData);
+    }
+
+    private <T> void set(TrackedData<T> trackedData, T data) {
+        this.getDataTracker().set(trackedData, data);
     }
 
     @Nullable
@@ -178,16 +210,16 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
     }
 
     @Override
-    public void registerControllers(AnimationData animationData) {
-        //TODO:
-    }
-
-    @Override
     public boolean damage(DamageSource source, float amount) {
         if (source.getAttacker() instanceof PlayerEntity) {
             return false;
         }
         return super.damage(source, amount);
+    }
+
+    @Override
+    public void registerControllers(AnimationData animationData) {
+        //TODO:
     }
 
     @Override
@@ -212,18 +244,30 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
         return this.dataTracker.get(OWNER_UUID).isPresent();
     }
 
-    public int getMaxHp() {
-        return 100; //TODO: implement base stats, IV & EV properly,
-    }
-
     public int getHp() {
-        return hp;
+        return (int) getHealth();
     }
 
     public ServerPlayerEntity getOwner() {
-        if(this.dataTracker.get(OWNER_UUID).isPresent()) {
+        if (this.dataTracker.get(OWNER_UUID).isPresent()) {
             return world.getServer().getPlayerManager().getPlayer(this.dataTracker.get(OWNER_UUID).get()); //TODO
         }
         return null;
+    }
+
+    public int getLevel() {
+        return get(LEVEL);
+    }
+
+    public boolean isMale() {
+        return get(MALE);
+    }
+
+    public int getMaxHp() {
+        return get(MAX_HP);
+    }
+
+    public boolean isBoss() {
+        return get(BOSS);
     }
 }
