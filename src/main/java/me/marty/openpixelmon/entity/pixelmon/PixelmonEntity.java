@@ -4,6 +4,8 @@ import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.api.pixelmon.EvStorage;
 import me.marty.openpixelmon.api.pixelmon.IvStorage;
 import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
+import me.marty.openpixelmon.api.util.PixelmonUtils;
+import me.marty.openpixelmon.config.OpenPixelmonConfig;
 import me.marty.openpixelmon.data.DataLoaders;
 import me.marty.openpixelmon.entity.PixelmonDataTrackers;
 import net.minecraft.entity.EntityData;
@@ -25,6 +27,9 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -69,14 +74,16 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
 
     public PixelmonEntity(EntityType<PixelmonEntity> entityType, World world) {
         super(entityType, world);
-        this.setHealth(get(MAX_HP));
+    }
+
+    public void setup(Identifier entry, World world, Vec3i spawnLocation) {
+        this.setPixelmonId(entry);
+
+        calculateStats(world, spawnLocation);
     }
 
     public void setup(Identifier entry) {
-        this.setPixelmonId(entry);
-        setHealth(69420);
-
-        calculateStats();
+        this.setup(entry, getEntityWorld(), getBlockPos());
     }
 
     /**
@@ -85,10 +92,17 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
      * <p>
      * HP = floor(0.01 x (2 x Base + IV + floor(0.25 x EV)) x Level) + Level + 10
      */
-    private void calculateStats() {
-//        int hpIV = !this.bottleCapIVs.contains(StatsType.HP) ? this.IVs.HP : 31;
-//        return (int)(((float)hpIV + 2.0F * (float)baseStats.hp + (float)this.EVs.HP / 4.0F + 100.0F) * (float)level / 100.0F + 10.0F);
-//        setHealth(Math.floor(0.01 * (2 * getPokedexEntry().hp + getPokedexEntry().)));
+    private void calculateStats(World world, Vec3i spawnLocation) {
+        double distanceFromSpawn = getWorldSpawn(world).getManhattanDistance(spawnLocation);
+        int levelBase = (int) (distanceFromSpawn / (double) OpenPixelmonConfig.distancePerLevel) + 1;
+        int lvlVariation = PixelmonUtils.randBetween(-5, 5);
+        set(LEVEL, MathHelper.clamp(levelBase + lvlVariation, 1, OpenPixelmonConfig.maxLevelByDistance));
+
+        setHealth((float) (Math.floor(0.01 * (2 * getPokedexEntry().hp + get(IV_STORAGE).hp + Math.floor(0.25 * get(EV_STORAGE).hp)) * getLevel()) + getLevel() + 10));
+    }
+
+    private BlockPos getWorldSpawn(World world) {
+        return new BlockPos(world.getLevelProperties().getSpawnX(), world.getLevelProperties().getSpawnY(), world.getLevelProperties().getSpawnZ());
     }
 
     protected void initDataTracker() {
@@ -157,7 +171,6 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
         entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 
         set(BOSS, getLevel() >= 20 && random.nextFloat() < 0.05F);
-        set(LEVEL, 69420);
 
         BlockPos pos = this.getBlockPos();
         Biome biome = world.getBiome(pos);
@@ -167,11 +180,11 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
             for (Identifier pokedex : DataLoaders.PIXELMON_MANAGER.getPixelmon().keySet()) {
                 // FIXME: temporarily randomise pixelmon spawns
                 if (random.nextInt(10) == 5) {
-                    this.setup(pokedex);
+                    this.setup(pokedex, (World) world, pos);
                     return entityData;
                 }
             }
-            this.setup(MISSING);
+            this.setup(MISSING, (World) world, pos);
         }
         return entityData;
     }
@@ -200,7 +213,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
     @Override
     public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
         PixelmonEntity pixelmonEntity = new PixelmonEntity(getType(), world);
-        pixelmonEntity.setup(getPixelmonId());
+        pixelmonEntity.setup(getPixelmonId(), world, getBlockPos());
         return pixelmonEntity;
     }
 

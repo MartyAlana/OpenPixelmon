@@ -56,7 +56,7 @@ public class Overlays extends DrawableHelper {
                     drawPixelmon(11, scaledHeight / 2 - (15 / 2) - offset + 14, 24, getEntity(partyEntry.getIdentifier()), pokedexEntry);
                     client.textRenderer.drawWithShadow(matrices, OpenPixelmonTranslator.createTranslation(partyEntry.getIdentifier()).getString(), 24, scaledHeight / 2 - 12 - offset, pokedexEntry.legendary ? 0xFF55FFFF : 0xFFFFFFFF);
                     client.textRenderer.drawWithShadow(matrices, "Lv. " + partyEntry.getLevel(), 24, scaledHeight / 2 - 4 - offset, 0xFFFFFFFF);
-                    client.textRenderer.drawWithShadow(matrices, "HP: " + partyEntry.getHp() + "/??", 24, scaledHeight / 2 + 4 - offset, 0xFFFFFFFF);
+                    client.textRenderer.drawWithShadow(matrices, "HP: " + partyEntry.getHp() + "/" + partyEntry.getMaxHp(), 24, scaledHeight / 2 + 4 - offset, 0xFFFFFFFF);
                 }
             }
         }

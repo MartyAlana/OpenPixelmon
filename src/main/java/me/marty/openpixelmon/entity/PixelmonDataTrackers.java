@@ -86,5 +86,7 @@ public class PixelmonDataTrackers {
 
     public static void initialize() {
         TrackedDataHandlerRegistry.DATA_HANDLERS.add(IDENTIFIER);
+        TrackedDataHandlerRegistry.DATA_HANDLERS.add(IVS);
+        TrackedDataHandlerRegistry.DATA_HANDLERS.add(EVS);
     }
 }

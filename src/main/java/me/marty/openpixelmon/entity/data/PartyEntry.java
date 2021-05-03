@@ -1,10 +1,8 @@
 package me.marty.openpixelmon.entity.data;
 
-import me.marty.openpixelmon.data.DataLoaders;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import me.marty.openpixelmon.item.pokeball.PokeballItem;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -13,12 +11,14 @@ public class PartyEntry {
     private final PokeballItem pokeball;
     private final Identifier id;
     private final int hp;
+    private final int maxHp;
     private final boolean isMale;
     private final int level;
 
     public PartyEntry(Identifier id, int hp, int maxHp, boolean isMale, int level, PokeballItem pokeball) {
         this.id = id;
         this.hp = hp;
+        this.maxHp = maxHp;
         this.isMale = isMale;
         this.level = level;
         this.pokeball = pokeball;
@@ -55,6 +55,7 @@ public class PartyEntry {
     public NbtCompound writeToTag(NbtCompound tag) {
         tag.putString("id", id.toString());
         tag.putInt("hp", hp);
+        tag.putInt("maxHp", maxHp);
         tag.putBoolean("isMale", isMale);
         tag.putInt("level", level);
         tag.putString("pokeball", Registry.ITEM.getId(pokeball).toString());
@@ -64,13 +65,14 @@ public class PartyEntry {
     public static PartyEntry readFromTag(NbtCompound tag) {
         Identifier id = new Identifier(tag.getString("id"));
         int hp = tag.getInt("hp");
+        int maxHp = tag.getInt("maxHp");
         boolean isMale = tag.getBoolean("isMale");
         int level = tag.getInt("level");
         PokeballItem pokeball = (PokeballItem) Registry.ITEM.get(new Identifier(tag.getString("pokeball")));
-        return new PartyEntry(id, hp, 0, isMale, level, pokeball);
+        return new PartyEntry(id, hp, maxHp, isMale, level, pokeball);
     }
 
-    public PacketByteBuf writeToPacketBuf(PacketByteBuf buf) {
+/*    public PacketByteBuf writeToPacketBuf(PacketByteBuf buf) {
         buf.writeIdentifier(id);
         buf.writeInt(hp);
         buf.writeBoolean(isMale);
@@ -86,9 +88,13 @@ public class PartyEntry {
         int level = buf.readInt();
         PokeballItem pokeball = (PokeballItem) Registry.ITEM.get(buf.readVarInt());
         return new PartyEntry(id, hp, 0, isMale, level, pokeball);
-    }
+    }*/
 
     public String getName() {
         return getIdentifier().getPath();
+    }
+
+    public int getMaxHp() {
+        return maxHp;
     }
 }
