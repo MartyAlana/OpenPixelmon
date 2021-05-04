@@ -18,7 +18,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
         super(world, pos, yaw, profile);
     }
 
-    @Inject(method = "onSpawn", at = @At("RETURN"))
+    @Inject(method = "onSpawn(Lnet/minecraft/screen/ScreenHandler;)V", at = @At("RETURN"))
     public void onOnSpawn(CallbackInfo ci) {
         EntityComponents.PARTY_COMPONENT.get(this);
     }

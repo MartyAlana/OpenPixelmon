@@ -1,12 +1,15 @@
 package me.marty.openpixelmon.client;
 
+import me.marty.openpixelmon.api.battle.client.ClientBattleManager;
 import me.marty.openpixelmon.client.model.entity.GeckolibModel;
 import me.marty.openpixelmon.client.render.entity.GenerationsPixelmonRenderer;
 import me.marty.openpixelmon.client.render.entity.NonLivingGeckolibModelRenderer;
 import me.marty.openpixelmon.client.render.entity.PixelmonEntityRenderer;
 import me.marty.openpixelmon.client.render.gui.Overlays;
+import me.marty.openpixelmon.config.OpenPixelmonConfig;
 import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.network.Packets;
+import me.marty.openpixelmon.sound.Sounds;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,11 +26,17 @@ import net.minecraft.client.render.RenderPhase;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Environment(EnvType.CLIENT)
 public class OpenPixelmonClient implements ClientModInitializer {
+
+    public static final ClientBattleManager battleManager = new ClientBattleManager();
 
     @Override
     public void onInitializeClient() {
@@ -39,6 +48,7 @@ public class OpenPixelmonClient implements ClientModInitializer {
 
     private void registerHudRenderers() {
         HudRenderCallback.EVENT.register((matrices, tickDelta) -> Overlays.renderPartyOverlay(matrices, MinecraftClient.getInstance(), MinecraftClient.getInstance().getWindow().getScaledHeight()));
+        HudRenderCallback.EVENT.register((matrices, tickDelta) -> Overlays.renderBattleOverlay(matrices, MinecraftClient.getInstance(), MinecraftClient.getInstance().getWindow().getScaledHeight()));
     }
 
     private void registerKeybindings() {
@@ -52,6 +62,15 @@ public class OpenPixelmonClient implements ClientModInitializer {
     }
 
     private void registerS2CPackets() {
+        ClientPlayNetworking.registerGlobalReceiver(Packets.BATTLE_START, (client, handler, buf, responseSender) -> {
+            int participantCount = buf.readVarInt();
+            List<PlayerEntity> participants = new ArrayList<>();
+            for (int i = 0; i < participantCount; i++) {
+                participants.add((PlayerEntity) client.world.getEntityById(buf.readVarInt()));
+            }
+
+            OpenPixelmonClient.battleManager.startBattle(participants);
+        });
     }
 
     private void registerEntityRenderers() {

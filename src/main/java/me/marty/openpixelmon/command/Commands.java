@@ -12,7 +12,10 @@ import me.marty.openpixelmon.entity.data.PartyEntry;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import me.marty.openpixelmon.item.OpenPixelmonItems;
 import me.marty.openpixelmon.item.pokeball.PokeballItem;
+import me.marty.openpixelmon.network.Packets;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.IdentifierArgumentType;
 import net.minecraft.command.argument.NbtCompoundTagArgumentType;
 import net.minecraft.command.argument.Vec3ArgumentType;
@@ -72,6 +75,20 @@ public class Commands {
                             EntityComponents.PARTY_COMPONENT.sync(context.getSource().getPlayer());
                             return Command.SINGLE_SUCCESS;
                         }));
+
+        dispatcher.register(
+                literal("wildbattle")
+                    .requires(source -> source.hasPermissionLevel(4))
+                    .executes(context -> {
+                        ServerPlayNetworking.send(context.getSource().getPlayer(),
+                                Packets.BATTLE_START,
+                                PacketByteBufs.create()
+                                        .writeVarInt(2)
+                                        .writeVarInt(context.getSource().getPlayer().getId())
+                                        .writeVarInt(-1)
+                        );
+                        return Command.SINGLE_SUCCESS;
+                    }));
     }
 
     private static final SimpleCommandExceptionType FAILED_EXCEPTION = new SimpleCommandExceptionType(new TranslatableText("commands.summon.failed"));

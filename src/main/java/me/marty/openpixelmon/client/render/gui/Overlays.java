@@ -104,4 +104,7 @@ public class Overlays extends DrawableHelper {
         RenderSystem.applyModelViewMatrix();
         DiffuseLighting.enableGuiDepthLighting();
     }
+
+    public static void renderBattleOverlay(MatrixStack matrices, MinecraftClient client, int height) {
+    }
 }
