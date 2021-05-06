@@ -78,17 +78,28 @@ public class Commands {
 
         dispatcher.register(
                 literal("wildbattle")
-                    .requires(source -> source.hasPermissionLevel(4))
-                    .executes(context -> {
-                        ServerPlayNetworking.send(context.getSource().getPlayer(),
-                                Packets.BATTLE_START,
-                                PacketByteBufs.create()
-                                        .writeVarInt(2)
-                                        .writeVarInt(context.getSource().getPlayer().getId())
-                                        .writeVarInt(-1)
-                        );
-                        return Command.SINGLE_SUCCESS;
-                    }));
+                        .requires(source -> source.hasPermissionLevel(4))
+                        .executes(context -> {
+                            ServerPlayNetworking.send(context.getSource().getPlayer(),
+                                    Packets.BATTLE_START,
+                                    PacketByteBufs.create()
+                                            .writeVarInt(2)
+                                            .writeVarInt(context.getSource().getPlayer().getId())
+                                            .writeVarInt(-1)
+                            );
+                            return Command.SINGLE_SUCCESS;
+                        }));
+
+        dispatcher.register(
+                literal("stopbattle")
+                        .requires(source -> source.hasPermissionLevel(4))
+                        .executes(context -> {
+                            ServerPlayNetworking.send(context.getSource().getPlayer(),
+                                    Packets.BATTLE_END,
+                                    PacketByteBufs.copy(PacketByteBufs.create().writeBoolean(true)) // hack to write boolean
+                            );
+                            return Command.SINGLE_SUCCESS;
+                        }));
     }
 
     private static final SimpleCommandExceptionType FAILED_EXCEPTION = new SimpleCommandExceptionType(new TranslatableText("commands.summon.failed"));

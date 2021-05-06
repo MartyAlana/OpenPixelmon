@@ -69,7 +69,14 @@ public class OpenPixelmonClient implements ClientModInitializer {
                 participants.add((PlayerEntity) client.world.getEntityById(buf.readVarInt()));
             }
 
-            OpenPixelmonClient.battleManager.startBattle(participants);
+            OpenPixelmonClient.battleManager.startBattle(participants, client);
+        });
+
+        ClientPlayNetworking.registerGlobalReceiver(Packets.BATTLE_END, (client, handler, buf, responseSender) -> {
+            boolean forced = buf.readBoolean();
+            if(forced) {
+                OpenPixelmonClient.battleManager.forceStopBattle();
+            }
         });
     }
 

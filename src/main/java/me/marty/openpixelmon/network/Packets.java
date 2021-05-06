@@ -14,6 +14,7 @@ import net.minecraft.util.Identifier;
 public class Packets implements ModInitializer {
     public static final Identifier SEND_OUT = OpenPixelmon.id("send_out_pixelmon");
     public static final Identifier BATTLE_START = OpenPixelmon.id("start_battle");
+    public static final Identifier BATTLE_END = OpenPixelmon.id("end_battle");
 
     @Override
     public void onInitialize() {

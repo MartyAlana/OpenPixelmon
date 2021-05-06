@@ -27,9 +27,16 @@ public class ClientBattleManager {
         if(battleStatus == BattleStatus.NONE) {
             battleStatus = BattleStatus.ONGOING;
             System.out.println(participants.size() + " Participant's in battle.");
-            client.player.playSound(Sounds.BATTLE_2, OpenPixelmonConfig.musicVolume, 1);
+            client.player.playSound(Sounds.BATTLE, OpenPixelmonConfig.musicVolume, 1);
             return BattleStatus.SUCCESS;
         }
         return battleStatus;
+    }
+
+    public void forceStopBattle() {
+        if(battleStatus == BattleStatus.ONGOING) {
+            // TODO: Handle this
+        }
+        battleStatus = BattleStatus.NONE;
     }
 }
