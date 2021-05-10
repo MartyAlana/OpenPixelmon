@@ -1,4 +1,4 @@
-package me.marty.openpixelmon.mixin;
+package me.marty.openpixelmon.mixin.client;
 
 import me.marty.openpixelmon.sound.Sounds;
 import net.minecraft.client.MinecraftClient;

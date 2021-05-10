@@ -1,4 +1,4 @@
-package me.marty.openpixelmon.mixin;
+package me.marty.openpixelmon.mixin.client;
 
 import me.marty.openpixelmon.client.render.gui.Overlays;
 import net.minecraft.client.MinecraftClient;

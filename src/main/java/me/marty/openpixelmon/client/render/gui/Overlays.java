@@ -11,6 +11,7 @@ import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.entity.data.Party;
 import me.marty.openpixelmon.entity.data.PartyEntry;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
+import me.marty.openpixelmon.item.OpenPixelmonItems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.DiffuseLighting;
@@ -18,33 +19,29 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Overlays extends DrawableHelper {
 
     public static final Map<Identifier, PixelmonEntity> PIXELMON_ENTITY_CACHE = new Object2ObjectArrayMap<>();
-    private static final Identifier POKEBALL = OpenPixelmon.id("textures/gui/ingame/pixelmon.png");
     private static final Identifier DOCK_BG = OpenPixelmon.id("textures/gui/ingame/dock.png");
+
+    private static final Map<Item, Identifier> POKEBALL_TEX_MAP = new HashMap<>();
 
     public static void renderPartyOverlay(MatrixStack matrices, MinecraftClient client, int scaledHeight) {
         matrices.push();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, DOCK_BG);
-//        GL20.glEnable(GL20.GL_ALPHA_TEST);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.45F);
         drawTexture(matrices, -8, scaledHeight / 2 - (165 / 2), 0, 0, 32, 176, 32, 176);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-//        GL20.glDisable(GL20.GL_ALPHA_TEST);
         int pokeballSpacing = 27;
-        RenderSystem.setShaderTexture(0, POKEBALL);
-        for (int i = 0; i < 6; i++) {
-            int offset = (65 - pokeballSpacing * i);
-            drawTexture(matrices, 0, scaledHeight / 2 - (22 / 2) - offset, 0, 0, 22, 22, 22, 22);
-        }
 
         for (int i = 0; i < 6; i++) {
             int offset = (65 - pokeballSpacing * i);
@@ -53,6 +50,11 @@ public class Overlays extends DrawableHelper {
                 PartyEntry partyEntry = party.getEntries()[i];
                 if (partyEntry != null) {
                     PokedexEntry pokedexEntry = DataLoaders.PIXELMON_MANAGER.getPixelmon().get(partyEntry.getIdentifier());
+
+                    int pokeballOffset = (65 - pokeballSpacing * i);
+                    RenderSystem.setShaderTexture(0, getPokeballTexture(partyEntry));
+                    drawTexture(matrices, 0, scaledHeight / 2 - (22 / 2) - pokeballOffset, 0, 0, 22, 22, 22, 22);
+
                     drawPixelmon(11, scaledHeight / 2 - (15 / 2) - offset + 14, 24, getEntity(partyEntry.getIdentifier()), pokedexEntry);
                     client.textRenderer.drawWithShadow(matrices, OpenPixelmonTranslator.createTranslation(partyEntry.getIdentifier()).getString(), 24, scaledHeight / 2 - 12 - offset, pokedexEntry.legendary ? 0xFF55FFFF : 0xFFFFFFFF);
                     client.textRenderer.drawWithShadow(matrices, "Lv. " + partyEntry.getLevel(), 24, scaledHeight / 2 - 4 - offset, 0xFFFFFFFF);
@@ -61,6 +63,10 @@ public class Overlays extends DrawableHelper {
             }
         }
         matrices.pop();
+    }
+
+    private static Identifier getPokeballTexture(PartyEntry partyEntry) {
+        return POKEBALL_TEX_MAP.get(OpenPixelmonItems.POKE_BALL);
     }
 
     private static PixelmonEntity getEntity(Identifier identifier) {
@@ -106,5 +112,10 @@ public class Overlays extends DrawableHelper {
     }
 
     public static void renderBattleOverlay(MatrixStack matrices, MinecraftClient client, int height) {
+    }
+
+    static {
+        POKEBALL_TEX_MAP.put(OpenPixelmonItems.POKE_BALL, OpenPixelmon.id("textures/gui/ingame/pokeball.png"));
+        POKEBALL_TEX_MAP.put(OpenPixelmonItems.GREAT_BALL, OpenPixelmon.id("textures/gui/ingame/greatball.png"));
     }
 }

@@ -6,13 +6,14 @@
   "mixins": [
     "DynamicRegistryManagerMixin",
     "ServerPlayerEntityMixin",
-    "ServerResourceManagerMixin",
-    "TitleScreenMixin"
+    "ServerResourceManagerMixin"
   ],
   "client": [
-    "ClientPlayNetworkHandlerMixin",
-    "InGameHudMixin",
-    "MinecraftClientMixin"
+    "client.GameRendererMixin",
+    "client.TitleScreenMixin",
+    "client.InGameHudMixin",
+    "client.MinecraftClientMixin",
+    "client.ClientPlayNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -47,7 +47,7 @@ public class SmdModel {
         matrices.push();
         matrices.scale(context.smdInfo.scale, context.smdInfo.scale, context.smdInfo.scale);
         matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
-        VertexConsumer consumer = consumers.getBuffer(RenderLayer.getEntitySolid(modelTexture));
+        VertexConsumer consumer = consumers.getBuffer(OpenPixelmonClient.getPixelmonLayer(modelTexture));
         List<Tri> tris = context.faces;
         if (tris == null) {
             throw new RuntimeException("Broken pixelmon model: missing triangles!");

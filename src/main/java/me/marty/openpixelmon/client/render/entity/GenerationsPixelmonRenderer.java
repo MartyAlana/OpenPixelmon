@@ -19,6 +19,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Lazy;
 import net.minecraft.util.Pair;
+import org.lwjgl.opengl.GL20;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -54,12 +55,14 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
         if(MinecraftClient.getInstance().cameraEntity.getBlockPos().isWithinDistance(entity.getBlockPos(), OpenPixelmonConfig.pixelmonRenderDistance)) {
             Pair<Identifier, Lazy<SmdModel>> pair = rendererInfoMap.get(entity.getPixelmonId().getPath());
             if (pair == null) {
-                throw new RuntimeException("There is a corrupt pixelmon in your world! please report this error");
+//                throw new RuntimeException("There is a corrupt pixelmon in your world! please report this error");
+                return;
             }
             Lazy<SmdModel> modelFile = pair.getRight();
             Identifier modelTexture = pair.getLeft();
 
             SmdModel.render(matrices, modelFile.get(), modelTexture, vertexConsumers, light);
+
             PixelmonEntityRenderer.renderPixelmonInfo(entity, getFontRenderer(), dispatcher, matrices, light, vertexConsumers);
         }
     }

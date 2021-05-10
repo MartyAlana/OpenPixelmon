@@ -2,14 +2,13 @@ package me.marty.openpixelmon.client;
 
 import me.marty.openpixelmon.api.battle.client.ClientBattleManager;
 import me.marty.openpixelmon.client.model.entity.GeckolibModel;
+import me.marty.openpixelmon.client.render.GameRendererAccessor;
 import me.marty.openpixelmon.client.render.entity.GenerationsPixelmonRenderer;
 import me.marty.openpixelmon.client.render.entity.NonLivingGeckolibModelRenderer;
 import me.marty.openpixelmon.client.render.entity.PixelmonEntityRenderer;
 import me.marty.openpixelmon.client.render.gui.Overlays;
-import me.marty.openpixelmon.config.OpenPixelmonConfig;
 import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.network.Packets;
-import me.marty.openpixelmon.sound.Sounds;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -21,15 +20,14 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderPhase;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +35,17 @@ import java.util.List;
 public class OpenPixelmonClient implements ClientModInitializer {
 
     public static final ClientBattleManager battleManager = new ClientBattleManager();
+
+    protected static Shader pixelmonSolidShader;
+    protected static final RenderPhase.Shader PIXELMON_SOLID_SHADER = new RenderPhase.Shader(OpenPixelmonClient::getPixelmonShader);
+
+    private static Shader getPixelmonShader() {
+        return pixelmonSolidShader;
+    }
+
+    public static void loadShaders(ResourceManager manager, GameRendererAccessor gameRenderer) throws IOException {
+        pixelmonSolidShader = gameRenderer.loadPixelmonShader(manager, "rendertype_pixelmon_solid", VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL);
+    }
 
     @Override
     public void onInitializeClient() {
@@ -74,7 +83,7 @@ public class OpenPixelmonClient implements ClientModInitializer {
 
         ClientPlayNetworking.registerGlobalReceiver(Packets.BATTLE_END, (client, handler, buf, responseSender) -> {
             boolean forced = buf.readBoolean();
-            if(forced) {
+            if (forced) {
                 OpenPixelmonClient.battleManager.forceStopBattle();
             }
         });
@@ -95,11 +104,11 @@ public class OpenPixelmonClient implements ClientModInitializer {
 
     public static RenderLayer getPixelmonLayer(Identifier texture) {
         RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
-                .shader(RenderPhase.ENTITY_SOLID_SHADER)
+                .shader(PIXELMON_SOLID_SHADER)
                 .texture(new RenderPhase.Texture(texture, false, false))
                 .transparency(RenderPhase.NO_TRANSPARENCY).lightmap(RenderPhase.ENABLE_LIGHTMAP)
-                .overlay(RenderPhase.DISABLE_OVERLAY_COLOR)
+                .overlay(RenderPhase.ENABLE_OVERLAY_COLOR)
                 .build(true);
-        return RenderLayer.of("pixelmon", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, true, false, multiPhaseParameters);
+        return RenderLayer.of("pixelmon", VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL, VertexFormat.DrawMode.QUADS, 256, true, false, multiPhaseParameters);
     }
 }

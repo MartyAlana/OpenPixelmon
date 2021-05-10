@@ -28,9 +28,9 @@ public class Registries implements ModInitializer {
 
         DynamicRegistrySetupCallback.EVENT.register(registryManager -> {
             Registry<PokedexEntry> pokedexRegistry = registryManager.get(PIXELMON_REGISTRY);
-            RegistryEntryAddedCallback.event(pokedexRegistry).register((rawId, id, object) ->
-                    System.out.println("Do i sync here?")
-            );
+            RegistryEntryAddedCallback.event(pokedexRegistry).register((rawId, id, object) -> {
+                // TODO: Sync
+            });
         });
     }
 }
