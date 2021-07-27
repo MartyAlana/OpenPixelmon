@@ -9,6 +9,11 @@ repositories {
     mavenLocal()
 
     maven {
+        name = "Geckolib Repository"
+        url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    }
+
+    maven {
         name = "Devan-Kerman/Devan-Repo"
         url = uri("https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master/")
     }
@@ -38,21 +43,14 @@ repositories {
 }
 
 dependencies {
-    minecraft("net.minecraft", "minecraft", "21w16a")
-    mappings("net.fabricmc", "yarn", "21w16a+build.12", classifier = "v2")
+    minecraft("net.minecraft", "minecraft", "1.17.1")
+    mappings("net.fabricmc", "yarn", "1.17.1+build.30", classifier = "v2")
 
-    modImplementation("net.fabricmc", "fabric-loader", "0.11.3")
+    modImplementation("net.fabricmc", "fabric-loader", "0.11.6")
     modImplementation("net.fabricmc.fabric-api", "fabric-api", "0.33.1+1.17")
 
     include(modImplementation("net.devtech", "arrp", "0.3.2"))
-    include(modImplementation("software.bernie.geckolib", "geckolib", "3.0.454556"))
-
-    // Geckolib lib's
-    include(modImplementation("software.bernie.geckolib", "geckolib-core", "1.0.4"))
-    implementation("com.fasterxml.jackson.core", "jackson-databind", "2.9.0")
-    implementation("com.fasterxml.jackson.datatype", "jackson-datatype-jsr310", "2.9.0")
-    implementation("com.eliotlash.molang:molang:SNAPSHOT.12")
-    implementation("com.eliotlash.mclib:mclib:SNAPSHOT.12")
+    include(modImplementation("software.bernie.geckolib", "geckolib-fabric-1.17", "3.0.10", classifier="dev"))
 
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-base", "3.0.0-nightly.21w14a"))
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-entity", "3.0.0-nightly.21w14a"))
@@ -65,8 +63,8 @@ base {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
 }
 
 minecraft {
@@ -76,12 +74,7 @@ minecraft {
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 
-    if (JavaVersion.current().isJava9Compatible) {
-        options.release.set(8)
-    } else {
-        sourceCompatibility = "8"
-        targetCompatibility = "8"
-    }
+    options.release.set(16)
 }
 
 tasks.withType<AbstractArchiveTask> {
