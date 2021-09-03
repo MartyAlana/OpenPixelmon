@@ -34,9 +34,9 @@ public class ClientPlayNetworkHandlerMixin {
             int id = packet.getId();
             pokeball.updateTrackedPosition(x, y, z);
             pokeball.refreshPositionAfterTeleport(x, y, z);
-            pokeball.pitch = (float) (packet.getPitch() * 360) / 256.0F;
-            pokeball.yaw = (float) (packet.getYaw() * 360) / 256.0F;
-            pokeball.setEntityId(id);
+            pokeball.setPitch((float) (packet.getPitch() * 360) / 256.0F);
+            pokeball.setYaw((float) (packet.getYaw() * 360) / 256.0F);
+            pokeball.setId(id);
             pokeball.setUuid(packet.getUuid());
             this.world.addEntity(id, pokeball);
         }

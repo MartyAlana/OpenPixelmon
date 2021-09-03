@@ -63,7 +63,7 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
 
             SmdModel.render(matrices, modelFile.get(), modelTexture, vertexConsumers, light);
 
-            PixelmonEntityRenderer.renderPixelmonInfo(entity, getFontRenderer(), dispatcher, matrices, light, vertexConsumers);
+            PixelmonEntityRenderer.renderPixelmonInfo(entity, getTextRenderer(), dispatcher, matrices, light, vertexConsumers);
         }
     }
 

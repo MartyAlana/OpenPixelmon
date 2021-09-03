@@ -25,8 +25,8 @@ import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.model.provider.GeoModelProvider;
 import software.bernie.geckolib3.model.provider.data.EntityModelData;
-import software.bernie.geckolib3.renderer.geo.GeoLayerRenderer;
-import software.bernie.geckolib3.renderer.geo.IGeoRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
+import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 import software.bernie.geckolib3.util.AnimationUtils;
 
 import java.awt.*;
@@ -76,7 +76,7 @@ public class NonLivingGeckolibModelRenderer<T extends Entity & IAnimatable> exte
             f2 = entityYaw - f;
         }
 
-        float f6 = MathHelper.lerp(partialTicks, entity.prevPitch, entity.pitch);
+        float f6 = MathHelper.lerp(partialTicks, entity.prevPitch, entity.getPitch());
         float limbSwingAmount;
         if (entity.getPose() == EntityPose.SLEEPING) {
             throw new RuntimeException("H O W is an non living entity sleeping?!?!!");

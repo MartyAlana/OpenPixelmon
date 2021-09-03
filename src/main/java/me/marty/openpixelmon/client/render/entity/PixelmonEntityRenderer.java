@@ -13,7 +13,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix4f;
-import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
 
@@ -29,7 +29,7 @@ public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
             matrices.scale(pokedexEntry.renderScale[0], pokedexEntry.renderScale[1], pokedexEntry.renderScale[2]);
             super.render(entity, entityYaw, partialTicks, matrices, vertexConsumerProvider, light);
             matrices.pop();
-            renderPixelmonInfo(entity, getFontRenderer(), dispatcher, matrices, light, vertexConsumerProvider);
+            renderPixelmonInfo(entity, getTextRenderer(), dispatcher, matrices, light, vertexConsumerProvider);
         }
     }
 

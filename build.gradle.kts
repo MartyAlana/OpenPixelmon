@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom") version "0.7-SNAPSHOT"
+    id("fabric-loom") version "0.9.+"
 }
 
 group = "me.marty"
@@ -43,17 +43,17 @@ repositories {
 }
 
 dependencies {
-    minecraft("net.minecraft", "minecraft", "1.17.1")
-    mappings("net.fabricmc", "yarn", "1.17.1+build.30", classifier = "v2")
+    minecraft("net.minecraft", "minecraft", "1.18_experimental-snapshot-6")
+    mappings("net.fabricmc", "yarn", "1.18_experimental-snapshot-6+build.3", classifier = "v2")
 
     modImplementation("net.fabricmc", "fabric-loader", "0.11.6")
-    modImplementation("net.fabricmc.fabric-api", "fabric-api", "0.33.1+1.17")
+    modImplementation("net.fabricmc.fabric-api", "fabric-api", "0.40.0+1.18_experimental")
 
     include(modImplementation("net.devtech", "arrp", "0.3.2"))
     include(modImplementation("software.bernie.geckolib", "geckolib-fabric-1.17", "3.0.10", classifier="dev"))
 
-    include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-base", "3.0.0-nightly.21w14a"))
-    include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-entity", "3.0.0-nightly.21w14a"))
+    include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-base", "3.1.1"))
+    include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-entity", "3.1.1"))
 
     implementation("com.github.thecodewarrior", "BinarySMD", "-SNAPSHOT")
 }

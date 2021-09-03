@@ -16,3 +16,7 @@ accessible field net/minecraft/client/render/RenderPhase ENABLE_OVERLAY_COLOR Ln
 accessible field net/minecraft/client/render/RenderPhase NO_TRANSPARENCY Lnet/minecraft/client/render/RenderPhase$Transparency;
 accessible field net/minecraft/client/render/RenderPhase ENTITY_SOLID_SHADER Lnet/minecraft/client/render/RenderPhase$Shader;
 accessible field net/minecraft/client/render/RenderPhase DISABLE_OVERLAY_COLOR Lnet/minecraft/client/render/RenderPhase$Overlay;
+
+accessible class net/minecraft/client/render/RenderPhase$Shader
+accessible class net/minecraft/client/render/RenderPhase$Texture
+accessible class net/minecraft/client/render/RenderLayer$MultiPhaseParameters

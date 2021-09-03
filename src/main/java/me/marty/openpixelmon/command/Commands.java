@@ -17,7 +17,7 @@ import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.IdentifierArgumentType;
-import net.minecraft.command.argument.NbtCompoundTagArgumentType;
+import net.minecraft.command.argument.NbtCompoundArgumentType;
 import net.minecraft.command.argument.Vec3ArgumentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -58,16 +58,16 @@ public class Commands {
                                         .executes(commandContext -> {
                                             return execute(commandContext.getSource(), IdentifierArgumentType.getIdentifier(commandContext, "type"), Vec3ArgumentType.getVec3(commandContext, "pos"), new NbtCompound(), true);
                                         })
-                                        .then(CommandManager.argument("nbt", NbtCompoundTagArgumentType.nbtCompound())
+                                        .then(CommandManager.argument("nbt", NbtCompoundArgumentType.nbtCompound())
                                                 .executes(commandContext -> {
-                                                    return execute(commandContext.getSource(), IdentifierArgumentType.getIdentifier(commandContext, "type"), Vec3ArgumentType.getVec3(commandContext, "pos"), NbtCompoundTagArgumentType.getNbtCompound(commandContext, "nbt"), false);
+                                                    return execute(commandContext.getSource(), IdentifierArgumentType.getIdentifier(commandContext, "type"), Vec3ArgumentType.getVec3(commandContext, "pos"), NbtCompoundArgumentType.getNbtCompound(commandContext, "nbt"), false);
                                                 }))))));
 
         dispatcher.register(
                 literal("pokeparty")
                         .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(4))
                         .executes(context -> {
-                            PixelmonEntity entity = Entities.PIXELMON.create(context.getSource().getWorld());
+							PixelmonEntity entity = Entities.PIXELMON.create(context.getSource().getWorld());
                             entity.setup(OpenPixelmon.id("bulbasaur"));
                             EntityComponents.PARTY_COMPONENT.get(context.getSource().getPlayer()).getParty().add(
                                     context.getSource().getPlayer(),
@@ -122,7 +122,7 @@ public class Commands {
             ServerWorld serverWorld = source.getWorld();
 
             PixelmonEntity entity = (PixelmonEntity) EntityType.loadEntityWithPassengers(NbtCompound, serverWorld, e -> {
-                e.refreshPositionAndAngles(pos.x, pos.y, pos.z, e.yaw, e.pitch);
+                e.refreshPositionAndAngles(pos.x, pos.y, pos.z, e.getYaw(), e.getPitch());
                 return e;
             });
 
