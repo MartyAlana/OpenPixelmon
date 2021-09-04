@@ -36,7 +36,7 @@ public class OpenPixelmonClient implements ClientModInitializer {
 
     public static final ClientBattleManager battleManager = new ClientBattleManager();
 
-    protected static Shader pixelmonSolidShader;
+    public static Shader pixelmonSolidShader;
     protected static final RenderPhase.Shader PIXELMON_SOLID_SHADER = new RenderPhase.Shader(OpenPixelmonClient::getPixelmonShader);
 
     private static Shader getPixelmonShader() {

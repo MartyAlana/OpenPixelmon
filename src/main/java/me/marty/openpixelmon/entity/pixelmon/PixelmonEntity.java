@@ -195,7 +195,7 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
     @Override
     protected void initGoals() {
         this.goalSelector.add(1, new LookAroundGoal(this));
-        this.goalSelector.add(1, new WanderAroundGoal(this, 0.4d));
+        this.goalSelector.add(1, new WanderAroundGoal(this, 0.4D));
         this.goalSelector.add(3, new LookAtEntityGoal(this, PixelmonEntity.class, 10));
         this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 4));
     }

@@ -20,3 +20,5 @@ accessible field net/minecraft/client/render/RenderPhase DISABLE_OVERLAY_COLOR L
 accessible class net/minecraft/client/render/RenderPhase$Shader
 accessible class net/minecraft/client/render/RenderPhase$Texture
 accessible class net/minecraft/client/render/RenderLayer$MultiPhaseParameters
+
+accessible method net/minecraft/client/render/model/BasicBakedModel$Builder	<init>	(ZZZLnet/minecraft/client/render/model/json/ModelTransformation;Lnet/minecraft/client/render/model/json/ModelOverrideList;)V
