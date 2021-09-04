@@ -18,19 +18,19 @@ public class Registries implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        BuiltinRegistries.addRegistry(PIXELMON_REGISTRY, () -> null);
-        BuiltinRegistries.addRegistry(MOVE_REGISTRY, () -> null);
-
-        DynamicRegistryBuilderCallback.EVENT.register(builder -> {
-            builder.register(PIXELMON_REGISTRY, PokedexEntry.CODEC);
-            builder.register(MOVE_REGISTRY, Move.CODEC);
-        });
-
-        DynamicRegistrySetupCallback.EVENT.register(registryManager -> {
-            Registry<PokedexEntry> pokedexRegistry = registryManager.get(PIXELMON_REGISTRY);
-            RegistryEntryAddedCallback.event(pokedexRegistry).register((rawId, id, object) -> {
-                // TODO: Sync
-            });
-        });
+//        BuiltinRegistries.addRegistry(PIXELMON_REGISTRY, () -> null);
+//        BuiltinRegistries.addRegistry(MOVE_REGISTRY, () -> null);
+//
+//        DynamicRegistryBuilderCallback.EVENT.register(builder -> {
+//            builder.register(PIXELMON_REGISTRY, PokedexEntry.CODEC);
+//            builder.register(MOVE_REGISTRY, Move.CODEC);
+//        });
+//
+//        DynamicRegistrySetupCallback.EVENT.register(registryManager -> {
+//            Registry<PokedexEntry> pokedexRegistry = registryManager.get(PIXELMON_REGISTRY);
+//            RegistryEntryAddedCallback.event(pokedexRegistry).register((rawId, id, object) -> {
+//                // TODO: Sync
+//            });
+//        });
     }
 }
