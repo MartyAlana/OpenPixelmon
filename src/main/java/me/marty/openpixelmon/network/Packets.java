@@ -20,13 +20,13 @@ public class Packets implements ModInitializer {
     public void onInitialize() {
         ServerPlayNetworking.registerGlobalReceiver(SEND_OUT, (server, player, handler, buf, responseSender) -> {
             PartyComponent party = EntityComponents.PARTY_COMPONENT.get(player);
-            PartyEntry importantPokemon = party.getParty().getEntries()[0];
-            if(importantPokemon == null) {
+            PartyEntry importantPixelmon = party.getParty().getEntries()[0];
+            if(importantPixelmon == null) {
                 player.sendMessage(new TranslatableText("text.pixelmon.send.fail"), false);
                 return;
             }
-            if(importantPokemon.getHp() != 0){
-                player.sendMessage(new TranslatableText("text.pixelmon.send.success", importantPokemon.getName()), false);
+            if(importantPixelmon.getHp() != 0){
+                player.sendMessage(new TranslatableText("text.pixelmon.send.success", importantPixelmon.getName()), false);
                 player.getServerWorld().spawnEntity(new PokeballEntity(player, OpenPixelmonItems.POKE_BALL));
             }
         });

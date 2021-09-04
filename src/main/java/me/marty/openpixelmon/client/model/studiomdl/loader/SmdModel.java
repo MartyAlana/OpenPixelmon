@@ -42,8 +42,8 @@ public class SmdModel {
     }
 
     public void cacheVertexConsumer() {
-        BufferBuilder builder = new BufferBuilder(tris.size() * VertexFormats.POSITION_TEXTURE_COLOR_NORMAL.getVertexSize());
-        builder.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_TEXTURE_COLOR_NORMAL);
+        BufferBuilder builder = new BufferBuilder(tris.size() * OpenPixelmonClient.PIXELMON_VERTEX_FORMAT.getVertexSize());
+        builder.begin(VertexFormat.DrawMode.TRIANGLES, OpenPixelmonClient.PIXELMON_VERTEX_FORMAT);
         for (Tri triangle : tris) {
             consumeVertex(builder, triangle.v1);
             consumeVertex(builder, triangle.v2);
@@ -63,7 +63,9 @@ public class SmdModel {
         matrices.scale(context.smdInfo.scale, context.smdInfo.scale, context.smdInfo.scale);
         matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
         RenderSystem.setShaderTexture(0, modelTexture);
+        RenderSystem.enableDepthTest();
         context.vertexBuffer.setShader(matrices.peek().getModel(), RenderSystem.getProjectionMatrix(), OpenPixelmonClient.pixelmonSolidShader);
+        RenderSystem.disableDepthTest();
         matrices.pop();
     }
 

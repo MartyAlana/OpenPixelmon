@@ -70,7 +70,7 @@ public class PokeballEntity extends ThrownEntity implements IAnimatable {
     protected void onBlockHit(BlockHitResult blockHitResult) {
         if (sendingOut) {
             PlayerEntity player = (PlayerEntity) getOwner();
-            System.out.println("Send out pokemon of " + player);
+            System.out.println("Send out pixelmon of " + player);
         }
         if (!catchingPixelmon) {
             BlockPos pos = blockHitResult.getBlockPos();

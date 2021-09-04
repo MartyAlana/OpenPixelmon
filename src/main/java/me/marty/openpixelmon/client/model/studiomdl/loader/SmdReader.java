@@ -18,10 +18,10 @@ import java.util.Map;
 
 public class SmdReader {
     public static Lazy<SmdModel> createLazyModel(String location) {
-        return new Lazy<>(() -> SmdReader.readPokemonMdl(location));
+        return new Lazy<>(() -> SmdReader.readPixelmonModel(location));
     }
 
-    private static SmdModel readPokemonMdl(String location) {
+    private static SmdModel readPixelmonModel(String location) {
         try {
             return new SmdModel("assets/generations/models/" + location, parseInfo(location));
         } catch (IOException e) {

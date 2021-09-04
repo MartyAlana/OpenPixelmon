@@ -179,16 +179,16 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
         Biome biome = world.getBiome(pos);
 
 
-        if (this.getPixelmonId() == MISSING) {
-            for (Identifier pokedex : DataLoaders.PIXELMON_MANAGER.getPixelmon().keySet()) {
-                // FIXME: temporarily randomise pixelmon spawns
-                if (random.nextInt(10) == 5) {
-                    this.setup(pokedex, (World) world, pos);
-                    return entityData;
-                }
-            }
-            this.setup(MISSING, (World) world, pos);
-        }
+//        if (this.getPixelmonId() == MISSING) {
+//            for (Identifier pokedex : DataLoaders.PIXELMON_MANAGER.getPixelmon().keySet()) {
+//                // FIXME: temporarily randomise pixelmon spawns
+//                if (random.nextInt(10) == 5) {
+//                    this.setup(pokedex, (World) world, pos);
+//                    return entityData;
+//                }
+//            }
+//            this.setup(MISSING, (World) world, pos);
+//        }
         return entityData;
     }
 
@@ -255,7 +255,6 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
         return "nickname"; //TODO:
 //        return OpenPixelmonTranslator.createTranslation(pokedexEntry.name).getString();
     }
-
 
 
     public boolean isWild() {

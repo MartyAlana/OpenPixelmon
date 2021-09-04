@@ -20,11 +20,13 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.RenderPhase;
+import net.minecraft.client.render.Shader;
+import net.minecraft.client.render.VertexFormat;
+import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
@@ -34,17 +36,17 @@ import java.util.List;
 @Environment(EnvType.CLIENT)
 public class OpenPixelmonClient implements ClientModInitializer {
 
-    public static final ClientBattleManager battleManager = new ClientBattleManager();
-
-    public static Shader pixelmonSolidShader;
     protected static final RenderPhase.Shader PIXELMON_SOLID_SHADER = new RenderPhase.Shader(OpenPixelmonClient::getPixelmonShader);
+    public static final ClientBattleManager battleManager = new ClientBattleManager();
+    public static final VertexFormat PIXELMON_VERTEX_FORMAT = VertexFormats.POSITION_TEXTURE_COLOR_NORMAL;
+    public static Shader pixelmonSolidShader;
 
     private static Shader getPixelmonShader() {
         return pixelmonSolidShader;
     }
 
     public static void loadShaders(ResourceManager manager, GameRendererAccessor gameRenderer) throws IOException {
-        pixelmonSolidShader = gameRenderer.loadPixelmonShader(manager, "rendertype_pixelmon_solid", VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL);
+        pixelmonSolidShader = gameRenderer.loadPixelmonShader(manager, "pixelmon", OpenPixelmonClient.PIXELMON_VERTEX_FORMAT);
     }
 
     @Override
@@ -100,15 +102,5 @@ public class OpenPixelmonClient implements ClientModInitializer {
 
     private boolean useCompatModels() {
         return true; //TODO: currently forced due to us not having models for every pixelmon :pensive:
-    }
-
-    public static RenderLayer getPixelmonLayer(Identifier texture) {
-        RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
-                .shader(PIXELMON_SOLID_SHADER)
-                .texture(new RenderPhase.Texture(texture, false, false))
-                .transparency(RenderPhase.NO_TRANSPARENCY).lightmap(RenderPhase.ENABLE_LIGHTMAP)
-                .overlay(RenderPhase.ENABLE_OVERLAY_COLOR)
-                .build(true);
-        return RenderLayer.of("pixelmon", VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL, VertexFormat.DrawMode.QUADS, 256, true, false, multiPhaseParameters);
     }
 }
