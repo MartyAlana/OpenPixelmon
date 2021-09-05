@@ -1,6 +1,5 @@
 package me.marty.openpixelmon.client.render.shader;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gl.GlShader;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.util.math.Matrix4f;
@@ -28,9 +27,6 @@ public class GlArrayUniform extends GlUniform {
     }
 
     public void upload() {
-        if (!this.stateDirty) {
-        }
-
         this.stateDirty = false;
         if (this.dataType <= 3) {
             this.uploadInts();
