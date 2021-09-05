@@ -3,6 +3,7 @@ package me.marty.openpixelmon.client.render;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationData;
 import me.marty.openpixelmon.client.model.studiomdl.animation.Keyframe;
+import me.marty.openpixelmon.client.render.shader.GlArrayUniform;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.VertexBuffer;
@@ -20,7 +21,6 @@ import java.util.Objects;
  */
 public class AnimatedVertexBuffer extends VertexBuffer {
 
-    private static final Matrix4f EMPTY = new Matrix4f();
     private static final int MAX_SAMPLER_COUNT = 12;
 
     public void setShaderWithAnimationInfo(Matrix4f viewMatrix, Matrix4f projectionMatrix, Shader shader, AnimationData animationData) {
@@ -59,13 +59,10 @@ public class AnimatedVertexBuffer extends VertexBuffer {
                 shader.modelViewMat.set(modelViewMatrix);
             }
 
-            GlUniform boneTransformationsUniform = shader.getUniform("BoneTransformations");
-            if (boneTransformationsUniform != null) {
-                for (Matrix4f boneTransformation : boneTransformations) {
-                    boneTransformationsUniform.set(Objects.requireNonNullElse(boneTransformation, EMPTY));
-                }
+            if (shader.getUniform("BoneTransformations") instanceof GlArrayUniform boneTransformationsUniform) {
+                boneTransformationsUniform.set(boneTransformations);
             } else {
-                throw new RuntimeException("Couldn't find BoneTransformations Uniform!");
+                throw new RuntimeException("BoneTransformations was of the wrong uniform type.");
             }
 
             if (shader.colorModulator != null) {

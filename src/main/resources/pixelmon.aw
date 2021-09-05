@@ -27,3 +27,10 @@ accessible field net/minecraft/client/gl/VertexBuffer vertexCount I
 accessible field net/minecraft/client/gl/VertexBuffer vertexFormat Lnet/minecraft/client/render/VertexFormat$IntType;
 accessible method net/minecraft/client/gl/VertexBuffer bindVertexArray ()V
 
+accessible field net/minecraft/client/gl/GlUniform floatData Ljava/nio/FloatBuffer;
+accessible method net/minecraft/client/gl/GlUniform	markStateDirty ()V
+accessible field net/minecraft/client/gl/GlUniform dataType I
+accessible method net/minecraft/client/gl/GlUniform	uploadInts ()V
+accessible method net/minecraft/client/gl/GlUniform	uploadFloats ()V
+accessible field net/minecraft/client/gl/GlUniform stateDirty Z
+accessible field net/minecraft/client/gl/GlUniform location I

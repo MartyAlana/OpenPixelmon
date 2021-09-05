@@ -49,7 +49,6 @@ public abstract class ShaderMixin {
                 ShaderExtensionInfo extension = EXTENSIONS.get(extensionName);
                 uniforms.add(extension.createUniform(uniform, name, type, rawCount, count, unknown, (Shader) (Object) this));
             }
-
             ci.cancel();
         } catch (JsonParseException ignored) {
         }

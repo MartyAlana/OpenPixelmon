@@ -27,7 +27,6 @@
   ],
   "uniforms": [
     {
-      "extensions": ["pixelmon_arrays"],
       "name": "ProjMat",
       "type": "matrix4x4",
       "count": 16,
@@ -77,6 +76,7 @@
       "name": "BoneTransformations",
       "type": "matrix4x4",
       "count": 1024,
+      "extensions": ["pixelmon_arrays"],
       "values": [
         0,
         0,
