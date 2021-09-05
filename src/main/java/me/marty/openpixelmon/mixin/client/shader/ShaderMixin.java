@@ -5,6 +5,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.mojang.blaze3d.systems.RenderSystem;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import me.marty.openpixelmon.client.render.shader.PixelmonShaderExtensions;
 import me.marty.openpixelmon.client.render.shader.ShaderExtensionInfo;
 import net.fabricmc.api.EnvType;
@@ -13,14 +16,18 @@ import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.ShaderParseException;
 import net.minecraft.client.render.Shader;
 import net.minecraft.util.JsonHelper;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.opengl.GL20C;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +41,14 @@ public abstract class ShaderMixin {
     @Shadow
     @Final
     private List<GlUniform> uniforms;
+    @Shadow @Final private static Logger LOGGER;
+    @Shadow @Final private List<Integer> loadedUniformIds;
+    @Shadow @Final private Map<String, GlUniform> loadedUniforms;
+    @Shadow @Final private String name;
+    @Shadow @Final private int programId;
+    @Shadow @Final private List<String> samplerNames;
+    @Shadow @Final private List<Integer> loadedSamplerIds;
+    @Shadow @Final private Map<String, Object> samplers;
     private static final Map<String, ShaderExtensionInfo> EXTENSIONS =
             new ImmutableMap.Builder<String, ShaderExtensionInfo>()
                     .put("pixelmon_arrays", PixelmonShaderExtensions::doArrayExtension)
@@ -52,5 +67,45 @@ public abstract class ShaderMixin {
             ci.cancel();
         } catch (JsonParseException ignored) {
         }
+    }
+
+    /**
+     * @author
+     */
+    @Overwrite
+    private void loadReferences() {
+        RenderSystem.assertThread(RenderSystem::isOnRenderThread);
+        IntList intList = new IntArrayList();
+
+        int k;
+        for(k = 0; k < this.samplerNames.size(); ++k) {
+            String string = this.samplerNames.get(k);
+            int j = GlUniform.getUniformLocation(this.programId, string);
+            if (j == -1) {
+                LOGGER.warn("Shader {} could not find sampler named {} in the specified shader program.", this.name, string);
+                this.samplers.remove(string);
+                intList.add(k);
+            } else {
+                this.loadedSamplerIds.add(j);
+            }
+        }
+
+        for(k = intList.size() - 1; k >= 0; --k) {
+            int l = intList.getInt(k);
+            this.samplerNames.remove(l);
+        }
+
+        for (GlUniform glUniform : this.uniforms) {
+            String uniformName = glUniform.getName();
+            int location = GlUniform.getUniformLocation(this.programId, uniformName);
+            if (location == -1) {
+                LOGGER.warn("Shader {} could not find uniform named {} in the specified shader program.", this.name, uniformName);
+            } else {
+                this.loadedUniformIds.add(location);
+                glUniform.setLoc(location);
+                this.loadedUniforms.put(uniformName, glUniform);
+            }
+        }
+
     }
 }
