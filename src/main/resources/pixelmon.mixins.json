@@ -2,18 +2,19 @@
   "required": true,
   "minVersion": "0.8",
   "package": "me.marty.openpixelmon.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_16",
   "mixins": [
     "DynamicRegistryManagerMixin",
     "ServerPlayerEntityMixin",
-    "ServerResourceManagerMixin"
+    "ServerResourceManagerMixin",
+    "client.shader.ShaderMixin"
   ],
   "client": [
+    "client.ClientPlayNetworkHandlerMixin",
     "client.GameRendererMixin",
-    "client.TitleScreenMixin",
     "client.InGameHudMixin",
     "client.MinecraftClientMixin",
-    "client.ClientPlayNetworkHandlerMixin"
+    "client.TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -21,4 +21,9 @@ accessible class net/minecraft/client/render/RenderPhase$Shader
 accessible class net/minecraft/client/render/RenderPhase$Texture
 accessible class net/minecraft/client/render/RenderLayer$MultiPhaseParameters
 
-accessible method net/minecraft/client/render/model/BasicBakedModel$Builder	<init>	(ZZZLnet/minecraft/client/render/model/json/ModelTransformation;Lnet/minecraft/client/render/model/json/ModelOverrideList;)V
+accessible field net/minecraft/client/gl/VertexBuffer vertexCount I
+accessible field net/minecraft/client/gl/VertexBuffer drawMode Lnet/minecraft/client/render/VertexFormat$DrawMode;
+accessible field net/minecraft/client/gl/VertexBuffer vertexCount I
+accessible field net/minecraft/client/gl/VertexBuffer vertexFormat Lnet/minecraft/client/render/VertexFormat$IntType;
+accessible method net/minecraft/client/gl/VertexBuffer bindVertexArray ()V
+

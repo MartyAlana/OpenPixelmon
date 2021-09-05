@@ -8,11 +8,10 @@ import me.marty.openpixelmon.client.OpenPixelmonClient;
 import me.marty.openpixelmon.client.model.studiomdl.Tri;
 import me.marty.openpixelmon.client.model.studiomdl.Vertex;
 import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationData;
-import net.minecraft.client.gl.VertexBuffer;
+import me.marty.openpixelmon.client.render.AnimatedVertexBuffer;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3f;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class SmdModel {
     public String path;
     public final Info smdInfo;
     private AnimationData idleAnimation;
-    private VertexBuffer vertexBuffer;
+    private AnimatedVertexBuffer vertexBuffer;
 
     public SmdModel(String path, Info smdInfo) {
         this.path = path;
@@ -50,7 +49,7 @@ public class SmdModel {
             consumeVertex(builder, triangle.v3);
         }
         builder.end();
-        VertexBuffer vertexBuffer = new VertexBuffer();
+        AnimatedVertexBuffer vertexBuffer = new AnimatedVertexBuffer();
         vertexBuffer.upload(builder);
         this.vertexBuffer = vertexBuffer;
     }
@@ -64,17 +63,32 @@ public class SmdModel {
         matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
         RenderSystem.setShaderTexture(0, modelTexture);
         RenderSystem.enableDepthTest();
-        context.vertexBuffer.setShader(matrices.peek().getModel(), RenderSystem.getProjectionMatrix(), OpenPixelmonClient.pixelmonSolidShader);
+        context.vertexBuffer.setShaderWithAnimationInfo(matrices.peek().getModel(), RenderSystem.getProjectionMatrix(), OpenPixelmonClient.pixelmonSolidShader, context.idleAnimation);
         RenderSystem.disableDepthTest();
         matrices.pop();
     }
 
-    public static void consumeVertex(VertexConsumer consumer, Vertex vertex) {
+    public static void consumeVertex(BufferBuilder consumer, Vertex vertex) {
         consumer.vertex(vertex.x, vertex.y, vertex.z)
                 .texture(vertex.u, 1.0f - vertex.v)
                 .color(255, 255, 255, 255)
-                .normal(vertex.nx, vertex.ny, vertex.nz)
-                .next();
+                .normal(vertex.nx, vertex.ny, vertex.nz);
+
+        // Upload the bone map
+        consumer.putByte(0, vertex.renderBoneToBoneMap[0]);
+        consumer.putByte(1, vertex.renderBoneToBoneMap[1]);
+        consumer.putByte(2, vertex.renderBoneToBoneMap[2]);
+        consumer.putByte(3, vertex.renderBoneToBoneMap[3]);
+        consumer.nextElement();
+
+        // Upload the bone weights
+        consumer.putFloat(0, vertex.boneWeights[0]);
+        consumer.putFloat(1, vertex.boneWeights[1]);
+        consumer.putFloat(2, vertex.boneWeights[2]);
+        consumer.putFloat(3, vertex.boneWeights[3]);
+        consumer.nextElement();
+
+        consumer.next();
     }
 
     private void parseTris(List<TrianglesBlock.Triangle> triangles) {
@@ -82,24 +96,7 @@ public class SmdModel {
             Vertex v1 = getOrDefaultVertex(new Vertex(triangle.v1));
             Vertex v2 = getOrDefaultVertex(new Vertex(triangle.v2));
             Vertex v3 = getOrDefaultVertex(new Vertex(triangle.v3));
-            calculateBoneWeights(triangle.v1.links, v1);
-            calculateBoneWeights(triangle.v2.links, v2);
-            calculateBoneWeights(triangle.v3.links, v3);
             tris.add(new Tri(v1, v2, v3));
-        }
-    }
-
-    private void calculateBoneWeights(List<TrianglesBlock.Link> values, Vertex vertex) {
-        int links = values.size();
-        float[] weights = new float[links];
-        float sum = 0.0F;
-        for (int i = 0; i < links; ++i) {
-            weights[i] = values.get(i).weight;
-            sum += weights[i];
-
-            TrianglesBlock.Link link = values.get(i);
-            float weight = weights[i] / sum;
-            this.idleAnimation.bones.get(link.bone).vertices.put(vertex, weight);
         }
     }
 

@@ -1,5 +1,6 @@
 package me.marty.openpixelmon.client;
 
+import com.google.common.collect.ImmutableMap;
 import me.marty.openpixelmon.api.battle.client.ClientBattleManager;
 import me.marty.openpixelmon.client.model.entity.GeckolibModel;
 import me.marty.openpixelmon.client.render.GameRendererAccessor;
@@ -20,10 +21,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.render.RenderPhase;
-import net.minecraft.client.render.Shader;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resource.ResourceManager;
@@ -33,12 +31,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.minecraft.client.render.VertexFormats.*;
+
 @Environment(EnvType.CLIENT)
 public class OpenPixelmonClient implements ClientModInitializer {
 
     protected static final RenderPhase.Shader PIXELMON_SOLID_SHADER = new RenderPhase.Shader(OpenPixelmonClient::getPixelmonShader);
     public static final ClientBattleManager battleManager = new ClientBattleManager();
-    public static final VertexFormat PIXELMON_VERTEX_FORMAT = VertexFormats.POSITION_TEXTURE_COLOR_NORMAL;
+    public static final VertexFormatElement MAP_ELEMENT = new VertexFormatElement(0, VertexFormatElement.DataType.BYTE, VertexFormatElement.Type.UV, 4);
+    public static final VertexFormatElement WEIGHT_ELEMENT = new VertexFormatElement(0, VertexFormatElement.DataType.FLOAT, VertexFormatElement.Type.GENERIC, 4);
+    public static final VertexFormat PIXELMON_VERTEX_FORMAT = new VertexFormat(ImmutableMap.<String, VertexFormatElement>builder()
+            .put("Position", POSITION_ELEMENT)
+            .put("UV0", TEXTURE_0_ELEMENT)
+            .put("Color", COLOR_ELEMENT)
+            .put("Normal", NORMAL_ELEMENT)
+            .put("Padding", PADDING_ELEMENT)
+            .put("BoneMap", MAP_ELEMENT)
+            .put("WeightMap", WEIGHT_ELEMENT)
+            .build());
     public static Shader pixelmonSolidShader;
 
     private static Shader getPixelmonShader() {
