@@ -10,6 +10,9 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.item.Item;
@@ -28,15 +31,18 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-@SuppressWarnings("EntityConstructor")
+import java.util.Objects;
+
 public class PokeballEntity extends ThrownEntity implements IAnimatable {
 
-    private static final AnimationBuilder IDLE_ANIMATION = new AnimationBuilder().addAnimation("animation.pokeball.start_catch", true);
+    private static final AnimationBuilder CATCH_ANIMATION = new AnimationBuilder().addAnimation("animation.ball.catch", false);
+
+    protected static final TrackedData<Boolean> CATCHING = DataTracker.registerData(PokeballEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     private final AnimationFactory factory = new AnimationFactory(this);
-    private boolean catchingPixelmon;
-
+    public boolean doingSomething;
     public boolean sendingOut;
+
     private final Item item;
 
     public PokeballEntity(EntityType<? extends ThrownEntity> entityType, World world) {
@@ -70,9 +76,9 @@ public class PokeballEntity extends ThrownEntity implements IAnimatable {
     protected void onBlockHit(BlockHitResult blockHitResult) {
         if (sendingOut) {
             PlayerEntity player = (PlayerEntity) getOwner();
-            System.out.println("Send out pixelmon of " + player);
+            System.out.println("Send out Pixelmon of " + player);
         }
-        if (!catchingPixelmon) {
+        if (!dataTracker.get(CATCHING)) {
             BlockPos pos = blockHitResult.getBlockPos();
             kill();
             world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY() + 1, pos.getZ(), new ItemStack(getItem())));
@@ -83,24 +89,29 @@ public class PokeballEntity extends ThrownEntity implements IAnimatable {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         if (sendingOut) return;
         if (entityHitResult.getEntity() instanceof PixelmonEntity) {
-            this.catchingPixelmon = true;
+            dataTracker.set(CATCHING, true);
+            this.doingSomething = true;
             setNoGravity(true);
+            //TODO: make it fall to the ground.
+            setVelocity(new Vec3d(0, 0, 0));
             if (!getEntityWorld().isClient()) {
-                EntityComponents.PARTY_COMPONENT.get(getOwner()).getParty().add((ServerPlayerEntity) getOwner(), new PartyEntry((PixelmonEntity) entityHitResult.getEntity(), (PokeballItem) OpenPixelmonItems.POKE_BALL));
+                EntityComponents.PARTY_COMPONENT.get(Objects.requireNonNull(getOwner(), "Owner was null!")).getParty().add((ServerPlayerEntity) getOwner(), new PartyEntry((PixelmonEntity) entityHitResult.getEntity(), (PokeballItem) OpenPixelmonItems.POKE_BALL));
                 EntityComponents.PARTY_COMPONENT.sync(getOwner());
             }
             entityHitResult.getEntity().kill();
-            setVelocity(0, 0.5, 0);
         } else {
-            Vec3d pos = entityHitResult.getPos();
-            kill();
-            entityHitResult.getEntity().damage(DamageSource.GENERIC, 1);
-            world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY() + 1, pos.getZ(), new ItemStack(getItem())));
+            if (!doingSomething) {
+                Vec3d pos = entityHitResult.getPos();
+                kill();
+                entityHitResult.getEntity().damage(DamageSource.GENERIC, 1);
+                world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY() + 1, pos.getZ(), new ItemStack(getItem())));
+            }
         }
     }
 
     @Override
     protected void initDataTracker() {
+        dataTracker.startTracking(CATCHING, false);
     }
 
     @Override
@@ -109,7 +120,10 @@ public class PokeballEntity extends ThrownEntity implements IAnimatable {
     }
 
     private <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
-        return PlayState.STOP;
+        if (dataTracker.get(CATCHING)) {
+            event.getController().setAnimation(CATCH_ANIMATION);
+        }
+        return PlayState.CONTINUE;
     }
 
     @Override

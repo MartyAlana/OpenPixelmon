@@ -8,6 +8,7 @@ import com.google.gson.JsonParseException;
 import com.mojang.blaze3d.systems.RenderSystem;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
+import me.marty.openpixelmon.client.render.shader.ExtendedGlUniform;
 import me.marty.openpixelmon.client.render.shader.PixelmonShaderExtensions;
 import me.marty.openpixelmon.client.render.shader.ShaderExtensionInfo;
 import net.fabricmc.api.EnvType;
@@ -41,14 +42,30 @@ public abstract class ShaderMixin {
     @Shadow
     @Final
     private List<GlUniform> uniforms;
-    @Shadow @Final private static Logger LOGGER;
-    @Shadow @Final private List<Integer> loadedUniformIds;
-    @Shadow @Final private Map<String, GlUniform> loadedUniforms;
-    @Shadow @Final private String name;
-    @Shadow @Final private int programId;
-    @Shadow @Final private List<String> samplerNames;
-    @Shadow @Final private List<Integer> loadedSamplerIds;
-    @Shadow @Final private Map<String, Object> samplers;
+    @Shadow
+    @Final
+    private static Logger LOGGER;
+    @Shadow
+    @Final
+    private List<Integer> loadedUniformIds;
+    @Shadow
+    @Final
+    private Map<String, GlUniform> loadedUniforms;
+    @Shadow
+    @Final
+    private String name;
+    @Shadow
+    @Final
+    private int programId;
+    @Shadow
+    @Final
+    private List<String> samplerNames;
+    @Shadow
+    @Final
+    private List<Integer> loadedSamplerIds;
+    @Shadow
+    @Final
+    private Map<String, Object> samplers;
     private static final Map<String, ShaderExtensionInfo> EXTENSIONS =
             new ImmutableMap.Builder<String, ShaderExtensionInfo>()
                     .put("pixelmon_arrays", PixelmonShaderExtensions::doArrayExtension)
@@ -78,7 +95,7 @@ public abstract class ShaderMixin {
         IntList intList = new IntArrayList();
 
         int k;
-        for(k = 0; k < this.samplerNames.size(); ++k) {
+        for (k = 0; k < this.samplerNames.size(); ++k) {
             String string = this.samplerNames.get(k);
             int j = GlUniform.getUniformLocation(this.programId, string);
             if (j == -1) {
@@ -90,7 +107,7 @@ public abstract class ShaderMixin {
             }
         }
 
-        for(k = intList.size() - 1; k >= 0; --k) {
+        for (k = intList.size() - 1; k >= 0; --k) {
             int l = intList.getInt(k);
             this.samplerNames.remove(l);
         }
@@ -98,14 +115,20 @@ public abstract class ShaderMixin {
         for (GlUniform glUniform : this.uniforms) {
             String uniformName = glUniform.getName();
             int location = GlUniform.getUniformLocation(this.programId, uniformName);
-            if (location == -1) {
-                LOGGER.warn("Shader {} could not find uniform named {} in the specified shader program.", this.name, uniformName);
+            if (glUniform instanceof ExtendedGlUniform extendedGlUniform) {
+                extendedGlUniform.loadReference(this.programId, uniformName, loadedUniformIds);
             } else {
-                this.loadedUniformIds.add(location);
-                glUniform.setLoc(location);
-                this.loadedUniforms.put(uniformName, glUniform);
+                if(location == 0) {
+                    LOGGER.warn("Uniform {} had a location of 0. This is most likely an array. Please use the extension pixelmon_arrays in your shader.", uniformName);
+                }
+                if (location == -1) {
+                    LOGGER.warn("Shader {} could not find uniform named {} in the specified shader program.", this.name, uniformName);
+                } else {
+                    this.loadedUniformIds.add(location);
+                    glUniform.setLoc(location);
+                }
             }
+            this.loadedUniforms.put(uniformName, glUniform);
         }
-
     }
 }

@@ -37,10 +37,12 @@ public class NonLivingGeckolibModelRenderer<T extends Entity & IAnimatable> exte
 
     protected final List<GeoLayerRenderer<T>> layerRenderers = Lists.newArrayList();
     private final AnimatedGeoModel<T> modelProvider;
+    private final float scale;
 
-    public NonLivingGeckolibModelRenderer(EntityRendererFactory.Context context, AnimatedGeoModel<T> modelProvider) {
+    public NonLivingGeckolibModelRenderer(EntityRendererFactory.Context context, AnimatedGeoModel<T> modelProvider, float scale) {
         super(context);
         this.modelProvider = modelProvider;
+        this.scale = scale;
     }
 
     public static int getPackedOverlay(float uIn) {
@@ -52,14 +54,14 @@ public class NonLivingGeckolibModelRenderer<T extends Entity & IAnimatable> exte
         EntityModelData entityModelData = new EntityModelData();
         entityModelData.isSitting = shouldSit;
         entityModelData.isChild = false;
-        float f = entityYaw;
-        float f2 = entityYaw - f;
+        float yaw = entityYaw;
+        float negYaw = entityYaw - yaw;
         float f7;
         if (shouldSit && entity.getVehicle() instanceof LivingEntity) {
             LivingEntity livingentity = (LivingEntity)entity.getVehicle();
-            f = MathHelper.lerpAngleDegrees(partialTicks, livingentity.prevBodyYaw, livingentity.bodyYaw);
-            f2 = entityYaw - f;
-            f7 = MathHelper.wrapDegrees(f2);
+            yaw = MathHelper.lerpAngleDegrees(partialTicks, livingentity.prevBodyYaw, livingentity.bodyYaw);
+            negYaw = entityYaw - yaw;
+            f7 = MathHelper.wrapDegrees(negYaw);
             if (f7 < -85.0F) {
                 f7 = -85.0F;
             }
@@ -68,12 +70,12 @@ public class NonLivingGeckolibModelRenderer<T extends Entity & IAnimatable> exte
                 f7 = 85.0F;
             }
 
-            f = entityYaw - f7;
+            yaw = entityYaw - f7;
             if (f7 * f7 > 2500.0F) {
-                f += f7 * 0.2F;
+                yaw += f7 * 0.2F;
             }
 
-            f2 = entityYaw - f;
+            negYaw = entityYaw - yaw;
         }
 
         float f6 = MathHelper.lerp(partialTicks, entity.prevPitch, entity.getPitch());
@@ -83,7 +85,7 @@ public class NonLivingGeckolibModelRenderer<T extends Entity & IAnimatable> exte
         }
 
         f7 = this.handleRotationFloat(entity, partialTicks);
-        this.applyRotations(entity, stack, f);
+        this.applyRotations(entity, stack, yaw);
         limbSwingAmount = 0.0F;
         float limbSwing = 0.0F;
 
@@ -92,6 +94,7 @@ public class NonLivingGeckolibModelRenderer<T extends Entity & IAnimatable> exte
 
         stack.push();
         stack.translate(0.0D, 0.009999999776482582D, 0.0D);
+        stack.scale(scale, scale, scale);
         MinecraftClient.getInstance().getTextureManager().bindTexture(this.getTexture(entity));
         GeoModel model = this.modelProvider.getModel(this.modelProvider.getModelLocation(entity));
         Color renderColor = this.getRenderColor(entity, partialTicks, stack, bufferIn, null, packedLightIn);
@@ -99,7 +102,7 @@ public class NonLivingGeckolibModelRenderer<T extends Entity & IAnimatable> exte
         this.render(model, entity, partialTicks, renderType, stack, bufferIn, null, packedLightIn, getPackedOverlay(0.0F), (float)renderColor.getRed() / 255.0F, (float)renderColor.getBlue() / 255.0F, (float)renderColor.getGreen() / 255.0F, (float)renderColor.getAlpha() / 255.0F);
         if (!entity.isSpectator()) {
             for (GeoLayerRenderer<T> renderer : this.layerRenderers) {
-                renderer.render(stack, bufferIn, packedLightIn, entity, limbSwing, limbSwingAmount, partialTicks, f7, f2, f6);
+                renderer.render(stack, bufferIn, packedLightIn, entity, limbSwing, limbSwingAmount, partialTicks, f7, negYaw, f6);
             }
         }
 

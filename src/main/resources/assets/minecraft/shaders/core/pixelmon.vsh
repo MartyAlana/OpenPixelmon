@@ -22,7 +22,6 @@ uniform mat4 BoneTransformations[MAX_BONES];
 uniform vec3 Light0_Direction;
 uniform vec3 Light1_Direction;
 
-
 out float vertexDistance;
 out vec4 vertexColor;
 out vec2 texCoord0;

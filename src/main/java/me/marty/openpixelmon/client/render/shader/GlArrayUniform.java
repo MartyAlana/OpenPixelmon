@@ -7,15 +7,26 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL20;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class GlArrayUniform extends GlUniform {
+import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
+
+public class GlArrayUniform extends GlUniform implements ExtendedGlUniform {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Matrix4f EMPTY = new Matrix4f();
+    private final List<Integer> uniformLocations = new ArrayList<>();
+    private int dataTypeCount;
 
-    public GlArrayUniform(String name, int dataType, int count, GlShader program) {
-        super(name, dataType, count, program);
+    public GlArrayUniform(String name, int dataType, int count, GlShader shader) {
+        super(name, dataType, count, shader);
+        if (dataType == 10) {
+            dataTypeCount = count / 16;
+        } else {
+            dataTypeCount = -1;
+        }
     }
 
     public void set(Matrix4f[] matrices) {
@@ -46,8 +57,27 @@ public class GlArrayUniform extends GlUniform {
         switch (this.dataType) {
             case 8 -> GL20.glUniformMatrix2fv(this.location, false, this.floatData);
             case 9 -> GL20.glUniformMatrix3fv(this.location, false, this.floatData);
-            case 10 -> GL20.glUniformMatrix4fv(this.location, false, this.floatData);
+            case 10 -> {
+                int i = 0;
+                for (int uniformLocation : uniformLocations) {
+                    glUniformMatrix4fv(uniformLocation, false, this.floatData.position((getCount() / dataTypeCount) * i));
+                    i++;
+                }
+            }
         }
         this.floatData.clear();
+    }
+
+    @Override
+    public void setLoc(int loc) {
+        this.location = -1;
+    }
+
+    @Override
+    public void loadReference(int programId, String uniformName, List<Integer> loadedUniformIds) {
+        for (int i = 0; i < dataTypeCount; i++) {
+            uniformLocations.add(GlUniform.getUniformLocation(programId, uniformName + "[" + i + "]"));
+            loadedUniformIds.add(location);
+        }
     }
 }
