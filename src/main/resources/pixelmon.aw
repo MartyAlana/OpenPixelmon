@@ -34,3 +34,7 @@ accessible method net/minecraft/client/gl/GlUniform	uploadInts ()V
 accessible method net/minecraft/client/gl/GlUniform	uploadFloats ()V
 accessible field net/minecraft/client/gl/GlUniform stateDirty Z
 accessible field net/minecraft/client/gl/GlUniform location I
+
+accessible field net/minecraft/client/gui/widget/TexturedButtonWidget texture Lnet/minecraft/util/Identifier;
+accessible field net/minecraft/client/gui/widget/TexturedButtonWidget u I
+accessible field net/minecraft/client/gui/widget/TexturedButtonWidget v I

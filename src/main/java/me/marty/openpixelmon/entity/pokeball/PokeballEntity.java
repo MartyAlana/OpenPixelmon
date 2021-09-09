@@ -122,6 +122,9 @@ public class PokeballEntity extends ThrownEntity implements IAnimatable {
     private <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
         if (dataTracker.get(CATCHING)) {
             event.getController().setAnimation(CATCH_ANIMATION);
+            if(event.getAnimationTick() > 80) {
+                kill();
+            }
         }
         return PlayState.CONTINUE;
     }

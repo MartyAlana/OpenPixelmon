@@ -8,6 +8,7 @@ import me.marty.openpixelmon.client.render.entity.GenerationsPixelmonRenderer;
 import me.marty.openpixelmon.client.render.entity.NonLivingGeckolibModelRenderer;
 import me.marty.openpixelmon.client.render.entity.PixelmonEntityRenderer;
 import me.marty.openpixelmon.client.render.gui.Overlays;
+import me.marty.openpixelmon.client.screen.BattleScreen;
 import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.network.Packets;
 import net.fabricmc.api.ClientModInitializer;
@@ -96,7 +97,7 @@ public class OpenPixelmonClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(Packets.BATTLE_END, (client, handler, buf, responseSender) -> {
             boolean forced = buf.readBoolean();
             if (forced) {
-                OpenPixelmonClient.battleManager.forceStopBattle();
+                client.execute(OpenPixelmonClient.battleManager::forceStopBattle);
             }
         });
     }

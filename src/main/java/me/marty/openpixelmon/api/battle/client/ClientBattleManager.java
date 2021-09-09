@@ -2,6 +2,7 @@ package me.marty.openpixelmon.api.battle.client;
 
 import me.marty.openpixelmon.api.battle.BattleStatus;
 import me.marty.openpixelmon.api.util.PixelmonUtils;
+import me.marty.openpixelmon.client.screen.BattleScreen;
 import me.marty.openpixelmon.config.OpenPixelmonConfig;
 import me.marty.openpixelmon.sound.Sounds;
 import net.fabricmc.api.EnvType;
@@ -29,6 +30,7 @@ public class ClientBattleManager {
         if(battleStatus == BattleStatus.NONE) {
             battleStatus = BattleStatus.ONGOING;
             client.player.playSound(Sounds.BATTLE, SoundCategory.MUSIC, OpenPixelmonConfig.musicVolume, 1);
+            client.execute(() -> client.setScreen(new BattleScreen()));
             return BattleStatus.SUCCESS;
         }
         return battleStatus;
