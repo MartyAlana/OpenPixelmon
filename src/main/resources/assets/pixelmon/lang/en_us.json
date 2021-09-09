@@ -40,5 +40,7 @@
   "entity.pixelmon.missing_no": "Missing No.",
 
   "dialogue.pixelmon.caught": "You caught %s!",
-  "dialogue.pixelmon.sent_to_pc": "Your party was full so %s was sent to your pc."
+  "dialogue.pixelmon.sent_to_pc": "Your party was full so %s was sent to your pc.",
+
+  "screen.pixelmon.battle": "You shouldn't see this text I hope."
 }

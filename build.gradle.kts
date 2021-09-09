@@ -43,8 +43,8 @@ repositories {
 }
 
 dependencies {
-    minecraft("net.minecraft", "minecraft", "1.18_experimental-snapshot-6")
-    mappings("net.fabricmc", "yarn", "1.18_experimental-snapshot-6+build.3", classifier = "v2")
+    minecraft("net.minecraft", "minecraft", "1.18_experimental-snapshot-7")
+    mappings("net.fabricmc", "yarn", "1.18_experimental-snapshot-7+build.2", classifier = "v2")
 
     modImplementation("net.fabricmc", "fabric-loader", "0.11.6")
     modImplementation("net.fabricmc.fabric-api", "fabric-api", "0.40.0+1.18_experimental")

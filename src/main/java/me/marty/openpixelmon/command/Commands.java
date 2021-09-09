@@ -67,7 +67,8 @@ public class Commands {
                 literal("pokeparty")
                         .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(4))
                         .executes(context -> {
-							PixelmonEntity entity = Entities.PIXELMON.create(context.getSource().getWorld());
+                            PixelmonEntity entity = Entities.PIXELMON.create(context.getSource().getWorld());
+                            assert entity != null;
                             entity.setup(OpenPixelmon.id("bulbasaur"));
                             EntityComponents.PARTY_COMPONENT.get(context.getSource().getPlayer()).getParty().add(
                                     context.getSource().getPlayer(),
@@ -83,9 +84,9 @@ public class Commands {
                             ServerPlayNetworking.send(context.getSource().getPlayer(),
                                     Packets.BATTLE_START,
                                     PacketByteBufs.create()
-                                            .writeVarInt(2)
-                                            .writeVarInt(context.getSource().getPlayer().getId())
-                                            .writeVarInt(-1)
+                                            .writeVarInt(2) // Participant count
+                                            .writeVarInt(context.getSource().getPlayer().getId()) // Id of the initiator
+                                            .writeVarInt(-1) // Id of the other participant
                             );
                             return Command.SINGLE_SUCCESS;
                         }));

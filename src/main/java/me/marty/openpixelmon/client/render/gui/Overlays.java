@@ -39,6 +39,7 @@ public class Overlays extends DrawableHelper {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, DOCK_BG);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.45F);
+        RenderSystem.enableBlend();
         drawTexture(matrices, -8, scaledHeight / 2 - (165 / 2), 0, 0, 32, 176, 32, 176);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         int pokeballSpacing = 27;
