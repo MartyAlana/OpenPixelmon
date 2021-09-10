@@ -78,10 +78,14 @@ public class ScalableTexturedButtonWidget extends TexturedButtonWidget {
         int textY = (int) (adjustedY - this.y / 1.5);
 
         RenderSystem.enableDepthTest();
+
+        int width = this.width;
+        int height = this.height;
         if (this.isHovered()) {
-            //TODO: yes
+            width = this.width + 2;
+            height = this.height + 2;
         }
-        drawTexture(matrices, adjustedX - this.x, adjustedY - this.y, this.u, this.v, this.width, this.height, this.width, this.height);
+        drawTexture(matrices, adjustedX - this.x, adjustedY - this.y, this.u, this.v, width, height, width, height);
 
         drawCenteredTextWithShadow(matrices, textRenderer, text.asOrderedText(), textX, textY, this.color);
         if (this.isHovered()) {

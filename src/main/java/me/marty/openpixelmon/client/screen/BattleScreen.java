@@ -21,10 +21,10 @@ public class BattleScreen extends Screen {
 
     @Override
     protected void init() {
-        this.addDrawable(new ScalableTexturedButtonWidget(0.96f, 0.96f - (3 / 10f), 100, 25, ATTACK_TEXTURE, button -> System.out.println("E"), text("text.pixelmon.battle", 0xff3f46), 0xFF463FFF, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
-        this.addDrawable(new ScalableTexturedButtonWidget(0.96f, 0.96f - (2 / 10f), 100, 25, PIXELMON_TEXTURE, button -> System.out.println("E"), text("text.pixelmon.pixelmon", 0x87ff91), 0xFF000000, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
-        this.addDrawable(new ScalableTexturedButtonWidget(0.96f, 0.96f - (1 / 10f), 100, 25, BAG_TEXTURE, button -> System.out.println("E"), text("text.pixelmon.bag", 0xff8142), 0xFF000000, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
-        this.addDrawable(new ScalableTexturedButtonWidget(0.96f, 0.96f, 100, 25, RUN_TEXTURE, button -> System.out.println("E"), text("text.pixelmon.run", 0x56bbff), 0xFF463FFF, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
+        this.addDrawableChild(new ScalableTexturedButtonWidget(0.96f, 0.96f - (3 / 10f), 100, 25, ATTACK_TEXTURE, button -> System.out.println("E"), text("text.pixelmon.battle", 0xff3f46), 0xFF463FFF, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
+        this.addDrawableChild(new ScalableTexturedButtonWidget(0.96f, 0.96f - (2 / 10f), 100, 25, PIXELMON_TEXTURE, button -> System.out.println("E"), text("text.pixelmon.pixelmon", 0x87ff91), 0xFF000000, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
+        this.addDrawableChild(new ScalableTexturedButtonWidget(0.96f, 0.96f - (1 / 10f), 100, 25, BAG_TEXTURE, button -> System.out.println("E"), text("text.pixelmon.bag", 0xff8142), 0xFF000000, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
+        this.addDrawableChild(new ScalableTexturedButtonWidget(0.96f, 0.96f, 100, 25, RUN_TEXTURE, button -> System.out.println("E"), text("text.pixelmon.run", 0x56bbff), 0xFF463FFF, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
     }
 
     public static TranslatableText text(String translation, int rgb) {

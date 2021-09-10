@@ -44,7 +44,7 @@ public abstract class ShaderMixin {
     private List<GlUniform> uniforms;
     @Shadow
     @Final
-    private static Logger LOGGER;
+    static Logger LOGGER;
     @Shadow
     @Final
     private List<Integer> loadedUniformIds;
@@ -118,8 +118,8 @@ public abstract class ShaderMixin {
             if (glUniform instanceof ExtendedGlUniform extendedGlUniform) {
                 extendedGlUniform.loadReference(this.programId, uniformName, loadedUniformIds);
             } else {
-                if(location == 0) {
-                    LOGGER.warn("Uniform {} had a location of 0. This is most likely an array. Please use the extension pixelmon_arrays in your shader.", uniformName);
+                if (location == 0) {
+                    LOGGER.debug("Uniform {} had a location of 0. This is most likely an array. If this isn't minecraft's, Please use the extension pixelmon_arrays in your shader.", uniformName);
                 }
                 if (location == -1) {
                     LOGGER.warn("Shader {} could not find uniform named {} in the specified shader program.", this.name, uniformName);
