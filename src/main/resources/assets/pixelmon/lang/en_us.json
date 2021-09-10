@@ -42,5 +42,12 @@
   "dialogue.pixelmon.caught": "You caught %s!",
   "dialogue.pixelmon.sent_to_pc": "Your party was full so %s was sent to your pc.",
 
+  "text.pixelmon.placeholder": "Placeholder",
+
+  "text.pixelmon.run": "Run",
+  "text.pixelmon.bag": "Bag",
+  "text.pixelmon.pixelmon": "Pixelmon",
+  "text.pixelmon.battle": "Battle",
+
   "screen.pixelmon.battle": "You shouldn't see this text I hope."
 }
