@@ -4,4 +4,4 @@ An open source rewrite of Pixelmon
 
 # License
 
-MIT
+GPL With Minecraft Exception
