@@ -1,5 +1,6 @@
 package me.marty.openpixelmon.client.render;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationData;
 import me.marty.openpixelmon.client.model.studiomdl.animation.Keyframe;
@@ -38,6 +39,7 @@ public class AnimatedVertexBuffer extends VertexBuffer {
             Matrix4f[] boneTransformations = new Matrix4f[64];
             for (Keyframe.BoneState state : animationData.keyframes.get(0).states) {
                 Matrix4f transformation = new Matrix4f();
+                transformation.loadIdentity();
                 transformation.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(state.rotX));
                 transformation.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(state.rotY));
                 transformation.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(state.rotZ));

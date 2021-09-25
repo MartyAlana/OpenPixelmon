@@ -8,7 +8,6 @@ import me.marty.openpixelmon.client.render.entity.GenerationsPixelmonRenderer;
 import me.marty.openpixelmon.client.render.entity.NonLivingGeckolibModelRenderer;
 import me.marty.openpixelmon.client.render.entity.PixelmonEntityRenderer;
 import me.marty.openpixelmon.client.render.gui.Overlays;
-import me.marty.openpixelmon.client.screen.BattleScreen;
 import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.network.Packets;
 import net.fabricmc.api.ClientModInitializer;
@@ -39,16 +38,23 @@ public class OpenPixelmonClient implements ClientModInitializer {
 
     protected static final RenderPhase.Shader PIXELMON_SOLID_SHADER = new RenderPhase.Shader(OpenPixelmonClient::getPixelmonShader);
     public static final ClientBattleManager battleManager = new ClientBattleManager();
-    public static final VertexFormatElement MAP_ELEMENT = new VertexFormatElement(0, VertexFormatElement.DataType.BYTE, VertexFormatElement.Type.UV, 4);
-    public static final VertexFormatElement WEIGHT_ELEMENT = new VertexFormatElement(0, VertexFormatElement.DataType.FLOAT, VertexFormatElement.Type.GENERIC, 4);
+    public static final VertexFormatElement UINT_ELEMENT = new VertexFormatElement(0, VertexFormatElement.DataType.UINT, VertexFormatElement.Type.GENERIC, 1);
+    public static final VertexFormatElement WEIGHT_ELEMENT = new VertexFormatElement(0, VertexFormatElement.DataType.FLOAT, VertexFormatElement.Type.GENERIC, 1);
     public static final VertexFormat PIXELMON_VERTEX_FORMAT = new VertexFormat(ImmutableMap.<String, VertexFormatElement>builder()
             .put("Position", POSITION_ELEMENT)
             .put("UV0", TEXTURE_0_ELEMENT)
             .put("Color", COLOR_ELEMENT)
             .put("Normal", NORMAL_ELEMENT)
             .put("Padding", PADDING_ELEMENT)
-            .put("BoneMap", MAP_ELEMENT)
-            .put("WeightMap", WEIGHT_ELEMENT)
+            .put("WeirdPadding", UINT_ELEMENT)
+            .put("BoneMap[0]", UINT_ELEMENT)
+            .put("BoneMap[1]", UINT_ELEMENT)
+            .put("BoneMap[2]", UINT_ELEMENT)
+            .put("BoneMap[3]", UINT_ELEMENT)
+            .put("WeightMap[0]", WEIGHT_ELEMENT)
+            .put("WeightMap[1]", WEIGHT_ELEMENT)
+            .put("WeightMap[2]", WEIGHT_ELEMENT)
+            .put("WeightMap[3]", WEIGHT_ELEMENT)
             .build());
     public static Shader pixelmonSolidShader;
 

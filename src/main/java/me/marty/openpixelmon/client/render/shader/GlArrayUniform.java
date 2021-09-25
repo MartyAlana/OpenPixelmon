@@ -18,7 +18,7 @@ public class GlArrayUniform extends GlUniform implements ExtendedGlUniform {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Matrix4f EMPTY = new Matrix4f();
     private final List<Integer> uniformLocations = new ArrayList<>();
-    private int dataTypeCount;
+    private final int dataTypeCount;
 
     public GlArrayUniform(String name, int dataType, int count, GlShader shader) {
         super(name, dataType, count, shader);
@@ -79,5 +79,9 @@ public class GlArrayUniform extends GlUniform implements ExtendedGlUniform {
             uniformLocations.add(GlUniform.getUniformLocation(programId, uniformName + "[" + i + "]"));
             loadedUniformIds.add(location);
         }
+    }
+
+    static {
+        EMPTY.loadIdentity();
     }
 }

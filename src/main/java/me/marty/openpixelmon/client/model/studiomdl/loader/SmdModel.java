@@ -74,18 +74,28 @@ public class SmdModel {
                 .color(255, 255, 255, 255)
                 .normal(vertex.nx, vertex.ny, vertex.nz);
 
+        // Spacing byte
+        consumer.putByte(0, vertex.renderBoneToBoneMap[0]);
+        consumer.nextElement();
+
         // Upload the bone map
         consumer.putByte(0, vertex.renderBoneToBoneMap[0]);
-        consumer.putByte(1, vertex.renderBoneToBoneMap[1]);
-        consumer.putByte(2, vertex.renderBoneToBoneMap[2]);
-        consumer.putByte(3, vertex.renderBoneToBoneMap[3]);
+        consumer.nextElement();
+        consumer.putByte(0, vertex.renderBoneToBoneMap[1]);
+        consumer.nextElement();
+        consumer.putByte(0, vertex.renderBoneToBoneMap[2]);
+        consumer.nextElement();
+        consumer.putByte(0, vertex.renderBoneToBoneMap[3]);
         consumer.nextElement();
 
         // Upload the bone weights
         consumer.putFloat(0, vertex.boneWeights[0]);
-        consumer.putFloat(1, vertex.boneWeights[1]);
-        consumer.putFloat(2, vertex.boneWeights[2]);
-        consumer.putFloat(3, vertex.boneWeights[3]);
+        consumer.nextElement();
+        consumer.putFloat(0, vertex.boneWeights[1]);
+        consumer.nextElement();
+        consumer.putFloat(0, vertex.boneWeights[2]);
+        consumer.nextElement();
+        consumer.putFloat(0, vertex.boneWeights[3]);
         consumer.nextElement();
 
         consumer.next();

@@ -34,12 +34,13 @@ void main() {
     for (int i = 0; i < MAX_WEIGHTS; i++) {
         mat4 boneTransform = BoneTransformations[BoneIds[i]];
         vec4 posePosition = boneTransform * vec4(Position, 1.0);
-        totalLocalPos += posePosition * BoneWeights[i];// This is actually quite smart. when the weight is out of bounds, it returns 0. Meaning that the transformation wont matter
+        totalLocalPos += posePosition * BoneWeights[BoneIds[i]];// This is actually quite smart. when the weight is out of bounds, it returns 0. Meaning that the transformation wont matter
 
         vec4 worldNormal = boneTransform * vec4(Normal, 1.0);
         totalNormal += worldNormal * BoneWeights[i];
     }
 
+    // FIXME: since normals are working fine, it means that this is the reason why we cant see anything
     gl_Position = ProjMat * totalLocalPos;
 
     vertexDistance = length((ModelViewMat * vec4(Position, 1.0)).xyz);

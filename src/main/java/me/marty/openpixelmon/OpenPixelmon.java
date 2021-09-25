@@ -21,7 +21,7 @@ public class OpenPixelmon implements ModInitializer {
         GeckoLib.initialize();
         Commands.initialize();
         PixelmonDataTrackers.initialize();
-        RRPCallback.EVENT.register(resources -> resources.add(RESOURCE_PACK));
+        RRPCallback.AFTER_VANILLA.register(resources -> resources.add(RESOURCE_PACK));
     }
 
     public static Identifier id(String path) {

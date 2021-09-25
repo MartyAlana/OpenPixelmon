@@ -18,7 +18,6 @@ import net.minecraft.client.gl.ShaderParseException;
 import net.minecraft.client.render.Shader;
 import net.minecraft.util.JsonHelper;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.opengl.GL20C;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -28,7 +27,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -66,10 +64,10 @@ public abstract class ShaderMixin {
     @Shadow
     @Final
     private Map<String, Object> samplers;
-    private static final Map<String, ShaderExtensionInfo> EXTENSIONS =
-            new ImmutableMap.Builder<String, ShaderExtensionInfo>()
-                    .put("pixelmon_arrays", PixelmonShaderExtensions::doArrayExtension)
-                    .build();
+
+    private static final Map<String, ShaderExtensionInfo> EXTENSIONS = new ImmutableMap.Builder<String, ShaderExtensionInfo>()
+            .put("pixelmon_arrays", PixelmonShaderExtensions::doArrayExtension)
+            .build();
 
     @Inject(method = "addUniform", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/GlUniform;<init>(Ljava/lang/String;IILnet/minecraft/client/gl/GlShader;)V"), cancellable = true, locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void handleExtensions(JsonElement json, CallbackInfo ci, JsonObject uniform, String name, int type, int rawCount, float[] count, int unknown) {
@@ -87,7 +85,7 @@ public abstract class ShaderMixin {
     }
 
     /**
-     * @author
+     * @author hydos
      */
     @Overwrite
     private void loadReferences() {

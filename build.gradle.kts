@@ -15,7 +15,7 @@ repositories {
 
     maven {
         name = "Devan-Kerman/Devan-Repo"
-        url = uri("https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master/")
+        url = uri("https://storage.googleapis.com/devan-maven/")
     }
 
     maven {
@@ -49,7 +49,7 @@ dependencies {
     modImplementation("net.fabricmc", "fabric-loader", "0.11.6")
     modImplementation("net.fabricmc.fabric-api", "fabric-api", "0.40.0+1.18_experimental")
 
-    include(modImplementation("net.devtech", "arrp", "0.3.2"))
+    include(modImplementation("net.devtech", "arrp", "0.4.4"))
     include(modImplementation("software.bernie.geckolib", "geckolib-fabric-1.17", "3.0.10", classifier="dev"))
 
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-base", "3.1.1"))
