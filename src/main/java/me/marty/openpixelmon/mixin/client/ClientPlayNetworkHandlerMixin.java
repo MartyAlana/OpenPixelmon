@@ -1,10 +1,12 @@
 package me.marty.openpixelmon.mixin.client;
 
 import me.marty.openpixelmon.entity.Entities;
-import me.marty.openpixelmon.entity.pokeball.PokeballEntity;
+import me.marty.openpixelmon.item.OpenPixelmonItems;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,9 +27,11 @@ public class ClientPlayNetworkHandlerMixin {
         double z = packet.getZ();
         EntityType<?> entityType = packet.getEntityTypeId();
 
-        PokeballEntity pokeball = null;
+        ItemEntity pokeball = null;
         if (entityType == Entities.POKEBALL_ENTITY) {
-            pokeball = new PokeballEntity(x, y, z, world);
+            // TODO: fix pokeballs. For now, lets use an ItemEntity
+            // pokeball = new PokeballEntity(x, y, z, world);
+            pokeball = new ItemEntity(world, x, y, z, new ItemStack(OpenPixelmonItems.POKE_BALL));
         }
 
         if(pokeball != null) {

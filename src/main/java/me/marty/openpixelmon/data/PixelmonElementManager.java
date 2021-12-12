@@ -9,11 +9,11 @@ import net.minecraft.util.profiler.Profiler;
 
 import java.util.Map;
 
-public class PixelmonTypeManager extends JsonDataLoader {
+public class PixelmonElementManager extends JsonDataLoader {
 
     private static final Gson GSON = new Gson();
 
-    public PixelmonTypeManager() {
+    public PixelmonElementManager() {
         super(GSON, "elements");
     }
 

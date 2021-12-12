@@ -63,4 +63,8 @@ public interface PixelmonAssetProvider extends ResourcePack {
     default Set<String> getNamespaces(ResourceType type) {
         return Collections.singleton("pixelmon");
     }
+
+    @Override
+    default void close() {
+    }
 }

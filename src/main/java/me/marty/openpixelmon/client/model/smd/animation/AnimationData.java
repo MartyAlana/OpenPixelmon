@@ -19,7 +19,7 @@ public class AnimationData {
     }
 
     public void tick(float tickDelta) {
-        Keyframe keyframe = keyframes.get(0);
+        Keyframe keyframe = keyframes.get((int) tickDelta % keyframes.size());
         for (Keyframe.BoneState boneState : keyframe.states) {
             Bone bone = bones.get(boneState.bone);
             bone.x = boneState.posX;

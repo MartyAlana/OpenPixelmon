@@ -81,9 +81,6 @@ public class Overlays extends DrawableHelper {
         }
     }
 
-    public static void renderLegalOverlay(MatrixStack matrices, MinecraftClient client, int width, int height) {
-    }
-
     public static void drawPixelmon(int x, int y, int size, PixelmonEntity entity, PokedexEntry entry) {
         MatrixStack matrixStack = RenderSystem.getModelViewStack();
         matrixStack.push();
