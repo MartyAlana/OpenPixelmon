@@ -1,4 +1,4 @@
-package me.marty.openpixelmon.client.model.studiomdl;
+package me.marty.openpixelmon.client.model.smd;
 
 public class Tri {
     public final Vertex v1;

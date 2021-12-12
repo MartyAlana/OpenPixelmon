@@ -1,12 +1,10 @@
 package me.marty.openpixelmon.client.render;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationData;
-import me.marty.openpixelmon.client.model.studiomdl.animation.Keyframe;
+import me.marty.openpixelmon.client.model.smd.animation.AnimationData;
+import me.marty.openpixelmon.client.model.smd.animation.Keyframe;
 import me.marty.openpixelmon.client.render.shader.GlArrayUniform;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.VertexBuffer;
 import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.Shader;
@@ -14,8 +12,6 @@ import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.util.Window;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3f;
-
-import java.util.Objects;
 
 /**
  * Modified version of VertexBuffer, allowing us to specify custom data into uniforms such as bones, weights, etc.
@@ -34,7 +30,7 @@ public class AnimatedVertexBuffer extends VertexBuffer {
 
     public void internalRender(Matrix4f modelViewMatrix, Matrix4f projectionMatrix, Shader shader, AnimationData animationData) {
         if (this.vertexCount != 0) {
-            RenderSystem.assertThread(RenderSystem::isOnRenderThread);
+            RenderSystem.assertOnRenderThread();
 
             Matrix4f[] boneTransformations = new Matrix4f[64];
             for (Keyframe.BoneState state : animationData.keyframes.get(0).states) {

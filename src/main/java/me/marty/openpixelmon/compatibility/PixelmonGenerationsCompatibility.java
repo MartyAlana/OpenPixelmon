@@ -4,6 +4,7 @@ import me.marty.openpixelmon.OpenPixelmon;
 import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 
 import java.io.IOException;
@@ -11,6 +12,9 @@ import java.io.InputStream;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.function.Predicate;
 
 public class PixelmonGenerationsCompatibility implements PixelmonAssetProvider {
 
@@ -101,5 +105,30 @@ public class PixelmonGenerationsCompatibility implements PixelmonAssetProvider {
             stream = getAsset(path.replace("porygonz", "porygon-z"));
         }
         return stream;
+    }
+
+    @Override
+    public InputStream open(ResourceType type, Identifier id) throws IOException {
+        return null;
+    }
+
+    @Override
+    public Collection<Identifier> findResources(ResourceType type, String namespace, String prefix, int maxDepth, Predicate<String> pathFilter) {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public boolean contains(ResourceType type, Identifier id) {
+        return false;
+    }
+
+    @Override
+    public String getName() {
+        return "Pixelmon Generations Resources";
+    }
+
+    @Override
+    public void close() {
+
     }
 }

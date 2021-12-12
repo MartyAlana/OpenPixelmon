@@ -9,7 +9,7 @@ import net.minecraft.client.render.Shader;
  */
 public class PixelmonShaderExtensions {
 
-    public static GlUniform doArrayExtension(JsonObject uniform, String name, int dataType, int rawCount, float[] count, int unknown, Shader shader) {
+    public static GlUniform doArrayExtension(JsonObject uniform, String name, int dataType, int rawCount, int unknown, Shader shader) {
         return new GlArrayUniform(name, dataType + unknown, rawCount, shader);
     }
 }

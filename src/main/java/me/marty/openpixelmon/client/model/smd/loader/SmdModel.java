@@ -1,13 +1,13 @@
-package me.marty.openpixelmon.client.model.studiomdl.loader;
+package me.marty.openpixelmon.client.model.smd.loader;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.thecodewarrior.binarysmd.studiomdl.SMDFile;
 import dev.thecodewarrior.binarysmd.studiomdl.SMDFileBlock;
 import dev.thecodewarrior.binarysmd.studiomdl.TrianglesBlock;
 import me.marty.openpixelmon.client.OpenPixelmonClient;
-import me.marty.openpixelmon.client.model.studiomdl.Tri;
-import me.marty.openpixelmon.client.model.studiomdl.Vertex;
-import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationData;
+import me.marty.openpixelmon.client.model.smd.Tri;
+import me.marty.openpixelmon.client.model.smd.Vertex;
+import me.marty.openpixelmon.client.model.smd.animation.AnimationData;
 import me.marty.openpixelmon.client.render.AnimatedVertexBuffer;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -63,7 +63,7 @@ public class SmdModel {
         matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
         RenderSystem.setShaderTexture(0, modelTexture);
         RenderSystem.enableDepthTest();
-        context.vertexBuffer.setShaderWithAnimationInfo(matrices.peek().getModel(), RenderSystem.getProjectionMatrix(), OpenPixelmonClient.pixelmonSolidShader, context.idleAnimation);
+        context.vertexBuffer.setShaderWithAnimationInfo(matrices.peek().getPositionMatrix(), RenderSystem.getProjectionMatrix(), OpenPixelmonClient.pixelmonSolidShader, context.idleAnimation);
         RenderSystem.disableDepthTest();
         matrices.pop();
     }

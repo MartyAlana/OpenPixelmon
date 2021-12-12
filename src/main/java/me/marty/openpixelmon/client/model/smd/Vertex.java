@@ -1,7 +1,6 @@
-package me.marty.openpixelmon.client.model.studiomdl;
+package me.marty.openpixelmon.client.model.smd;
 
 import dev.thecodewarrior.binarysmd.studiomdl.TrianglesBlock;
-import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

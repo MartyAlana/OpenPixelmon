@@ -34,9 +34,6 @@ import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -45,7 +42,7 @@ import java.util.UUID;
  * The class which represents a living pixelmon inside the world.
  * If you want to do pokedex related things, see {@link PokedexEntry}
  */
-public class PixelmonEntity extends AnimalEntity implements IAnimatable {
+public class PixelmonEntity extends AnimalEntity {
 
     public static final Identifier MISSING = OpenPixelmon.id("pichu");
 
@@ -69,8 +66,6 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
     protected static final TrackedData<Boolean> SHINY = DataTracker.registerData(PixelmonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<IvStorage> IV_STORAGE = DataTracker.registerData(PixelmonEntity.class, PixelmonDataTrackers.IVS);
     protected static final TrackedData<EvStorage> EV_STORAGE = DataTracker.registerData(PixelmonEntity.class, PixelmonDataTrackers.EVS);
-
-    protected final AnimationFactory factory = new AnimationFactory(this);
 
     public PixelmonEntity(EntityType<PixelmonEntity> entityType, World world) {
         super(entityType, world);
@@ -98,7 +93,6 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
         int lvlVariation = PixelmonUtils.randBetween(-5, 5);
         set(LEVEL, MathHelper.clamp(levelBase + lvlVariation, 1, OpenPixelmonConfig.maxLevelByDistance));
 
-//        setHealth((get(IV_STORAGE).hp + 2.0F * (float) getPokedexEntry().hp + (float) get(EV_STORAGE).hp / 4.0F + 100.0F) * (float) getLevel() / 100.0F + 10.0F); old pixelmon method. not entirely sure why it's differnet
         set(MAX_HP, getPokedexEntry().hp);
         set(HP, (float) (Math.floor(0.01 * (2 * getPokedexEntry().hp + get(IV_STORAGE).hp + Math.floor(0.25 * get(EV_STORAGE).hp)) * getLevel()) + getLevel() + 10));
     }
@@ -233,16 +227,6 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
         return super.damage(source, amount);
     }
 
-    @Override
-    public void registerControllers(AnimationData animationData) {
-        //TODO:
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return factory;
-    }
-
     public Identifier getPixelmonId() {
         return this.dataTracker.get(PIXELMON_ID);
     }
@@ -251,11 +235,10 @@ public class PixelmonEntity extends AnimalEntity implements IAnimatable {
         return DataLoaders.PIXELMON_MANAGER.getPixelmon().get(getPixelmonId());
     }
 
+    @Nullable
     public String getNickname() {
-        return "nickname"; //TODO:
-//        return OpenPixelmonTranslator.createTranslation(pokedexEntry.name).getString();
+        return "nickname";
     }
-
 
     public boolean isWild() {
         return this.dataTracker.get(OWNER_UUID).isPresent();

@@ -1,4 +1,4 @@
-package me.marty.openpixelmon.client.model.studiomdl.animation;
+package me.marty.openpixelmon.client.model.smd.animation;
 
 import dev.thecodewarrior.binarysmd.studiomdl.NodesBlock;
 import dev.thecodewarrior.binarysmd.studiomdl.SMDFile;

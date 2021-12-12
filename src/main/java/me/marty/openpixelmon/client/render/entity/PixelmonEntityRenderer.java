@@ -1,24 +1,23 @@
 package me.marty.openpixelmon.client.render.entity;
 
 import me.marty.openpixelmon.api.pixelmon.PokedexEntry;
-import me.marty.openpixelmon.client.model.entity.PixelmonModel;
 import me.marty.openpixelmon.client.translate.OpenPixelmonTranslator;
 import me.marty.openpixelmon.entity.pixelmon.PixelmonEntity;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix4f;
-import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
-public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
+public class PixelmonEntityRenderer extends EntityRenderer<PixelmonEntity> {
 
     public PixelmonEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, PixelmonModel.INSTANCE);
+        super(context);
     }
 
     @Override
@@ -60,10 +59,15 @@ public class PixelmonEntityRenderer extends GeoEntityRenderer<PixelmonEntity> {
             matrices.translate(0.0D, f, 0.0D);
             matrices.multiply(dispatcher.getRotation());
             matrices.scale(-0.025F, -0.025F, 0.025F);
-            Matrix4f matrix4f = matrices.peek().getModel();
+            Matrix4f matrix4f = matrices.peek().getPositionMatrix();
             float h = (float) (-textRenderer.getWidth(text) / 2);
             textRenderer.draw(text, h, 0, important ? 0xfffdff59 : 0xffffffff, false, matrix4f, vertexConsumers, false, 0, light);
             matrices.pop();
         }
+    }
+
+    @Override
+    public Identifier getTexture(PixelmonEntity entity) {
+        return null;
     }
 }

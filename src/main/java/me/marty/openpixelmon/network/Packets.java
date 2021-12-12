@@ -27,7 +27,7 @@ public class Packets implements ModInitializer {
             }
             if(importantPixelmon.getHp() != 0){
                 player.sendMessage(new TranslatableText("text.pixelmon.send.success", importantPixelmon.getName()), false);
-                player.getServerWorld().spawnEntity(new PokeballEntity(player, OpenPixelmonItems.POKE_BALL));
+                player.getWorld().spawnEntity(new PokeballEntity(player, OpenPixelmonItems.POKE_BALL));
             }
         });
     }

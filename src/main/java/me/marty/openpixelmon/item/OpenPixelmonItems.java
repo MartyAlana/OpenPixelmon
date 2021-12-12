@@ -7,6 +7,7 @@ import me.marty.openpixelmon.item.pokeball.PokeballItem;
 import net.devtech.arrp.json.models.JModel;
 import net.devtech.arrp.json.models.JTextures;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -49,16 +50,19 @@ public class OpenPixelmonItems implements ModInitializer {
     public static final Item BEAST_BALL = createPokeball("beast_ball");
 
     /**
-     * Acorns
+     * Unbaked Apricorns
      */
-    public static final Item WHITE_APRICORN = createApricorn("white_apricorn");
-    public static final Item BlUE_APRICORN = createApricorn("blue_apricorn");
-    public static final Item YELLOW_APRICORN = createApricorn("yellow_apricorn");
-    public static final Item GREEN_APRICORN = createApricorn("green_apricorn");
-    public static final Item PINK_APRICORN = createApricorn("pink_apricorn");
-    public static final Item RED_APRICORN = createApricorn("red_apricorn");
-    public static final Item BLACK_APRICORN = createApricorn("black_apricorn");
+    public static final Item WHITE_APRICORN = createApricorn("white_apricorn", OpenPixelmonBlocks.WHITE_APRICORN_BUSH);
+    public static final Item BlUE_APRICORN = createApricorn("blue_apricorn", OpenPixelmonBlocks.BLUE_APRICORN_BUSH);
+    public static final Item YELLOW_APRICORN = createApricorn("yellow_apricorn", OpenPixelmonBlocks.YELLOW_APRICORN_BUSH);
+    public static final Item GREEN_APRICORN = createApricorn("green_apricorn", OpenPixelmonBlocks.GREEN_APRICORN_BUSH);
+    public static final Item PINK_APRICORN = createApricorn("pink_apricorn", OpenPixelmonBlocks.PINK_APRICORN_BUSH);
+    public static final Item RED_APRICORN = createApricorn("red_apricorn", OpenPixelmonBlocks.RED_APRICORN_BUSH);
+    public static final Item BLACK_APRICORN = createApricorn("black_apricorn", OpenPixelmonBlocks.BLACK_APRICORN_BUSH);
 
+    /**
+     * Baked Apricorns
+     */
     public static final Item BAKED_WHITE_APRICORN = createBakedApricorn("white_apricorn");
     public static final Item BAKED_BlUE_APRICORN = createBakedApricorn("blue_apricorn");
     public static final Item BAKED_YELLOW_APRICORN = createBakedApricorn("yellow_apricorn");
@@ -67,12 +71,12 @@ public class OpenPixelmonItems implements ModInitializer {
     public static final Item BAKED_RED_APRICORN = createBakedApricorn("red_apricorn");
     public static final Item BAKED_BLACK_APRICORN = createBakedApricorn("black_apricorn");
 
-    private static Item createApricorn(String name) {
-        return generate(new ApricornBlockItem(OpenPixelmonBlocks.WHITE_APRICORN_BUSH, new Item.Settings().group(ItemGroups.ORGANIC)), "white_apricorn");
+    private static Item createApricorn(String name, Block bush) {
+        return generate(new ApricornBlockItem(bush, new Item.Settings().group(ItemGroups.ORGANIC)), name);
     }
 
     private static Item createBakedApricorn(String name) {
-        return generate(new Item(new Item.Settings().group(ItemGroups.ORGANIC)), "baked_");
+        return generate(new Item(new Item.Settings().group(ItemGroups.ORGANIC)), "baked_" + name);
     }
 
     private static Item createPokeball(String name) {

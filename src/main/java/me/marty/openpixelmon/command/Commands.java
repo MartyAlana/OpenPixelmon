@@ -136,7 +136,7 @@ public class Commands {
                     entity.initialize(source.getWorld(), source.getWorld().getLocalDifficulty(entity.getBlockPos()), SpawnReason.COMMAND, null, null);
                 }
 
-                if (!serverWorld.shouldCreateNewEntityWithPassenger(entity)) {
+                if (!serverWorld.spawnNewEntityAndPassengers(entity)) {
                     throw DUPLICATE_UUID.create();
                 } else {
                     source.sendFeedback(new TranslatableText("commands.summon.success", entity.getDisplayName()), true);

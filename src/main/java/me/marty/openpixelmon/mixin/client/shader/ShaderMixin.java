@@ -69,27 +69,27 @@ public abstract class ShaderMixin {
             .put("pixelmon_arrays", PixelmonShaderExtensions::doArrayExtension)
             .build();
 
-    @Inject(method = "addUniform", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/GlUniform;<init>(Ljava/lang/String;IILnet/minecraft/client/gl/GlShader;)V"), cancellable = true, locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    private void handleExtensions(JsonElement json, CallbackInfo ci, JsonObject uniform, String name, int type, int rawCount, float[] count, int unknown) {
-        try {
-            JsonArray extensions = JsonHelper.getArray(uniform, "extensions");
-
-            for (JsonElement jsonElement : extensions) {
-                String extensionName = jsonElement.getAsString();
-                ShaderExtensionInfo extension = EXTENSIONS.get(extensionName);
-                uniforms.add(extension.createUniform(uniform, name, type, rawCount, count, unknown, (Shader) (Object) this));
-            }
-            ci.cancel();
-        } catch (JsonParseException ignored) {
-        }
-    }
+//    @Inject(method = "addUniform", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/GlUniform;<init>(Ljava/lang/String;IILnet/minecraft/client/gl/GlShader;)V"), cancellable = true, locals = LocalCapture.CAPTURE_FAILEXCEPTION)
+//    private void handleExtensions(JsonElement element, CallbackInfo ci, JsonObject uniform, String string, int type, int rawCount, int unknown) {
+//        try {
+//            JsonArray extensions = JsonHelper.getArray(uniform, "extensions");
+//
+//            for (JsonElement jsonElement : extensions) {
+//                String extensionName = jsonElement.getAsString();
+//                ShaderExtensionInfo extension = EXTENSIONS.get(extensionName);
+//                uniforms.add(extension.createUniform(uniform, name, type, rawCount, unknown, (Shader) (Object) this));
+//            }
+//            ci.cancel();
+//        } catch (JsonParseException ignored) {
+//        }
+//    }
 
     /**
      * @author hydos
      */
     @Overwrite
     private void loadReferences() {
-        RenderSystem.assertThread(RenderSystem::isOnRenderThread);
+        RenderSystem.assertOnRenderThread();
         IntList intList = new IntArrayList();
 
         int k;

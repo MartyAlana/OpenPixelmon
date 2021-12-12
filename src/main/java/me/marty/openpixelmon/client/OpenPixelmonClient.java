@@ -2,10 +2,8 @@ package me.marty.openpixelmon.client;
 
 import com.google.common.collect.ImmutableMap;
 import me.marty.openpixelmon.api.battle.client.ClientBattleManager;
-import me.marty.openpixelmon.client.model.entity.GeckolibModel;
 import me.marty.openpixelmon.client.render.GameRendererAccessor;
 import me.marty.openpixelmon.client.render.entity.GenerationsPixelmonRenderer;
-import me.marty.openpixelmon.client.render.entity.NonLivingGeckolibModelRenderer;
 import me.marty.openpixelmon.client.render.entity.PixelmonEntityRenderer;
 import me.marty.openpixelmon.client.render.gui.Overlays;
 import me.marty.openpixelmon.entity.Entities;
@@ -16,7 +14,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
@@ -109,15 +107,6 @@ public class OpenPixelmonClient implements ClientModInitializer {
     }
 
     private void registerEntityRenderers() {
-        if (useCompatModels()) {
-            EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, GenerationsPixelmonRenderer::new);
-        } else {
-            EntityRendererRegistry.INSTANCE.register(Entities.PIXELMON, PixelmonEntityRenderer::new);
-        }
-        EntityRendererRegistry.INSTANCE.register(Entities.POKEBALL_ENTITY, ctx -> new NonLivingGeckolibModelRenderer<>(ctx, new GeckolibModel<>("pokeball", "pokeball/pokeball"), 0.2f));
-    }
-
-    private boolean useCompatModels() {
-        return true; //TODO: currently forced due to us not having models for every pixelmon :pensive:
+        EntityRendererRegistry.register(Entities.PIXELMON, GenerationsPixelmonRenderer::new);
     }
 }

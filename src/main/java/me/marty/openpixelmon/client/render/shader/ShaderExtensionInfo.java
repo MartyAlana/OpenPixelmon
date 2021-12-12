@@ -6,5 +6,5 @@ import net.minecraft.client.render.Shader;
 
 public interface ShaderExtensionInfo {
 
-    GlUniform createUniform(JsonObject object, String name, int type, int rawCount, float[] count, int unknown, Shader shader);
+    GlUniform createUniform(JsonObject object, String name, int type, int rawCount, int unknown, Shader shader);
 }

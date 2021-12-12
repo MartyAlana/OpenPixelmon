@@ -7,12 +7,9 @@ import me.marty.openpixelmon.entity.PixelmonDataTrackers;
 import net.devtech.arrp.api.RRPCallback;
 import net.devtech.arrp.api.RuntimeResourcePack;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import software.bernie.geckolib3.GeckoLib;
 
 public class OpenPixelmon implements ModInitializer {
 
@@ -22,7 +19,6 @@ public class OpenPixelmon implements ModInitializer {
     @Override
     public void onInitialize() {
         PixelmonAssetProvider.ASSET_PROVIDERS.add(new PixelmonGenerationsCompatibility());
-        GeckoLib.initialize();
         Commands.initialize();
         PixelmonDataTrackers.initialize();
         RRPCallback.AFTER_VANILLA.register(resources -> resources.add(RESOURCE_PACK));

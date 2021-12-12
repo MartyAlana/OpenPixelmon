@@ -2,8 +2,8 @@ package me.marty.openpixelmon.client.render.entity;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import me.marty.openpixelmon.OpenPixelmon;
-import me.marty.openpixelmon.client.model.studiomdl.loader.SmdModel;
-import me.marty.openpixelmon.client.model.studiomdl.loader.SmdReader;
+import me.marty.openpixelmon.client.model.smd.loader.SmdModel;
+import me.marty.openpixelmon.client.model.smd.loader.SmdReader;
 import me.marty.openpixelmon.compatibility.PixelmonAssetProvider;
 import me.marty.openpixelmon.compatibility.PixelmonGenerationsCompatibility;
 import me.marty.openpixelmon.config.OpenPixelmonConfig;

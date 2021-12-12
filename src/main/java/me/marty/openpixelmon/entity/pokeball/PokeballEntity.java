@@ -23,23 +23,13 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.Objects;
 
-public class PokeballEntity extends ThrownEntity implements IAnimatable {
-
-    private static final AnimationBuilder CATCH_ANIMATION = new AnimationBuilder().addAnimation("animation.ball.catch", false);
+public class PokeballEntity extends ThrownEntity {
 
     protected static final TrackedData<Boolean> CATCHING = DataTracker.registerData(PokeballEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
-    private final AnimationFactory factory = new AnimationFactory(this);
     public boolean doingSomething;
     public boolean sendingOut;
 
@@ -61,7 +51,7 @@ public class PokeballEntity extends ThrownEntity implements IAnimatable {
     }
 
     public PokeballEntity(ServerPlayerEntity player, Item item) {
-        super(Entities.POKEBALL_ENTITY, player.getServerWorld());
+        super(Entities.POKEBALL_ENTITY, player.getWorld());
         this.item = item;
         this.setPos(player.getX(), player.getY(), player.getZ());
         setOwner(player);
@@ -112,25 +102,5 @@ public class PokeballEntity extends ThrownEntity implements IAnimatable {
     @Override
     protected void initDataTracker() {
         dataTracker.startTracking(CATCHING, false);
-    }
-
-    @Override
-    public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::animationPredicate));
-    }
-
-    private <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
-        if (dataTracker.get(CATCHING)) {
-            event.getController().setAnimation(CATCH_ANIMATION);
-            if(event.getAnimationTick() > 80) {
-                kill();
-            }
-        }
-        return PlayState.CONTINUE;
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return factory;
     }
 }

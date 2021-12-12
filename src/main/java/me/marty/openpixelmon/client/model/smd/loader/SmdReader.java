@@ -1,10 +1,10 @@
-package me.marty.openpixelmon.client.model.studiomdl.loader;
+package me.marty.openpixelmon.client.model.smd.loader;
 
 import dev.thecodewarrior.binarysmd.formats.SMDBinaryReader;
 import dev.thecodewarrior.binarysmd.studiomdl.SMDFile;
 import me.marty.openpixelmon.OpenPixelmon;
-import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationData;
-import me.marty.openpixelmon.client.model.studiomdl.animation.Animator;
+import me.marty.openpixelmon.client.model.smd.animation.AnimationData;
+import me.marty.openpixelmon.client.model.smd.animation.Animator;
 import me.marty.openpixelmon.compatibility.PixelmonAssetProvider;
 import me.marty.openpixelmon.compatibility.PixelmonGenerationsCompatibility;
 import net.minecraft.util.Lazy;
