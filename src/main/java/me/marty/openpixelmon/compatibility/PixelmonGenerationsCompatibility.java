@@ -11,15 +11,14 @@ import java.io.InputStream;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 
-public class PixelmonGenerationsCompatibility implements OtherModCompat {
+public class PixelmonGenerationsCompatibility implements PixelmonAssetProvider {
 
     public FileSystem root;
 
     public PixelmonGenerationsCompatibility() {
         try {
-            this.root = FileSystems.newFileSystem(Paths.get("compatibility/generations.jar"), (ClassLoader) null);
+            this.root = FileSystems.newFileSystem(JAR_PATH.resolve("generations.jar"), (ClassLoader) null);
         } catch (Exception e) {
             OpenPixelmon.LOGGER.error("An Exception Has Occurred! Pixelmon Generations Compat will be disabled!");
             e.printStackTrace();
@@ -49,14 +48,13 @@ public class PixelmonGenerationsCompatibility implements OtherModCompat {
     }
 
     @Override
-    public boolean isCompatibleMod(String modName) {
-        return modName.contains("generations");
+    public boolean isCompatibleJar(String jarName) {
+        return jarName.contains("generations");
     }
 
     public AbstractTexture load(Identifier pixelmonTexture) {
         // Due to the original pixelmon dev's and possibly some generation devs being the shittiest devs in the world, i have to do some guess work into figuring out what the texture's name is
         // Sorry if the original comment here had offended anyone not directly responsible for it. dont use giant hardcoded enum's next time :)
-
         InputStream stream = doSomeGuesswork(pixelmonTexture.getPath());
 
         if (stream != null) {
@@ -73,6 +71,7 @@ public class PixelmonGenerationsCompatibility implements OtherModCompat {
 
     /**
      * Why
+     *
      * @return texture
      */
     private InputStream doSomeGuesswork(String path) {

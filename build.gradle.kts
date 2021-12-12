@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom") version "0.9.+"
+    id("fabric-loom") version "0.10-SNAPSHOT"
 }
 
 group = "me.marty"
@@ -43,23 +43,17 @@ repositories {
 }
 
 dependencies {
-    minecraft("net.minecraft", "minecraft", "1.18_experimental-snapshot-7")
-    mappings("net.fabricmc", "yarn", "1.18_experimental-snapshot-7+build.2", classifier = "v2")
+    minecraft("net.minecraft", "minecraft", "1.18.1")
+    mappings("net.fabricmc", "yarn", "1.18.1+build.2", classifier = "v2")
 
-    modImplementation("net.fabricmc", "fabric-loader", "0.11.6")
-    modImplementation("net.fabricmc.fabric-api", "fabric-api", "0.40.0+1.18_experimental")
+    modImplementation("net.fabricmc", "fabric-loader", "0.12.11")
+    modImplementation("net.fabricmc.fabric-api", "fabric-api", "0.44.0+1.18")
 
     include(modImplementation("net.devtech", "arrp", "0.4.4"))
-    include(modImplementation("software.bernie.geckolib", "geckolib-fabric-1.17", "3.0.10", classifier="dev"))
-
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-base", "3.1.1"))
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-entity", "3.1.1"))
 
     implementation("com.github.thecodewarrior", "BinarySMD", "-SNAPSHOT")
-}
-
-base {
-    archivesBaseName = "OpenPixelmon"
 }
 
 java {
@@ -67,8 +61,8 @@ java {
     targetCompatibility = JavaVersion.VERSION_16
 }
 
-minecraft {
-    accessWidener = file("src/main/resources/pixelmon.aw")
+loom {
+    accessWidenerPath.set(file("src/main/resources/pixelmon.aw"))
 }
 
 tasks.withType<JavaCompile> {

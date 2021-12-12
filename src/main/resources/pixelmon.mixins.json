@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "DynamicRegistryManagerMixin",
+    "ReloadableResourceManagerImplMixin",
     "ServerPlayerEntityMixin",
     "ServerResourceManagerMixin",
     "client.shader.ShaderMixin"

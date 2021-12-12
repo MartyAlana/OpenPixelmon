@@ -5,7 +5,8 @@ import dev.thecodewarrior.binarysmd.studiomdl.SMDFile;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.client.model.studiomdl.animation.AnimationData;
 import me.marty.openpixelmon.client.model.studiomdl.animation.Animator;
-import me.marty.openpixelmon.compatibility.OtherModCompat;
+import me.marty.openpixelmon.compatibility.PixelmonAssetProvider;
+import me.marty.openpixelmon.compatibility.PixelmonGenerationsCompatibility;
 import net.minecraft.util.Lazy;
 import org.apache.commons.io.IOUtils;
 import org.msgpack.core.MessagePack;
@@ -31,7 +32,7 @@ public class SmdReader {
     }
 
     private static SMDFile safeReadFile(String location) {
-        try (MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(OtherModCompat.INSTANCE.getPixelmonModel("models/" + location))) {
+        try (MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(PixelmonAssetProvider.ASSET_PROVIDERS.get(0).getPixelmonModel("models/" + location))) {
             return new SMDBinaryReader().read(unpacker);
         } catch (IOException e) {
             OpenPixelmon.LOGGER.fatal("Unable to read model!");
@@ -43,11 +44,11 @@ public class SmdReader {
     private static SmdModel.Info parseInfo(String location) throws IOException {
         String[] slashSplit = location.split("/");
         String infoFileLocation = "models/" + location + "/" + slashSplit[slashSplit.length - 1] + ".pqc"; //Returns pokemon name for example "pokemon/abra" returns "abra"
-        if (OtherModCompat.INSTANCE.getPixelmonInfo(infoFileLocation) == null) {
+        if (((PixelmonGenerationsCompatibility) PixelmonAssetProvider.ASSET_PROVIDERS.get(0)).getPixelmonInfo(infoFileLocation) == null) {
             OpenPixelmon.LOGGER.warn(location + " could not be loaded!");
             return null;
         }
-        String[] infoFileProperties = IOUtils.toString(OtherModCompat.INSTANCE.getPixelmonInfo(infoFileLocation), StandardCharsets.UTF_8).replace("$", "").replace("\r", "").replace("\t", "").split("\n");
+        String[] infoFileProperties = IOUtils.toString(((PixelmonGenerationsCompatibility) PixelmonAssetProvider.ASSET_PROVIDERS.get(0)).getPixelmonInfo(infoFileLocation), StandardCharsets.UTF_8).replace("$", "").replace("\r", "").replace("\t", "").split("\n");
 
         return parseAnimationData(infoFileProperties, location);
     }
@@ -62,22 +63,17 @@ public class SmdReader {
             String property = split[0];
             String value = split[1];
             switch (property) {
-                case "body":
-                    bodyFileLocation = value;
-                    break;
-                case "anim":
+                case "body" -> bodyFileLocation = value;
+                case "anim" -> {
                     String animPath = split[2];
                     SMDFile animation = safeReadFile(location + "/" + animPath);
                     if (animation == null) {
                         throw new RuntimeException("Couldn't read animation!");
                     }
                     animationDataMap.put(animPath, Animator.getAnimData(animation));
-                    break;
-                case "scale":
-                    scale = Float.parseFloat(value);
-                    break;
-                default:
-                    OpenPixelmon.LOGGER.warn("We dont know how to handle the property: " + property);
+                }
+                case "scale" -> scale = Float.parseFloat(value);
+                default -> OpenPixelmon.LOGGER.warn("We dont know how to handle the property: " + property);
             }
         }
 
