@@ -51,7 +51,7 @@ void main() {
 
     for (int i = 0; i < renderBoneMapStorage.renderBoneMap.length; i++) {
         int boneId = renderBoneMapStorage.renderBoneMap[i];
-        float boneWeight = boneWeightStorage.boneWeights[boneId];
+        float boneWeight = boneWeightStorage.boneWeights[gl_VertexID];
         BoneState boneState = animationStorage.boneStates[boneId];
 
         // Do burger math
