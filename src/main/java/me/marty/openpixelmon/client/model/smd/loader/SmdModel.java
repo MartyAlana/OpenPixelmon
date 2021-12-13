@@ -1,22 +1,21 @@
 package me.marty.openpixelmon.client.model.smd.loader;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.thecodewarrior.binarysmd.studiomdl.SMDFile;
 import dev.thecodewarrior.binarysmd.studiomdl.SMDFileBlock;
 import dev.thecodewarrior.binarysmd.studiomdl.TrianglesBlock;
-import me.marty.openpixelmon.client.OpenPixelmonClient;
 import me.marty.openpixelmon.client.model.smd.Tri;
 import me.marty.openpixelmon.client.model.smd.Vertex;
 import me.marty.openpixelmon.client.model.smd.animation.AnimationData;
-import me.marty.openpixelmon.client.render.AnimatedVertexBuffer;
-import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
+import me.marty.openpixelmon.client.render.renderer.CompiledModel;
+import net.minecraft.client.gl.VertexBuffer;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.VertexFormat;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static net.minecraft.client.render.VertexFormats.POSITION_TEXTURE_COLOR_NORMAL;
 
 public class SmdModel {
 
@@ -24,7 +23,6 @@ public class SmdModel {
     public String path;
     public final Info smdInfo;
     private AnimationData idleAnimation;
-    private AnimatedVertexBuffer vertexBuffer;
 
     public SmdModel(String path, Info smdInfo) {
         this.path = path;
@@ -40,65 +38,26 @@ public class SmdModel {
         }
     }
 
-    public void cacheVertexConsumer() {
-        BufferBuilder builder = new BufferBuilder(tris.size() * OpenPixelmonClient.PIXELMON_VERTEX_FORMAT.getVertexSize());
-        builder.begin(VertexFormat.DrawMode.TRIANGLES, OpenPixelmonClient.PIXELMON_VERTEX_FORMAT);
+    public CompiledModel compile() {
+        BufferBuilder builder = new BufferBuilder(tris.size() * POSITION_TEXTURE_COLOR_NORMAL.getVertexSize());
+        builder.begin(VertexFormat.DrawMode.TRIANGLES, POSITION_TEXTURE_COLOR_NORMAL);
         for (Tri triangle : tris) {
             consumeVertex(builder, triangle.v1);
             consumeVertex(builder, triangle.v2);
             consumeVertex(builder, triangle.v3);
         }
         builder.end();
-        AnimatedVertexBuffer vertexBuffer = new AnimatedVertexBuffer();
+        VertexBuffer vertexBuffer = new VertexBuffer();
         vertexBuffer.upload(builder);
-        this.vertexBuffer = vertexBuffer;
-    }
-
-    public static void render(MatrixStack matrices, SmdModel context, Identifier modelTexture, VertexConsumerProvider consumers, int light) {
-        if (context.vertexBuffer == null) {
-            context.cacheVertexConsumer();
-        }
-        matrices.push();
-        matrices.scale(context.smdInfo.scale, context.smdInfo.scale, context.smdInfo.scale);
-        matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90));
-        RenderSystem.setShaderTexture(0, modelTexture);
-        RenderSystem.enableDepthTest();
-        context.vertexBuffer.setShaderWithAnimationInfo(matrices.peek().getPositionMatrix(), RenderSystem.getProjectionMatrix(), OpenPixelmonClient.pixelmonSolidShader, context.idleAnimation);
-        RenderSystem.disableDepthTest();
-        matrices.pop();
+        return new CompiledModel(vertexBuffer, idleAnimation, this);
     }
 
     public static void consumeVertex(BufferBuilder consumer, Vertex vertex) {
         consumer.vertex(vertex.x, vertex.y, vertex.z)
                 .texture(vertex.u, 1.0f - vertex.v)
                 .color(255, 255, 255, 255)
-                .normal(vertex.nx, vertex.ny, vertex.nz);
-
-        // Spacing byte
-        consumer.putByte(0, vertex.renderBoneToBoneMap[0]);
-        consumer.nextElement();
-
-        // Upload the bone map
-        consumer.putByte(0, vertex.renderBoneToBoneMap[0]);
-        consumer.nextElement();
-        consumer.putByte(0, vertex.renderBoneToBoneMap[1]);
-        consumer.nextElement();
-        consumer.putByte(0, vertex.renderBoneToBoneMap[2]);
-        consumer.nextElement();
-        consumer.putByte(0, vertex.renderBoneToBoneMap[3]);
-        consumer.nextElement();
-
-        // Upload the bone weights
-        consumer.putFloat(0, vertex.boneWeights[0]);
-        consumer.nextElement();
-        consumer.putFloat(0, vertex.boneWeights[1]);
-        consumer.nextElement();
-        consumer.putFloat(0, vertex.boneWeights[2]);
-        consumer.nextElement();
-        consumer.putFloat(0, vertex.boneWeights[3]);
-        consumer.nextElement();
-
-        consumer.next();
+                .normal(vertex.nx, vertex.ny, vertex.nz)
+                .next();
     }
 
     private void parseTris(List<TrianglesBlock.Triangle> triangles) {
@@ -131,15 +90,7 @@ public class SmdModel {
         return vertex;
     }
 
-    public static class Info {
-        public final SMDFile body;
-        public final float scale;
-        public final Map<String, AnimationData> animationMap;
-
-        public Info(SMDFile body, float scale, Map<String, AnimationData> animationMap) {
-            this.body = body;
-            this.scale = scale;
-            this.animationMap = animationMap;
-        }
+    public record Info(SMDFile body, float scale,
+                       Map<String, AnimationData> animationMap) {
     }
 }

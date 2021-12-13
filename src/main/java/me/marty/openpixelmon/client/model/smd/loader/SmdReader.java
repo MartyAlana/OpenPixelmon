@@ -5,6 +5,7 @@ import dev.thecodewarrior.binarysmd.studiomdl.SMDFile;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.client.model.smd.animation.AnimationData;
 import me.marty.openpixelmon.client.model.smd.animation.Animator;
+import me.marty.openpixelmon.client.render.renderer.CompiledModel;
 import me.marty.openpixelmon.compatibility.PixelmonAssetProvider;
 import me.marty.openpixelmon.compatibility.PixelmonGenerationsCompatibility;
 import net.minecraft.util.Lazy;
@@ -18,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SmdReader {
-    public static Lazy<SmdModel> createLazyModel(String location) {
-        return new Lazy<>(() -> SmdReader.readPixelmonModel(location));
+    public static Lazy<CompiledModel> createLazyModel(String location) {
+        return new Lazy<>(() -> SmdReader.readPixelmonModel(location).compile());
     }
 
     private static SmdModel readPixelmonModel(String location) {

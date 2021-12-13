@@ -1,26 +1,44 @@
-#version 150
+#version 330 core
+#extension GL_ARB_shader_storage_buffer_object : require
 
 #moj_import <light.glsl>
-
-const int MAX_BONES = 64;
-const int MAX_WEIGHTS = 4;
 
 in vec3 Position;
 in vec2 UV0;
 in vec4 Color;
 in vec3 Normal;
-in int BoneIds[MAX_WEIGHTS];
-in float BoneWeights[MAX_WEIGHTS];
 
 uniform sampler2D Sampler1;
 uniform sampler2D Sampler2;
 
 uniform mat4 ProjMat;
 uniform mat4 ModelViewMat;
-uniform mat4 BoneTransformations[MAX_BONES];
 
 uniform vec3 Light0_Direction;
 uniform vec3 Light1_Direction;
+
+uniform int boneCount;
+
+struct BoneState {
+    float posX;
+    float posY;
+    float posZ;
+    float rotX;
+    float rotY;
+    float rotZ;
+};
+
+layout(std430, binding = 1) readonly restrict buffer animationLayout {
+    BoneState[] boneStates;
+} animationStorage;
+
+layout(std430, binding = 2) readonly restrict buffer boneWeightLayout {
+    float[] boneWeights;
+} boneWeightStorage;
+
+layout(std430, binding = 3) readonly restrict buffer renderBoneMapLayout {
+    int[] renderBoneMap;
+} renderBoneMapStorage;
 
 out float vertexDistance;
 out vec4 vertexColor;
@@ -31,18 +49,33 @@ void main() {
     vec4 totalLocalPos = vec4(0.0);
     vec4 totalNormal = vec4(0.0);
 
-    for (int i = 0; i < MAX_WEIGHTS; i++) {
-        mat4 boneTransform = BoneTransformations[BoneIds[i]];
-        vec4 posePosition = boneTransform * vec4(Position, 1.0);
-        totalLocalPos += posePosition * BoneWeights[BoneIds[i]];// This is actually quite smart. when the weight is out of bounds, it returns 0. Meaning that the transformation wont matter
+    for (int i = 0; i < renderBoneMapStorage.renderBoneMap.length; i++) {
+        int boneId = renderBoneMapStorage.renderBoneMap[i];
+        float boneWeight = boneWeightStorage.boneWeights[boneId];
+        BoneState boneState = animationStorage.boneStates[boneId];
 
-        vec4 worldNormal = boneTransform * vec4(Normal, 1.0);
-        totalNormal += worldNormal * BoneWeights[i];
+        // Do burger math
+        float sx = sin(boneState.rotX);
+        float cx = cos(boneState.rotX);
+        float sy = sin(boneState.rotY);
+        float cy = cos(boneState.rotY);
+        float sz = sin(boneState.rotZ);
+        float cz = cos(boneState.rotZ);
+
+        mat4 boneTransform = mat4(
+        cy * cz, (sx * sy * cz) - (cx * sz), (cx * sy * cz) + (sx * sz), 1.0,
+        cy * sz, (sx * sy * sz) + (cx * cz), (cx * sy * sz) - (sx * cz), 1.0,
+        -sy, sx * cy, cx * cy, 1.0,
+        boneState.posX, boneState.posY, boneState.posZ, 1.0);
+
+        vec4 posePosition = boneTransform * vec4(Position, 1.0);
+        totalLocalPos += posePosition * boneWeight; //When the weight is out of bounds, it returns 0. Meaning that the transformation wont matter
+
+//        vec4 worldNormal = boneTransform * vec4(Normal, 1.0);
+//        totalNormal += worldNormal * boneWeight;
     }
 
-    // FIXME: since normals are working fine, it means that this is the reason why we cant see anything
-    gl_Position = ProjMat * totalLocalPos;
-
+    gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
     vertexDistance = length((ModelViewMat * vec4(Position, 1.0)).xyz);
     vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, Normal, Color);
     texCoord0 = UV0;

@@ -17,8 +17,7 @@ public class Animator {
     public static AnimationData getAnimData(SMDFile animation) {
         AnimationData data = new AnimationData();
         for (SMDFileBlock block : animation.blocks) {
-            if (block instanceof NodesBlock) {
-                NodesBlock nodeBlock = (NodesBlock) block;
+            if (block instanceof NodesBlock nodeBlock) {
                 for (NodesBlock.Bone bone : nodeBlock.bones) {
                     Bone b = new Bone(bone);
                     if(bone.parent == -1){
@@ -29,8 +28,7 @@ public class Animator {
                     data.bones.set(bone.id, b);
                 }
             }
-            if (block instanceof SkeletonBlock) {
-                SkeletonBlock nodeBlock = (SkeletonBlock) block;
+            if (block instanceof SkeletonBlock nodeBlock) {
                 for (SkeletonBlock.Keyframe keyframe : nodeBlock.keyframes) {
                     data.keyframes.add(new Keyframe(keyframe));
                 }

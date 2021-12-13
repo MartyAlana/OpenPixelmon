@@ -1,10 +1,8 @@
 package me.marty.openpixelmon.client;
 
-import com.google.common.collect.ImmutableMap;
 import me.marty.openpixelmon.api.battle.client.ClientBattleManager;
 import me.marty.openpixelmon.client.render.GameRendererAccessor;
 import me.marty.openpixelmon.client.render.entity.GenerationsPixelmonRenderer;
-import me.marty.openpixelmon.client.render.entity.PixelmonEntityRenderer;
 import me.marty.openpixelmon.client.render.gui.Overlays;
 import me.marty.openpixelmon.entity.Entities;
 import me.marty.openpixelmon.network.Packets;
@@ -19,7 +17,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.Shader;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resource.ResourceManager;
@@ -29,39 +27,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.minecraft.client.render.VertexFormats.*;
+import static net.minecraft.client.render.VertexFormats.POSITION_TEXTURE_COLOR_NORMAL;
 
 @Environment(EnvType.CLIENT)
 public class OpenPixelmonClient implements ClientModInitializer {
 
-    protected static final RenderPhase.Shader PIXELMON_SOLID_SHADER = new RenderPhase.Shader(OpenPixelmonClient::getPixelmonShader);
     public static final ClientBattleManager battleManager = new ClientBattleManager();
-    public static final VertexFormatElement UINT_ELEMENT = new VertexFormatElement(0, VertexFormatElement.DataType.UINT, VertexFormatElement.Type.GENERIC, 1);
-    public static final VertexFormatElement WEIGHT_ELEMENT = new VertexFormatElement(0, VertexFormatElement.DataType.FLOAT, VertexFormatElement.Type.GENERIC, 1);
-    public static final VertexFormat PIXELMON_VERTEX_FORMAT = new VertexFormat(ImmutableMap.<String, VertexFormatElement>builder()
-            .put("Position", POSITION_ELEMENT)
-            .put("UV0", TEXTURE_0_ELEMENT)
-            .put("Color", COLOR_ELEMENT)
-            .put("Normal", NORMAL_ELEMENT)
-            .put("Padding", PADDING_ELEMENT)
-            .put("WeirdPadding", UINT_ELEMENT)
-            .put("BoneMap[0]", UINT_ELEMENT)
-            .put("BoneMap[1]", UINT_ELEMENT)
-            .put("BoneMap[2]", UINT_ELEMENT)
-            .put("BoneMap[3]", UINT_ELEMENT)
-            .put("WeightMap[0]", WEIGHT_ELEMENT)
-            .put("WeightMap[1]", WEIGHT_ELEMENT)
-            .put("WeightMap[2]", WEIGHT_ELEMENT)
-            .put("WeightMap[3]", WEIGHT_ELEMENT)
-            .build());
     public static Shader pixelmonSolidShader;
 
-    private static Shader getPixelmonShader() {
-        return pixelmonSolidShader;
-    }
-
     public static void loadShaders(ResourceManager manager, GameRendererAccessor gameRenderer) throws IOException {
-        pixelmonSolidShader = gameRenderer.loadPixelmonShader(manager, "pixelmon", OpenPixelmonClient.PIXELMON_VERTEX_FORMAT);
+        pixelmonSolidShader = gameRenderer.loadPixelmonShader(manager, "pixelmon", POSITION_TEXTURE_COLOR_NORMAL);
     }
 
     @Override
