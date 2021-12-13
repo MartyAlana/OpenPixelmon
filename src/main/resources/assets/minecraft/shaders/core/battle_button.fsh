@@ -17,13 +17,9 @@ void main() {
 
     vec4 color = texture(Sampler0, texCoord0);
 
-    if (color.a == 1.0 && (color.x != 1.0 || color.y != 1.0 || color.z != 1.0)) {
+    if (color.a > 0.9 && (color.x != 1.0 || color.y != 1.0 || color.z != 1.0)) {
         vec4 newColor = texture(Sampler1, texCoords);
-        if (newColor.a == 1.0) {
-            color = newColor;
-        } else if (newColor.a != 0.0) {
-            color = vec4(mix(color.rgb, newColor.rgb, newColor.a), 1.0);
-        }
+        color = mix(color, newColor, newColor.a);
     }
 
     if (color.a == 0.0) {

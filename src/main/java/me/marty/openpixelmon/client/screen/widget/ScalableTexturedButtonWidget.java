@@ -6,42 +6,54 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.render.*;
+import net.minecraft.client.texture.AbstractTexture;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix4f;
 
+import java.util.function.Supplier;
+
 public class ScalableTexturedButtonWidget extends TexturedButtonWidget {
 
-    private final float idealX;
-    private final float idealY;
+    private final Supplier<Integer> xSupplier;
+    private final Supplier<Integer> ySupplier;
     private final Text text;
     private final AnchorLocation anchor;
     private final int color;
     private final Identifier bgTexture;
 
-    public ScalableTexturedButtonWidget(float x, float y, int width, int height, Identifier texture, Identifier bgTexture, PressAction pressAction, Text text, int color, AnchorLocation anchor) {
+    public ScalableTexturedButtonWidget(Supplier<Integer> x, Supplier<Integer> y, int width, int height, Identifier texture, Identifier bgTexture, PressAction pressAction, Text text, int color, AnchorLocation anchor) {
         this(x, y, width, height, texture, bgTexture, pressAction, EMPTY, text, color, anchor);
     }
 
-    public ScalableTexturedButtonWidget(float x, float y, int width, int height, Identifier texture, Identifier bgTexture, PressAction pressAction, TooltipSupplier tooltipSupplier, Text text, int color, AnchorLocation anchor) {
+    public ScalableTexturedButtonWidget(Supplier<Integer> x, Supplier<Integer> y, int width, int height, Identifier texture, Identifier bgTexture, PressAction pressAction, TooltipSupplier tooltipSupplier, Text text, int color, AnchorLocation anchor) {
         super(anchor == AnchorLocation.CENTER ? width / 2 : width, anchor == AnchorLocation.CENTER ? height / 2 : height, width, height, 0, 0, 0, texture, width, height, pressAction, tooltipSupplier, text);
         this.bgTexture = bgTexture;
-        this.idealX = x;
-        this.idealY = y;
         this.text = text;
         this.anchor = anchor;
         this.color = color;
+        this.xSupplier = x;
+        this.ySupplier = y;
+        tryFixFiltering();
+    }
+
+    private void tryFixFiltering() {
+        TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
+        AbstractTexture abstractTexture = textureManager.getTexture(texture);
+        abstractTexture.setFilter(true, false);
+
+        abstractTexture = textureManager.getTexture(bgTexture);
+        abstractTexture.setFilter(true, false);
     }
 
     @Override
     protected boolean clicked(double mouseX, double mouseY) {
-        int scaledWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
-        int scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
-        int adjustedX = (int) (this.idealX * scaledWidth) - this.x;
-        int adjustedY = (int) (this.idealY * scaledHeight) - this.y;
+        int adjustedX = this.xSupplier.get() - this.width;
+        int adjustedY = this.ySupplier.get() - this.height + 3;
 
-        return mouseX >= adjustedX && mouseY >= adjustedY && mouseX < adjustedX + this.width && mouseY < adjustedY + this.height;
+        return mouseX >= adjustedX && mouseY >= adjustedY && mouseX < adjustedX + this.width && mouseY < adjustedY + this.height - 8;
     }
 
     @Override
@@ -74,18 +86,16 @@ public class ScalableTexturedButtonWidget extends TexturedButtonWidget {
         RenderSystem.enableBlend();
 
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-        int scaledWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
-        int scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
-        int adjustedX = (int) (this.idealX * scaledWidth);
-        int adjustedY = (int) (this.idealY * scaledHeight);
+        int adjustedX = this.xSupplier.get();
+        int adjustedY = this.ySupplier.get();
         int textX = this.anchor == AnchorLocation.CENTER ? adjustedX - this.x / 2 : (int) (adjustedX - this.x / 1.6);
         int textY = (int) (adjustedY - this.y / 1.5);
 
         int width = this.width;
         int height = this.height;
         if (this.isHovered()) {
-            width = this.width + 2;
-            height = this.height + 2;
+            width = this.width + 1;
+            height = this.height + 1;
         }
         drawBattleTexture(matrices, adjustedX - this.x, adjustedY - this.y, width, height, this.u, this.v);
 

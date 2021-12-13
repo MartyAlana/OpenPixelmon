@@ -3,7 +3,7 @@
   "id": "pixelmon",
   "version": "${version}",
   "name": "OpenPixelmon",
-  "description": "An rewrite of pixelmon reforged & generations mod for fabric",
+  "description": "An rewrite of the PixelmonMod for fabric",
   "authors": [
     "OpenPixelmon Contributors"
   ],

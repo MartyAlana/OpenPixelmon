@@ -134,6 +134,7 @@ public class CompiledModel {
     }
 
     public void render(MatrixStack matrices) {
+        MinecraftClient.getInstance().getProfiler().push("render_pixelmon");
         Shader shader = OpenPixelmonClient.pixelmonSolidShader;
         assert shader != null;
 
@@ -203,5 +204,6 @@ public class CompiledModel {
         GL11.glDrawElements(vertexBuffer.drawMode.mode, vertexBuffer.vertexCount, vertexBuffer.vertexFormat.count, MemoryUtil.NULL);
         shader.unbind();
         vertexBuffer.getElementFormat().endDrawing();
+        MinecraftClient.getInstance().getProfiler().pop();
     }
 }
