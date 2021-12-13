@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier;
 
 public class BattleScreen extends Screen {
 
+    public static final Identifier POKEBALL_BG_TEXTURE = OpenPixelmon.id("textures/gui/ingame/battle/pokeball_bg.png");
     public static final Identifier ATTACK_TEXTURE = OpenPixelmon.id("textures/gui/ingame/battle/attack_button.png");
     public static final Identifier PIXELMON_TEXTURE = OpenPixelmon.id("textures/gui/ingame/battle/pixelmon_button.png");
     public static final Identifier BAG_TEXTURE = OpenPixelmon.id("textures/gui/ingame/battle/bag_button.png");
@@ -21,10 +22,10 @@ public class BattleScreen extends Screen {
 
     @Override
     protected void init() {
-        this.addDrawableChild(new ScalableTexturedButtonWidget(0.96f, 0.96f - (3 / 10f), 100, 25, ATTACK_TEXTURE, button -> System.out.println("E"), text("text.pixelmon.battle", 0xff3f46), 0xFF463FFF, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
-        this.addDrawableChild(new ScalableTexturedButtonWidget(0.96f, 0.96f - (2 / 10f), 100, 25, PIXELMON_TEXTURE, button -> System.out.println("E"), text("text.pixelmon.pixelmon", 0x87ff91), 0xFF000000, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
-        this.addDrawableChild(new ScalableTexturedButtonWidget(0.96f, 0.96f - (1 / 10f), 100, 25, BAG_TEXTURE, button -> System.out.println("E"), text("text.pixelmon.bag", 0xff8142), 0xFF000000, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
-        this.addDrawableChild(new ScalableTexturedButtonWidget(0.96f, 0.96f, 100, 25, RUN_TEXTURE, button -> System.out.println("E"), text("text.pixelmon.run", 0x56bbff), 0xFF463FFF, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
+        this.addDrawableChild(new ScalableTexturedButtonWidget(0.96f, 0.96f - (3 / 10f), 100, 25, ATTACK_TEXTURE, POKEBALL_BG_TEXTURE, button -> System.out.println("Attack"), text("text.pixelmon.battle", 0xff3f46), 0xFF463FFF, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
+        this.addDrawableChild(new ScalableTexturedButtonWidget(0.96f, 0.96f - (2 / 10f), 100, 25, PIXELMON_TEXTURE, POKEBALL_BG_TEXTURE, button -> System.out.println("Pixelmon"), text("text.pixelmon.pixelmon", 0x87ff91), 0xFF000000, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
+        this.addDrawableChild(new ScalableTexturedButtonWidget(0.96f, 0.96f - (1 / 10f), 100, 25, BAG_TEXTURE, POKEBALL_BG_TEXTURE, button -> System.out.println("Bag"), text("text.pixelmon.bag", 0xff8142), 0xFF000000, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
+        this.addDrawableChild(new ScalableTexturedButtonWidget(0.96f, 0.96f, 100, 25, RUN_TEXTURE, POKEBALL_BG_TEXTURE, button -> System.out.println("Run"), text("text.pixelmon.run", 0x56bbff), 0xFF463FFF, ScalableTexturedButtonWidget.AnchorLocation.RIGHT));
     }
 
     public static TranslatableText text(String translation, int rgb) {

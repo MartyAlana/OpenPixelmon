@@ -108,7 +108,6 @@ public class CompiledModel {
         }
     }
 
-
     private void uploadBoneWeights(long pointer, SmdModel smdModel) {
         for (Tri tri : smdModel.tris) {
             uploadBoneWeight(pointer, tri.v1);

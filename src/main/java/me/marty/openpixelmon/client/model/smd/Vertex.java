@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Vertex {
 
-    private static final int MAX_BONE_COUNT = 32;
     public byte[] renderBoneToBoneMap;
     public float[] boneWeights;
     public float x;
@@ -33,8 +32,8 @@ public class Vertex {
 
     private void calculateBoneWeights(TrianglesBlock.Vertex vertex) {
         List<TrianglesBlock.@NotNull Link> links = vertex.links;
-        this.renderBoneToBoneMap = new byte[MAX_BONE_COUNT];
-        float[] boneWeights = new float[MAX_BONE_COUNT];
+        this.renderBoneToBoneMap = new byte[links.size()];
+        float[] boneWeights = new float[links.size()];
         float sum = 0.0F;
         float[] weights = new float[links.size()];
 

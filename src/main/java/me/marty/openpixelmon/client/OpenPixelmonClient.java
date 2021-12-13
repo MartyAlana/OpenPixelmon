@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.minecraft.client.render.VertexFormats.POSITION_TEXTURE;
 import static net.minecraft.client.render.VertexFormats.POSITION_TEXTURE_COLOR_NORMAL;
 
 @Environment(EnvType.CLIENT)
@@ -34,9 +35,11 @@ public class OpenPixelmonClient implements ClientModInitializer {
 
     public static final ClientBattleManager battleManager = new ClientBattleManager();
     public static Shader pixelmonSolidShader;
+    public static Shader battleButtonShader;
 
     public static void loadShaders(ResourceManager manager, GameRendererAccessor gameRenderer) throws IOException {
         pixelmonSolidShader = gameRenderer.loadPixelmonShader(manager, "pixelmon", POSITION_TEXTURE_COLOR_NORMAL);
+        battleButtonShader = gameRenderer.loadPixelmonShader(manager, "battle_button", POSITION_TEXTURE);
     }
 
     @Override
@@ -67,6 +70,7 @@ public class OpenPixelmonClient implements ClientModInitializer {
             int participantCount = buf.readVarInt();
             List<PlayerEntity> participants = new ArrayList<>();
             for (int i = 0; i < participantCount; i++) {
+                assert client.world != null;
                 participants.add((PlayerEntity) client.world.getEntityById(buf.readVarInt()));
             }
 

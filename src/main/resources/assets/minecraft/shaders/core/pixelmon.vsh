@@ -49,7 +49,7 @@ void main() {
     vec4 totalLocalPos = vec4(0.0);
     vec4 totalNormal = vec4(0.0);
 
-    for (int i = 0; i < renderBoneMapStorage.renderBoneMap.length(); i++) {
+    for (int i = 0; i < boneCount; i++) {
         int boneId = renderBoneMapStorage.renderBoneMap[i];
         float boneWeight = boneWeightStorage.boneWeights[gl_VertexID];
         BoneState boneState = animationStorage.boneStates[boneId];
@@ -75,7 +75,7 @@ void main() {
 //        totalNormal += worldNormal * boneWeight;
     }
 
-    gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
+    gl_Position = ProjMat * ModelViewMat * totalLocalPos;
     vertexDistance = length((ModelViewMat * vec4(Position, 1.0)).xyz);
     vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, Normal, Color);
     texCoord0 = UV0;
