@@ -20,6 +20,7 @@ import org.lwjgl.opengl.GL30C;
 import org.lwjgl.opengl.GL43C;
 import org.lwjgl.system.MemoryUtil;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 
 /**
@@ -42,19 +43,19 @@ public class CompiledModel {
 
         int keyframeBufferSize = findAnimationSize(animationData);
         int keyframeBufferId = createStorageBuffer(keyframeBufferSize);
-        long pointer = GL15C.nglMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
+        ByteBuffer pointer = GL15C.glMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
         uploadAnimationData(pointer, animationData);
         this.keyframeBuffer = new StaticStorageBuffer(keyframeBufferId, keyframeBufferSize, pointer);
 
         int boneWeightsSize = findBoneWeightSize(smdModel.tris);
         int boneWeightsBufferId = createStorageBuffer(boneWeightsSize);
-        pointer = GL15C.nglMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
+        pointer = GL15C.glMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
         uploadBoneWeights(pointer, smdModel);
         this.boneWeightsBuffer = new StaticStorageBuffer(boneWeightsBufferId, boneWeightsSize, pointer);
 
         int boneRenderMapSize = findBoneRenderMapSize(smdModel.tris);
         int boneRenderMapBufferId = createStorageBuffer(boneRenderMapSize);
-        pointer = GL15C.nglMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
+        pointer = GL15C.glMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
         uploadBoneRenderMaps(pointer, smdModel);
         this.boneRenderMapBuffer = new StaticStorageBuffer(boneRenderMapBufferId, boneRenderMapSize, pointer);
     }
@@ -96,39 +97,47 @@ public class CompiledModel {
         return totalSize * Float.BYTES;
     }
 
-    private void uploadBoneRenderMaps(long pointer, SmdModel smdModel) {
+    private void uploadBoneRenderMaps(ByteBuffer pointer, SmdModel smdModel) {
         for (Tri tri : smdModel.tris) {
             uploadBoneRenderMap(pointer, tri.v1);
         }
     }
 
-    private void uploadBoneRenderMap(long pointer, Vertex vertex) {
+    private void uploadBoneRenderMap(ByteBuffer pointer, Vertex vertex) {
         for (int boneMap : vertex.renderBoneToBoneMap) {
-            MemoryUtil.memPutInt(pointer, boneMap);
+            pointer.putFloat(boneMap);
+//            MemoryUtil.memPutInt(pointer, boneMap);
         }
     }
 
-    private void uploadBoneWeights(long pointer, SmdModel smdModel) {
+    private void uploadBoneWeights(ByteBuffer pointer, SmdModel smdModel) {
         for (Tri tri : smdModel.tris) {
             uploadBoneWeight(pointer, tri.v1);
         }
     }
 
-    private void uploadBoneWeight(long pointer, Vertex vertex) {
+    private void uploadBoneWeight(ByteBuffer pointer, Vertex vertex) {
         for (float boneWeight : vertex.boneWeights) {
-            MemoryUtil.memPutFloat(pointer, boneWeight);
+            pointer.putFloat(boneWeight);
+//            MemoryUtil.memPutFloat(pointer, boneWeight);
         }
     }
 
-    private void uploadAnimationData(long pointer, AnimationData animationData) {
+    private void uploadAnimationData(ByteBuffer pointer, AnimationData animationData) {
         for (Keyframe keyframe : animationData.keyframes) {
             for (Keyframe.BoneState state : keyframe.states) {
-                MemoryUtil.memPutFloat(pointer, state.posX);
-                MemoryUtil.memPutFloat(pointer, state.posY);
-                MemoryUtil.memPutFloat(pointer, state.posZ);
-                MemoryUtil.memPutFloat(pointer, state.rotX);
-                MemoryUtil.memPutFloat(pointer, state.rotX);
-                MemoryUtil.memPutFloat(pointer, state.rotX);
+                pointer.putFloat(state.posX);
+                pointer.putFloat(state.posY);
+                pointer.putFloat(state.posZ);
+                pointer.putFloat(state.rotX);
+                pointer.putFloat(state.rotX);
+                pointer.putFloat(state.rotX);
+//                MemoryUtil.memPutFloat(pointer, state.posX);
+//                MemoryUtil.memPutFloat(pointer, state.posY);
+//                MemoryUtil.memPutFloat(pointer, state.posZ);
+//                MemoryUtil.memPutFloat(pointer, state.rotX);
+//                MemoryUtil.memPutFloat(pointer, state.rotX);
+//                MemoryUtil.memPutFloat(pointer, state.rotX);
             }
         }
     }
