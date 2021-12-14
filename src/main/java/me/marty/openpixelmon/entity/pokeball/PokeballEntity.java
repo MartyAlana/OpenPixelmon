@@ -8,6 +8,7 @@ import me.marty.openpixelmon.item.OpenPixelmonItems;
 import me.marty.openpixelmon.item.pokeball.PokeballItem;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.FlyingItemEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -26,7 +27,7 @@ import net.minecraft.world.World;
 
 import java.util.Objects;
 
-public class PokeballEntity extends ThrownEntity {
+public class PokeballEntity extends ThrownEntity implements FlyingItemEntity {
 
     protected static final TrackedData<Boolean> CATCHING = DataTracker.registerData(PokeballEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
@@ -102,5 +103,10 @@ public class PokeballEntity extends ThrownEntity {
     @Override
     protected void initDataTracker() {
         dataTracker.startTracking(CATCHING, false);
+    }
+
+    @Override
+    public ItemStack getStack() {
+        return new ItemStack(getItem());
     }
 }

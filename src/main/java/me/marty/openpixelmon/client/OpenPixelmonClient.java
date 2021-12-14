@@ -18,6 +18,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.Shader;
+import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resource.ResourceManager;
@@ -87,5 +88,6 @@ public class OpenPixelmonClient implements ClientModInitializer {
 
     private void registerEntityRenderers() {
         EntityRendererRegistry.register(Entities.PIXELMON, GenerationsPixelmonRenderer::new);
+        EntityRendererRegistry.register(Entities.POKEBALL_ENTITY, FlyingItemEntityRenderer::new);
     }
 }

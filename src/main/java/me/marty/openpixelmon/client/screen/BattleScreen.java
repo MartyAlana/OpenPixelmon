@@ -1,10 +1,15 @@
 package me.marty.openpixelmon.client.screen;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.client.screen.widget.ScalableTexturedButtonWidget;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.Window;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Matrix4f;
 
 public class BattleScreen extends Screen {
 
@@ -33,6 +38,11 @@ public class BattleScreen extends Screen {
 
     public static TranslatableText text(String translation, int rgb) {
         return (TranslatableText) new TranslatableText(translation).styled(style -> style.withColor(rgb));
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        super.render(matrices, mouseX, mouseY, delta);
     }
 
     @Override

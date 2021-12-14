@@ -29,7 +29,7 @@ public class ScalableTexturedButtonWidget extends TexturedButtonWidget {
     }
 
     public ScalableTexturedButtonWidget(Supplier<Integer> x, Supplier<Integer> y, int width, int height, Identifier texture, Identifier bgTexture, PressAction pressAction, TooltipSupplier tooltipSupplier, Text text, int color, AnchorLocation anchor) {
-        super(anchor == AnchorLocation.CENTER ? width / 2 : width, anchor == AnchorLocation.CENTER ? height / 2 : height, width, height, 0, 0, 0, texture, width, height, pressAction, tooltipSupplier, text);
+        super(width, height, width, height, 0, 0, 0, texture, width, height, pressAction, tooltipSupplier, text);
         this.bgTexture = bgTexture;
         this.text = text;
         this.anchor = anchor;
@@ -74,8 +74,10 @@ public class ScalableTexturedButtonWidget extends TexturedButtonWidget {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         if (this.visible) {
+            matrices.push();
             this.hovered = clicked(mouseX, mouseY);
             this.renderButton(matrices, mouseX, mouseY, delta);
+            matrices.pop();
         }
     }
 
@@ -97,8 +99,8 @@ public class ScalableTexturedButtonWidget extends TexturedButtonWidget {
             width = this.width + 1;
             height = this.height + 1;
         }
-        drawBattleTexture(matrices, adjustedX - this.x, adjustedY - this.y, width, height, this.u, this.v);
 
+        drawBattleTexture(matrices, adjustedX - this.x, adjustedY - this.y, width, height, this.u, this.v);
         drawCenteredTextWithShadow(matrices, textRenderer, text.asOrderedText(), textX, textY, this.color);
         if (this.isHovered()) {
             this.renderTooltip(matrices, mouseX, mouseY);
