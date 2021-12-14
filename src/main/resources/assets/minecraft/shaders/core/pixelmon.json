@@ -71,6 +71,14 @@
       ]
     },
     {
+      "name": "GameTime",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0.0
+      ]
+    },
+    {
       "name": "boneCount",
       "type": "int",
       "count": 1,

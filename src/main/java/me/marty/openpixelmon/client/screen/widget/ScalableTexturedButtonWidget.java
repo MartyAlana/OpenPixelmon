@@ -52,8 +52,10 @@ public class ScalableTexturedButtonWidget extends TexturedButtonWidget {
     protected boolean clicked(double mouseX, double mouseY) {
         int adjustedX = this.xSupplier.get() - this.width;
         int adjustedY = this.ySupplier.get() - this.height + 3;
+        adjustedX -= (adjustedX - this.x) / 5f;
+        adjustedY -= (adjustedY - this.y) / 18f;
 
-        return mouseX >= adjustedX && mouseY >= adjustedY && mouseX < adjustedX + this.width && mouseY < adjustedY + this.height - 8;
+        return mouseX >= adjustedX && mouseY >= adjustedY && mouseX < adjustedX + this.width * 1.6 && mouseY < adjustedY + this.height * 1.6 - 8;
     }
 
     @Override
@@ -74,7 +76,12 @@ public class ScalableTexturedButtonWidget extends TexturedButtonWidget {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         if (this.visible) {
+            int adjustedX = this.xSupplier.get();
+            int adjustedY = this.ySupplier.get();
+
             matrices.push();
+            matrices.scale(1.6f, 1.6f, 0);
+            matrices.translate(-(adjustedX - this.x) / 2.1f, -(adjustedY - this.y) / 2.4f, 0);
             this.hovered = clicked(mouseX, mouseY);
             this.renderButton(matrices, mouseX, mouseY, delta);
             matrices.pop();

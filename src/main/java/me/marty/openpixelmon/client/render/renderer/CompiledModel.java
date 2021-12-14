@@ -3,7 +3,6 @@ package me.marty.openpixelmon.client.render.renderer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.marty.openpixelmon.client.OpenPixelmonClient;
 import me.marty.openpixelmon.client.model.smd.Tri;
-import me.marty.openpixelmon.client.model.smd.Vertex;
 import me.marty.openpixelmon.client.model.smd.animation.AnimationData;
 import me.marty.openpixelmon.client.model.smd.animation.Keyframe;
 import me.marty.openpixelmon.client.model.smd.loader.SmdModel;
@@ -20,7 +19,6 @@ import org.lwjgl.opengl.GL30C;
 import org.lwjgl.opengl.GL43C;
 import org.lwjgl.system.MemoryUtil;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
 /**
@@ -28,7 +26,7 @@ import java.util.List;
  */
 public class CompiledModel {
 
-    private static final int BONE_STATE_SIZE = Float.BYTES * 6;
+    private static final int BONE_STATE_SIZE = Float.BYTES * 7;
     private final StaticStorageBuffer keyframeBuffer;
     private final StaticStorageBuffer boneWeightsBuffer;
     private final StaticStorageBuffer boneRenderMapBuffer;
@@ -43,19 +41,19 @@ public class CompiledModel {
 
         int keyframeBufferSize = findAnimationSize(animationData);
         int keyframeBufferId = createStorageBuffer(keyframeBufferSize);
-        ByteBuffer pointer = GL15C.glMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
+        long pointer = GL15C.nglMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
         uploadAnimationData(pointer, animationData);
         this.keyframeBuffer = new StaticStorageBuffer(keyframeBufferId, keyframeBufferSize, pointer);
 
         int boneWeightsSize = findBoneWeightSize(smdModel.tris);
         int boneWeightsBufferId = createStorageBuffer(boneWeightsSize);
-        pointer = GL15C.glMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
+        pointer = GL15C.nglMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
         uploadBoneWeights(pointer, smdModel);
         this.boneWeightsBuffer = new StaticStorageBuffer(boneWeightsBufferId, boneWeightsSize, pointer);
 
         int boneRenderMapSize = findBoneRenderMapSize(smdModel.tris);
         int boneRenderMapBufferId = createStorageBuffer(boneRenderMapSize);
-        pointer = GL15C.glMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
+        pointer = GL15C.nglMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
         uploadBoneRenderMaps(pointer, smdModel);
         this.boneRenderMapBuffer = new StaticStorageBuffer(boneRenderMapBufferId, boneRenderMapSize, pointer);
     }
@@ -83,7 +81,7 @@ public class CompiledModel {
             totalSize += tri.v3.renderBoneToBoneMap.length;
         }
 
-        return totalSize * Float.BYTES;
+        return totalSize * Integer.BYTES;
     }
 
     private int findBoneWeightSize(List<Tri> tris) {
@@ -97,47 +95,49 @@ public class CompiledModel {
         return totalSize * Float.BYTES;
     }
 
-    private void uploadBoneRenderMaps(ByteBuffer pointer, SmdModel smdModel) {
+    private void uploadBoneRenderMaps(long pointer, SmdModel smdModel) {
+        long offset = 0;
         for (Tri tri : smdModel.tris) {
-            uploadBoneRenderMap(pointer, tri.v1);
+            for (int i = 0; i < tri.v1.renderBoneToBoneMap.length; i++) {
+                MemoryUtil.memPutInt(pointer + offset, tri.v1.renderBoneToBoneMap[i]);
+                offset += Integer.BYTES;
+            }
         }
     }
 
-    private void uploadBoneRenderMap(ByteBuffer pointer, Vertex vertex) {
-        for (int boneMap : vertex.renderBoneToBoneMap) {
-            pointer.putFloat(boneMap);
-//            MemoryUtil.memPutInt(pointer, boneMap);
-        }
-    }
-
-    private void uploadBoneWeights(ByteBuffer pointer, SmdModel smdModel) {
+    private void uploadBoneWeights(long pointer, SmdModel smdModel) {
+        long offset = 0;
         for (Tri tri : smdModel.tris) {
-            uploadBoneWeight(pointer, tri.v1);
+            for (int i = 0; i < tri.v1.boneWeights.length; i++) {
+                MemoryUtil.memPutFloat(pointer + offset, tri.v1.boneWeights[i]);
+                offset += Float.BYTES;
+            }
+
+            for (int i = 0; i < tri.v2.boneWeights.length; i++) {
+                MemoryUtil.memPutFloat(pointer + offset, tri.v2.boneWeights[i]);
+                offset += Float.BYTES;
+            }
+
+            for (int i = 0; i < tri.v3.boneWeights.length; i++) {
+                MemoryUtil.memPutFloat(pointer + offset, tri.v3.boneWeights[i]);
+                offset += Float.BYTES;
+            }
         }
     }
 
-    private void uploadBoneWeight(ByteBuffer pointer, Vertex vertex) {
-        for (float boneWeight : vertex.boneWeights) {
-            pointer.putFloat(boneWeight);
-//            MemoryUtil.memPutFloat(pointer, boneWeight);
-        }
-    }
-
-    private void uploadAnimationData(ByteBuffer pointer, AnimationData animationData) {
+    private void uploadAnimationData(long pointer, AnimationData animationData) {
+        long offset = 0;
         for (Keyframe keyframe : animationData.keyframes) {
-            for (Keyframe.BoneState state : keyframe.states) {
-                pointer.putFloat(state.posX);
-                pointer.putFloat(state.posY);
-                pointer.putFloat(state.posZ);
-                pointer.putFloat(state.rotX);
-                pointer.putFloat(state.rotX);
-                pointer.putFloat(state.rotX);
-//                MemoryUtil.memPutFloat(pointer, state.posX);
-//                MemoryUtil.memPutFloat(pointer, state.posY);
-//                MemoryUtil.memPutFloat(pointer, state.posZ);
-//                MemoryUtil.memPutFloat(pointer, state.rotX);
-//                MemoryUtil.memPutFloat(pointer, state.rotX);
-//                MemoryUtil.memPutFloat(pointer, state.rotX);
+            for (int j = 0; j < keyframe.states.size(); j++) {
+                Keyframe.BoneState state = keyframe.states.get(j);
+                MemoryUtil.memPutInt(pointer + offset, animationData.bones.get(state.bone).parent);
+                MemoryUtil.memPutFloat(pointer + offset + 4, state.posX);
+                MemoryUtil.memPutFloat(pointer + offset + 8, state.posY);
+                MemoryUtil.memPutFloat(pointer + offset + 12, state.posZ);
+                MemoryUtil.memPutFloat(pointer + offset + 16, state.rotX);
+                MemoryUtil.memPutFloat(pointer + offset + 20, state.rotX);
+                MemoryUtil.memPutFloat(pointer + offset + 24, state.rotX);
+                offset += BONE_STATE_SIZE;
             }
         }
     }

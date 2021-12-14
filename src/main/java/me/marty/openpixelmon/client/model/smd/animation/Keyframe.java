@@ -25,11 +25,11 @@ public class Keyframe {
         public BoneState(SkeletonBlock.BoneState state) {
             this.bone = state.bone;
             this.posX = state.posX;
-            this.posY = state.posY;
-            this.posZ = state.posZ;
-            this.rotX = state.rotX;
-            this.rotY = state.rotY;
-            this.rotZ = state.rotZ;
+            this.posY = -state.posY;
+            this.posZ = -state.posZ;
+            this.rotX = (float) Math.toDegrees(state.rotX);
+            this.rotY = (float) Math.toDegrees(-state.rotY);
+            this.rotZ = (float) Math.toDegrees(-state.rotZ);
         }
     }
 }

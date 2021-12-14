@@ -33,7 +33,7 @@ public class Vertex {
     private void calculateBoneWeights(TrianglesBlock.Vertex vertex) {
         List<TrianglesBlock.@NotNull Link> links = vertex.links;
         this.renderBoneToBoneMap = new byte[links.size()];
-        float[] boneWeights = new float[links.size()];
+        float[] boneWeights = new float[24];
         float sum = 0.0F;
         float[] weights = new float[links.size()];
 
@@ -50,6 +50,7 @@ public class Vertex {
             renderBoneToBoneMap[i] = (byte) link.bone;
             boneWeights[i] = weight;
         }
+
         this.boneWeights = boneWeights;
     }
 }

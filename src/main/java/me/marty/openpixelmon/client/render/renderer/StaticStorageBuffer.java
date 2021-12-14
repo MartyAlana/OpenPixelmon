@@ -8,13 +8,15 @@ import java.nio.ByteBuffer;
 /**
  * Represents a Persistently mapped Storage Buffer
  */
-public record StaticStorageBuffer(int id, long size, ByteBuffer pointer) {
+public record StaticStorageBuffer(int id, long size, long pointer) {
 
     public void bind() {
         GL15C.glBindBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, id);
     }
 
     public void free() {
-        // TODO:
+        bind();
+        GL15C.glUnmapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER);
+        GL15C.glBindBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, 0);
     }
 }

@@ -1,15 +1,11 @@
 package me.marty.openpixelmon.client.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.client.screen.widget.ScalableTexturedButtonWidget;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix4f;
 
 public class BattleScreen extends Screen {
 
@@ -26,9 +22,10 @@ public class BattleScreen extends Screen {
 
     @Override
     protected void init() {
-        createActionButton(66, ATTACK_TEXTURE, POKEBALL_BG_TEXTURE, "text.pixelmon.battle", 0xff3f46);
-        createActionButton(44, PIXELMON_TEXTURE, POKEBALL_BG_TEXTURE, "text.pixelmon.pixelmon", 0x87ff91);
-        createActionButton(22, BAG_TEXTURE, BAG_BG_TEXTURE, "text.pixelmon.bag", 0xff8142);
+        int spacing = 40;
+        createActionButton(spacing * 3, ATTACK_TEXTURE, POKEBALL_BG_TEXTURE, "text.pixelmon.battle", 0xff3f46);
+        createActionButton(spacing * 2, PIXELMON_TEXTURE, POKEBALL_BG_TEXTURE, "text.pixelmon.pixelmon", 0x87ff91);
+        createActionButton(spacing, BAG_TEXTURE, BAG_BG_TEXTURE, "text.pixelmon.bag", 0xff8142);
         createActionButton(0, RUN_TEXTURE, BAG_BG_TEXTURE, "text.pixelmon.run", 0x56bbff);
     }
 
