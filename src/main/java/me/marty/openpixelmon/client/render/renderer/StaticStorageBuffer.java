@@ -16,7 +16,6 @@ public record StaticStorageBuffer(int id, long size, long pointer) {
 
     public void free() {
         bind();
-        GL15C.glUnmapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER);
         GL15C.glBindBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, 0);
     }
 }
