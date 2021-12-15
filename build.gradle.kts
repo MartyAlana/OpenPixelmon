@@ -49,6 +49,9 @@ dependencies {
     modImplementation("net.fabricmc", "fabric-loader", "0.12.11")
     modImplementation("net.fabricmc.fabric-api", "fabric-api", "0.44.0+1.18")
 
+    implementation("org.joml", "joml", "1.10.2")
+    include("org.joml", "joml", "1.10.2")
+    
     include(modImplementation("net.devtech", "arrp", "0.4.4"))
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-base", "3.1.1"))
     include(modImplementation("io.github.onyxstudios.Cardinal-Components-API", "cardinal-components-entity", "3.1.1"))

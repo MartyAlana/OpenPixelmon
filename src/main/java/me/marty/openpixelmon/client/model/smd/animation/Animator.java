@@ -28,9 +28,9 @@ public class Animator {
                     data.bones.set(bone.id, b);
                 }
             }
-            if (block instanceof SkeletonBlock nodeBlock) {
-                for (SkeletonBlock.Keyframe keyframe : nodeBlock.keyframes) {
-                    data.keyframes.add(new Keyframe(keyframe));
+            if (block instanceof SkeletonBlock skeletonBlock) {
+                for (SkeletonBlock.Keyframe keyframe : skeletonBlock.keyframes) {
+                    data.keyframes.add(new Keyframe(keyframe, data.bones));
                 }
             }
         }

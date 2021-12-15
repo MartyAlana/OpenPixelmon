@@ -20,6 +20,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
@@ -40,19 +41,20 @@ public class Overlays extends DrawableHelper {
         RenderSystem.setShaderTexture(0, DOCK_BG);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.45F);
         RenderSystem.enableBlend();
-        drawTexture(matrices, -8, scaledHeight / 2 - (165 / 2), 0, 0, 32, 176, 32, 176);
+        drawTexture(matrices, -16, scaledHeight / 2 - (165 / 2), 0, 0, 32, 176, 32, 176);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        int pokeballSpacing = 27;
+        int pokeballSpacing = 26;
 
+        // Render Party
         for (int i = 0; i < 6; i++) {
-            int offset = (65 - pokeballSpacing * i);
+            int offset = (59 - pokeballSpacing * i);
             Party party = EntityComponents.PARTY_COMPONENT.get(client.player).getParty();
             if (party.partySize() > i) {
                 PartyEntry partyEntry = party.getEntries()[i];
                 if (partyEntry != null) {
                     PokedexEntry pokedexEntry = DataLoaders.PIXELMON_MANAGER.getPixelmon().get(partyEntry.getIdentifier());
 
-                    int pokeballOffset = (65 - pokeballSpacing * i);
+                    int pokeballOffset = (59 - pokeballSpacing * i);
                     RenderSystem.setShaderTexture(0, getPokeballTexture(partyEntry));
                     drawTexture(matrices, 0, scaledHeight / 2 - (22 / 2) - pokeballOffset, 0, 0, 22, 22, 22, 22);
 
@@ -61,6 +63,10 @@ public class Overlays extends DrawableHelper {
                     client.textRenderer.drawWithShadow(matrices, "Lv. " + partyEntry.getLevel(), 24, scaledHeight / 2 - 4 - offset, 0xFFFFFFFF);
                     client.textRenderer.drawWithShadow(matrices, "HP: " + partyEntry.getHp() + "/" + partyEntry.getMaxHp(), 24, scaledHeight / 2 + 4 - offset, 0xFFFFFFFF);
                 }
+            } else {
+                int pokeballOffset = (59 - pokeballSpacing * i);
+                RenderSystem.setShaderTexture(0, POKEBALL_TEX_MAP.get(Items.AIR));
+                drawTexture(matrices, 0, scaledHeight / 2 - (22 / 2) - pokeballOffset, 0, 0, 22, 22, 22, 22);
             }
         }
         matrices.pop();
@@ -113,7 +119,7 @@ public class Overlays extends DrawableHelper {
     }
 
     static {
+        POKEBALL_TEX_MAP.put(Items.AIR, OpenPixelmon.id("textures/gui/ingame/noball.png"));
         POKEBALL_TEX_MAP.put(OpenPixelmonItems.POKE_BALL, OpenPixelmon.id("textures/gui/ingame/pokeball.png"));
-        POKEBALL_TEX_MAP.put(OpenPixelmonItems.GREAT_BALL, OpenPixelmon.id("textures/gui/ingame/greatball.png"));
     }
 }

@@ -13,20 +13,22 @@ import net.minecraft.client.render.Shader;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15C;
 import org.lwjgl.opengl.GL30C;
 import org.lwjgl.opengl.GL43C;
 import org.lwjgl.system.MemoryUtil;
 
+import java.nio.FloatBuffer;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a compiled model which can be rendered
  */
 public class CompiledModel {
 
-    private static final int BONE_STATE_SIZE = Float.BYTES * 7;
     private final StaticStorageBuffer keyframeBuffer;
     private final StaticStorageBuffer boneWeightsBuffer;
     private final StaticStorageBuffer boneRenderMapBuffer;
@@ -44,18 +46,21 @@ public class CompiledModel {
         long pointer = GL15C.nglMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
         uploadAnimationData(pointer, animationData);
         this.keyframeBuffer = new StaticStorageBuffer(keyframeBufferId, keyframeBufferSize, pointer);
+        GL15C.glUnmapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER);
 
         int boneWeightsSize = findBoneWeightSize(smdModel.tris);
         int boneWeightsBufferId = createStorageBuffer(boneWeightsSize);
         pointer = GL15C.nglMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
         uploadBoneWeights(pointer, smdModel);
         this.boneWeightsBuffer = new StaticStorageBuffer(boneWeightsBufferId, boneWeightsSize, pointer);
+        GL15C.glUnmapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER);
 
         int boneRenderMapSize = findBoneRenderMapSize(smdModel.tris);
         int boneRenderMapBufferId = createStorageBuffer(boneRenderMapSize);
         pointer = GL15C.nglMapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER, GL15C.GL_WRITE_ONLY);
         uploadBoneRenderMaps(pointer, smdModel);
         this.boneRenderMapBuffer = new StaticStorageBuffer(boneRenderMapBufferId, boneRenderMapSize, pointer);
+        GL15C.glUnmapBuffer(GL43C.GL_SHADER_STORAGE_BUFFER);
     }
 
     private int createStorageBuffer(int size) {
@@ -66,11 +71,7 @@ public class CompiledModel {
     }
 
     private int findAnimationSize(AnimationData animationData) {
-        int totalSize = 0;
-        for (Keyframe keyframe : animationData.keyframes) {
-            totalSize += keyframe.states.size();
-        }
-        return totalSize * BONE_STATE_SIZE;
+        return ((Float.BYTES * 16) * Keyframe.MAX_BONE_TRANSFORMATIONS) * animationData.keyframes.size(); // Matrix4f.SIZE * MAX_BONE_TRANSFORMATIONS * keyframes.
     }
 
     private int findBoneRenderMapSize(List<Tri> tris) {
@@ -126,18 +127,14 @@ public class CompiledModel {
     }
 
     private void uploadAnimationData(long pointer, AnimationData animationData) {
-        long offset = 0;
+        int offset = 0;
+        int maxSize = findAnimationSize(animationData);
+        FloatBuffer buffer = MemoryUtil.memFloatBuffer(pointer, maxSize);
         for (Keyframe keyframe : animationData.keyframes) {
-            for (int j = 0; j < keyframe.states.size(); j++) {
-                Keyframe.BoneState state = keyframe.states.get(j);
-                MemoryUtil.memPutInt(pointer + offset, animationData.bones.get(state.bone).parent);
-                MemoryUtil.memPutFloat(pointer + offset + 4, state.posX);
-                MemoryUtil.memPutFloat(pointer + offset + 8, state.posY);
-                MemoryUtil.memPutFloat(pointer + offset + 12, state.posZ);
-                MemoryUtil.memPutFloat(pointer + offset + 16, state.rotX);
-                MemoryUtil.memPutFloat(pointer + offset + 20, state.rotX);
-                MemoryUtil.memPutFloat(pointer + offset + 24, state.rotX);
-                offset += BONE_STATE_SIZE;
+            for (Matrix4f boneTransformation : keyframe.boneTransformations) {
+                Matrix4f transformation = Objects.requireNonNullElseGet(boneTransformation, Matrix4f::new);
+                transformation.get(offset, buffer);
+                offset += Float.BYTES * 16; // Size of Matrix4f
             }
         }
     }

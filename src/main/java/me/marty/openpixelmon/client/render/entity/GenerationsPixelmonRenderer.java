@@ -59,10 +59,8 @@ public class GenerationsPixelmonRenderer extends EntityRenderer<PixelmonEntity> 
             CompiledModel compiledModel = modelFile.get();
             Identifier modelTexture = pair.getLeft();
             matrices.scale(compiledModel.smdInfo.scale(), compiledModel.smdInfo.scale(), compiledModel.smdInfo.scale());
-            matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(90));
-            matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90));
-//            matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90));
 //            matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(90));
+//            matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90));
             RenderSystem.setShaderTexture(0, modelTexture);
             RenderSystem.enableDepthTest();
             compiledModel.render(matrices);
