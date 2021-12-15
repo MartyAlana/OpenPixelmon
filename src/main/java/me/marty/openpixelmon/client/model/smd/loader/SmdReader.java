@@ -5,10 +5,8 @@ import dev.thecodewarrior.binarysmd.studiomdl.SMDFile;
 import me.marty.openpixelmon.OpenPixelmon;
 import me.marty.openpixelmon.client.model.smd.animation.AnimationData;
 import me.marty.openpixelmon.client.model.smd.animation.Animator;
-import me.marty.openpixelmon.client.render.renderer.CompiledModel;
 import me.marty.openpixelmon.compatibility.PixelmonAssetProvider;
 import me.marty.openpixelmon.compatibility.PixelmonGenerationsCompatibility;
-import net.minecraft.util.Lazy;
 import org.apache.commons.io.IOUtils;
 import org.msgpack.core.MessagePack;
 import org.msgpack.core.MessageUnpacker;
@@ -19,11 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SmdReader {
-    public static Lazy<CompiledModel> createLazyModel(String location) {
-        return new Lazy<>(() -> SmdReader.readPixelmonModel(location).compile());
-    }
 
-    private static SmdModel readPixelmonModel(String location) {
+    public static SmdModel readPixelmonModel(String location) {
         try {
             return new SmdModel("assets/generations/models/" + location, parseInfo(location));
         } catch (IOException e) {
@@ -33,7 +28,7 @@ public class SmdReader {
     }
 
     private static SMDFile safeReadFile(String location) {
-        try (MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(PixelmonAssetProvider.ASSET_PROVIDERS.get(0).getPixelmonModel("models/" + location))) {
+        try (MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(PixelmonAssetProvider.ASSET_PROVIDERS.get(0).getPixelmonModel("models/pokemon/" + location))) {
             return new SMDBinaryReader().read(unpacker);
         } catch (IOException e) {
             OpenPixelmon.LOGGER.fatal("Unable to read model!");
@@ -44,9 +39,9 @@ public class SmdReader {
 
     private static SmdModel.Info parseInfo(String location) throws IOException {
         String[] slashSplit = location.split("/");
-        String infoFileLocation = "models/" + location + "/" + slashSplit[slashSplit.length - 1] + ".pqc"; //Returns pokemon name for example "pokemon/abra" returns "abra"
+        String infoFileLocation = "models/pokemon/" + location + "/" + slashSplit[slashSplit.length - 1] + ".pqc"; //Returns pokemon name for example "pokemon/abra" returns "abra"
         if (((PixelmonGenerationsCompatibility) PixelmonAssetProvider.ASSET_PROVIDERS.get(0)).getPixelmonInfo(infoFileLocation) == null) {
-            OpenPixelmon.LOGGER.warn(location + " could not be loaded!");
+            OpenPixelmon.LOGGER.warn("Could not load model \"{}\"", location);
             return null;
         }
         String[] infoFileProperties = IOUtils.toString(((PixelmonGenerationsCompatibility) PixelmonAssetProvider.ASSET_PROVIDERS.get(0)).getPixelmonInfo(infoFileLocation), StandardCharsets.UTF_8).replace("$", "").replace("\r", "").replace("\t", "").split("\n");

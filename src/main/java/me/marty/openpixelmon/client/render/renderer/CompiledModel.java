@@ -135,8 +135,10 @@ public class CompiledModel {
                 Matrix4f transformation = Objects.requireNonNullElseGet(boneTransformation, Matrix4f::new);
                 transformation.get(offset, buffer);
                 offset += Float.BYTES * 16; // Size of Matrix4f
+                System.out.println("Offset: " + offset);
             }
         }
+        System.out.println("OK!");
     }
 
     public void render(MatrixStack matrices) {
