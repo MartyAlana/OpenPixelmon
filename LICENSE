@@ -1,4 +1,4 @@
-                    GNU GENERAL PUBLIC LICENSE + MINECRAFT EXCEPTION
+       GNU GENERAL PUBLIC LICENSE + MINECRAFT EXCEPTION
                        Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
@@ -672,3 +672,11 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <https://www.gnu.org/licenses/why-not-lgpl.html>.
+
+Additional permission under GNU GPL version 3 section 7
+
+If you modify this Program, or any covered work, by linking or
+combining it with Minecraft (or a modified version of that library),
+containing parts covered by the terms of All Rights Reserved, the
+licensors of this Program grant you additional permission to convey the
+resulting work.
